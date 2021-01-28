@@ -1,0 +1,36 @@
+@import './../../../assets/Sass/variable.scss';
+
+.lst-invoice{
+    width: 100%;
+    text-align: left;
+    line-height: 1.2;
+    background-color: #fff;
+
+    th{
+        width: 130px;
+        padding: 20px 15px 30px;
+
+        &:nth-child(3){
+            width: auto;
+        }
+
+        &:last-child{
+            text-align: right;
+        }
+    }
+    tr{
+        td{
+            padding: 0px 15px 30px;
+            &:first-child{
+                color: $main-color;
+                &:hover{
+                    color: $primary-color;
+                }
+            }
+
+            &:last-child{
+                text-align: right;
+            }
+        }
+    }
+}
