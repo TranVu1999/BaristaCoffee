@@ -114,6 +114,50 @@
         }
     }
 
+    li.toggle-sub-menu{
+        position: relative;
+        cursor: pointer;
+
+        .sub-menu{
+            position: absolute;
+            right: -15px;
+            top: 200%;
+            width: 200px;
+            height: 0;
+
+            background-color: #fff;
+            text-align: right;
+            overflow: hidden;
+            transition: all .3s ease-in-out;
+
+            &::before{
+                content: '';
+                display: block;
+                height: 2px;
+                background-color: $primary-color;
+            }
+
+            li{
+                display: block;
+                margin: 10px 0 10px 0;
+                padding: 0 15px;
+                font-family: Oswald,sans-serif;
+                color: #666;
+
+                font-weight: 400;
+                font-size: 13px;
+                line-height: 1.5;
+            }
+        }
+
+        &:hover{
+            .sub-menu{
+                height: 70px;
+            }
+            
+        }
+    }
+
     .header__cart{
         position: relative;
         display: inline-block;

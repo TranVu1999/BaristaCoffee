@@ -5,6 +5,8 @@ import AccountInfoForm from "./Infoform";
 import AccountInvoice from "./Invoice";
 import AccountAddress from "./Address";
 import AccountLstProduct from "./LstProduct";
+import AccountAddAddress from "./AddAddress";
+import AccountInvoiceDetail from "./InvoiceDetail";
 
 export default class AccountContainer extends Component {
 
@@ -17,6 +19,13 @@ export default class AccountContainer extends Component {
                 return ( <AccountInvoice/> )
             case 'address':
                 return ( <AccountAddress/> )
+            case 'invoice-detail':
+                return ( <AccountInvoiceDetail/>)
+            case 'add-address':
+                return ( <AccountAddAddress isUpdate = {false}/>)
+            case 'update-address':
+                return ( <AccountAddAddress isUpdate = {true}/>)
+
             case 'favorite':
             case 'commented':
             case 'readed':

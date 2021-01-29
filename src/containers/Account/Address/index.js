@@ -11,7 +11,7 @@ export default class AccountAddress extends Component {
                     <div className="account__address">
                     <div className="add-address">
                         <NavLink
-                            to="/my-account/address"
+                            to="/my-account/add-address"
                             className="d-flex-start"
                         >
                             <span aria-hidden="true" className="icon_plus" /> Thêm địa chỉ mới
@@ -41,7 +41,12 @@ export default class AccountAddress extends Component {
                             </div>
                         </div>
                         <div className="action">
-                            <a href="/#" className="edit">Chỉnh sửa</a>
+                            <NavLink 
+                                to = "/my-account/update-address"
+                                className="edit"
+                            >
+                                Chỉnh sửa
+                            </NavLink>
                         </div>
                         </li>
                         <li className="item">
@@ -62,7 +67,12 @@ export default class AccountAddress extends Component {
                             </div>
                         </div>
                         <div className="action">
-                            <a href="/#" className="edit">Chỉnh sửa</a>
+                            <NavLink 
+                                to = "/my-account/update-address"
+                                className="edit"
+                            >
+                                Chỉnh sửa
+                            </NavLink>
                         </div>
                         </li>
                     </ul>

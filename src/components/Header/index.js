@@ -4,7 +4,15 @@ import logo from './../../assets/Images/logo/logo-1.png';
 import { NavLink } from 'react-router-dom';
 
 export default class HeaderComponent extends Component {
+
+  handleToggleLoginPopup = (event) =>{
+    this.props.onLogin(true);
+    event.preventDefault();
+  }
+
     render() {
+      let {onOpenLogin} = this.props;
+
         return (
           <header className="header">
             <div className="d-flex-between px-25 header__content">
@@ -28,10 +36,15 @@ export default class HeaderComponent extends Component {
                   <li><a href="/#">About</a></li>
                   <li><a href="/#">Shop</a></li>
                   <li><a href="/#">Blog</a></li>
-                  <li>
-                    <NavLink to = "/my-account">
-                      My Account
-                    </NavLink>
+                  <li className="toggle-sub-menu">
+                    <span id="toggleLoginForm">My Account</span>
+                    <ul className="sub-menu">
+                        <li><span 
+                          href="/#" 
+                          onClick = {(e) =>{onOpenLogin(true);}}
+                        >Sign In</span></li>
+                        <li><a href="/#">Sign Up</a></li>
+                    </ul>
                   </li>
                   <li className="bulkhead"><span /></li>
                   <li><a href="/#" className="header__cart">

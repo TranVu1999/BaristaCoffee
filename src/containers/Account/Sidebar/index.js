@@ -8,7 +8,7 @@ export default class AccountSidebar extends Component {
     return (
       <div className="main-page__sidebar account__sidebar">
         <div className="d-flex-start account__author">
-          <img src="./images/avatar.png" alt="avatar" />
+          <img src="https://res.cloudinary.com/doem0ysxl/image/upload/v1611851625/BaristaCoffee/other/avatar_wy6qla.png" alt="avatar" />
           <div className="account__author--text">
             <span>Tài khoản này của</span>
             <h5>Trần Lê Anh Vũ</h5>
