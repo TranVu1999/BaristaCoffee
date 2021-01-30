@@ -4,7 +4,7 @@ import FooterComponent from './../../components/Footer';
 import { Route, Switch } from 'react-router-dom';
 import AccountScreen from './AccountScreen';
 import HomeScreen from './HomeScreen';
-import LoginComponent from '../../components/LoginPopup';
+import LoginComponent from './../../containers/LoginPopup';
 
 export default class ClientScreen extends Component {
     constructor(props){
@@ -36,7 +36,6 @@ export default class ClientScreen extends Component {
                 <LoginComponent 
                     isOpenLogin = {isOpenLogin}
                     isClosePopup = {this.handleLoginPopup}
-
                 />
             </div>
         )
