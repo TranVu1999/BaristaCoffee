@@ -14,21 +14,21 @@ export default class InputEmailComponent extends Component {
     const { value } = event.target;
     let flag = true;
 
-    if (!Validate.isEmail(event.target.value)) {
+    if (!Validate.isEmail(value)) {
+      flag = false;
       this.setState({ notify: Notify.IS_NOT_EMAIL });
-        flag = false;
     }
 
     if (Validate.isEmpty(value)) {
-        this.setState({ notify: Notify.IS_EMPTY });
-        flag = false;
+      flag = false;
+      this.setState({ notify: Notify.IS_EMPTY });
     }
 
-    if(flag){
-        this.setState({notify: ''});
-        this.props.onGetEmail(value);
+    if (flag) {
+      this.props.onGetEmail(value);
+      this.setState({ notify: "" });
+      
     }
-    
   };
 
   render() {
@@ -41,7 +41,7 @@ export default class InputEmailComponent extends Component {
           placeholder="Please Enter Your Email"
           onBlur={this.handleOnEnter}
         />
-        {notify !== "" ? (<p className="notify warning">{notify}</p>) : null}
+        {notify !== "" ? <p className="notify warning">{notify}</p> : null}
       </div>
     );
   }

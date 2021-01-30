@@ -8,19 +8,26 @@ export default class FormLogin extends Component {
         super(props);
         this.state = {
             email: '',
+            password: ''
         }
     }
 
     getEmail = (email) =>{
         this.setState({
             email
-        }, () => {
-            console.log('Form login', email);
+        })
+    }
+
+    getPassword = (password) =>{
+        this.setState({
+            password
         })
     }
 
 
     render() {
+
+        console.log("username + password", this.state);
         return (
             <form className="login-form">
                 <div className="form-group">
@@ -32,7 +39,9 @@ export default class FormLogin extends Component {
 
                 <div className="form-group">
                     <div className="input-label">Password</div>
-                    <InputPasswordComponent/>
+                    <InputPasswordComponent
+                        onGetPassword = {this.getPassword}
+                    />
                 </div>
 
                 <div className="form-group">
@@ -40,9 +49,9 @@ export default class FormLogin extends Component {
                 </div>
 
                 <div className="form-group login-action">
-                    <a href="/#">Create account?</a>
-                    /
-                    <a href="/#">Forgot password?</a>
+                    <a href="/#">Create account?</a> 
+                    &#160;/&#160;
+                    <a href="/#">Forgot password?</a> 
                 </div>
 
                 <div className="form-group other-signup">

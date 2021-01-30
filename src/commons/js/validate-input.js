@@ -3,6 +3,12 @@ export const isEmail = (str) =>{
     return pattern.test(String(str).toLowerCase());
 }
 
+export const isPassword = (str) =>{
+    // one special character
+    const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return pattern.test(str);
+}
+
 export const isEmpty = (str) =>{
     return str === '';
 }
