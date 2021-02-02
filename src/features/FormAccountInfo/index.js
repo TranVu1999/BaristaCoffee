@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
+import {actGetInfoApi} from './modules/action';
+
 import InputFieldComponent from '../../components/InputField';
 import InputPhoneNumberComponent from './../../components/InputPhoneNumber';
 import InputUpdatePasswordComponent from './../../components/InputUpdatePassword';
@@ -16,17 +19,19 @@ class FormAccountInfo extends Component {
     handleUpdatePasswordForm = () =>{
         this.setState({isUpdatePassword: !this.state.isUpdatePassword});
     }
-
-    
-
+  
     renderUpdatePasswordForm = () =>{
         const {isUpdatePassword} = this.state;
         return isUpdatePassword ? (<InputUpdatePasswordComponent/>) : null;
-        
     }
 
+    handleOnChange = () =>{
+
+    }
+
+
     render() {
-        console.log(this.state)
+        const userInfo = this.props.data;
 
         return (
             <div className="account-content--box form">
@@ -36,10 +41,15 @@ class FormAccountInfo extends Component {
 
                     <div className="form-group">
                         <div className="input-label">Họ tên</div>
-                        <InputFieldComponent value = "Trần Lê Anh Vũ" placeholder ="Nhập tên"/>
+                        <InputFieldComponent 
+                            value = {userInfo ? userInfo.fullname : null}
+                            placeholder ="Nhập tên"
+                        />
                     </div>
 
-                    <InputPhoneNumberComponent/>
+                    <InputPhoneNumberComponent 
+                        value = {userInfo ? userInfo.phoneNumber : null} 
+                    />
 
                     <div className="form-group">
                         <div className="input-label">Mã xác thực</div>
@@ -49,7 +59,7 @@ class FormAccountInfo extends Component {
                     <div className="form-group">
                         <div className="input-label">Email </div>
                         <InputFieldComponent 
-                            value = "Tranvudpqn123@gmail.com" 
+                            value = {userInfo ? userInfo.email : null} 
                             placeholder ="Nhập email"
                         />
                     </div>
@@ -58,14 +68,26 @@ class FormAccountInfo extends Component {
                         <div className="input-label gender-label">Giới tính</div>
                         <div className="input-group">
                         <div className="radio-group">
-                            <input type="radio" name="gender" id="male" />
+                            <input 
+                                type="radio" 
+                                name="gender" 
+                                id="male" 
+                                checked = {userInfo && userInfo.gender > 0 ? true : false}
+                                onChange = {this.handleOnChange}
+                            />
                             <label htmlFor="male">
                             <div className="label-radio" />
                             Nam
                             </label>
                         </div>
                         <div className="radio-group">
-                            <input type="radio" name="gender" id="female" />
+                            <input 
+                                type="radio" 
+                                name="gender" 
+                                id="female" 
+                                checked = {userInfo && userInfo.gender < 0 ? true : false}
+                                onChange = {this.handleOnChange}
+                            />
                             <label htmlFor="female">
                             <div className="label-radio" />
                             Nữ
@@ -73,12 +95,32 @@ class FormAccountInfo extends Component {
                         </div>
                         </div>
                     </div>
+
                     <div className="form-group form-group--date">
                         <div className="input-label">Ngày sinh<p>(không bắt buộc)</p></div>
                         <div className="select-group">
-                        <select>
-                            <option>Ngày</option>
-                            <option>1</option>
+                        <select 
+                            value = {userInfo ? userInfo.birthday.date : 0}
+                            onChange={this.handleOnChange}
+                        >
+                            <option value = "0">Ngày</option>
+                            <option value ="1">Ngày 1</option>
+                            <option>Ngày 2</option>
+                            <option>Ngày 3</option>
+                            <option>Ngày 4</option>
+                            <option>Ngày 5</option>
+                            <option>Ngày 6</option>
+                            <option>Ngày 7</option>
+                            <option>Ngày 8</option>
+                            <option>Ngày 9</option>
+                            <option value ="10">Ngày 10</option>
+                        </select>
+                        <select 
+                            value = {userInfo ? userInfo.birthday.month : 0}
+                            onChange={this.handleOnChange}
+                        >
+                            <option value = "0">Tháng</option>
+                            <option value = "1">Tháng 1</option>
                             <option>2</option>
                             <option>3</option>
                             <option>4</option>
@@ -88,8 +130,11 @@ class FormAccountInfo extends Component {
                             <option>8</option>
                             <option>9</option>
                         </select>
-                        <select>
-                            <option>Tháng</option>
+                        <select
+                            value = {userInfo ? userInfo.birthday.year : 0}
+                            onChange={this.handleOnChange}
+                        >
+                            <option value = "0">Năm</option>
                             <option>1</option>
                             <option>2</option>
                             <option>3</option>
@@ -98,19 +143,7 @@ class FormAccountInfo extends Component {
                             <option>6</option>
                             <option>7</option>
                             <option>8</option>
-                            <option>9</option>
-                        </select>
-                        <select>
-                            <option>Năm</option>
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                            <option>6</option>
-                            <option>7</option>
-                            <option>8</option>
-                            <option>9</option>
+                            <option value = "1999">Năm 1999</option>
                         </select>
                         </div>
                     </div>
@@ -145,6 +178,27 @@ class FormAccountInfo extends Component {
             </div>
         )
     }
+
+    componentDidMount() {
+        let accountInfo = JSON.parse(localStorage.getItem('accountInfo'));
+        this.props.fetchData(accountInfo.accountId);
+    }
 }
 
-export default FormAccountInfo
+const mapStateToProps = state =>{
+    return{
+        loading: state.formAccountInfoReducer.loading,
+        data: state.formAccountInfoReducer.data,
+        errors: state.formAccountInfoReducer.errors,
+    }
+}
+
+const mapDispatchToProps = dispatch =>{
+    return {
+        fetchData: (data) =>{
+            dispatch(actGetInfoApi(data));
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FormAccountInfo)

@@ -12,8 +12,8 @@ export const actLoginApi = (data) =>{
 
             let resultLogin = res.data;
 
-            if(resultLogin > 0){
-                localStorage.setItem('accountInfo', JSON.stringify(data));
+            if(resultLogin.flag > 0){
+                localStorage.setItem('accountInfo', JSON.stringify(resultLogin.accountInfo));
             }
                         
             dispatch(actLoginSuccess(res.data));
