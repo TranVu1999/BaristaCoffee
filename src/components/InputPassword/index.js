@@ -7,9 +7,9 @@ export default class InputPasswordComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          notify: "",
+            notify: "",
         };
-      }
+    }
     
       handleOnEnter = (event) => {
         const { value } = event.target;

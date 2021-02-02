@@ -1,20 +1,26 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
+import {actLoginApi} from './modules/action';
+
 import InputPasswordComponent from './../../components/InputPassword';
 import InputEmailComponent from './../../components/InputEmail';
 
-export default class FormLogin extends Component {
+class FormLogin extends Component {
 
     constructor(props){
         super(props);
+        this.InputPasswordComponent = React.createRef();
+        this.InputEmailComponent = React.createRef();
+
         this.state = {
-            email: '',
+            userEmail: '',
             password: ''
         }
     }
 
-    getEmail = (email) =>{
+    getEmail = (userEmail) =>{
         this.setState({
-            email
+            userEmail
         })
     }
 
@@ -24,16 +30,59 @@ export default class FormLogin extends Component {
         })
     }
 
+    handleSubmit = (e) =>{
+        e.preventDefault();
+
+        
+
+        let flag = true;
+        const {userEmail, password} = this.state;
+        if(!userEmail && !password){
+            flag = false;
+            this.InputEmailComponent.current.handleOnEnter({
+                target: {
+                    value: ''
+                }
+            });
+            this.InputPasswordComponent.current.handleOnEnter({
+                target: {
+                    value: ''
+                }
+            });
+        }else if(!userEmail){
+            flag = false;
+            this.InputEmailComponent.current.handleOnEnter({
+                target: {
+                    value: ''
+                }
+            });
+        }else if(!password){
+            flag = false;
+            this.InputPasswordComponent.current.handleOnEnter({
+                target: {
+                    value: ''
+                }
+            });
+        }
+
+        if(flag){
+            this.props.login(this.state);
+        }
+    }
+
 
     render() {
 
-        console.log("username + password", this.state);
         return (
-            <form className="login-form">
+            <form 
+                className="login-form"
+                onSubmit = {this.handleSubmit}
+            >
                 <div className="form-group">
                     <div className="input-label">Email / Username</div>
                     <InputEmailComponent
                         onGetEmail = {this.getEmail}
+                        ref={this.InputEmailComponent}
                     />
                 </div>
 
@@ -41,6 +90,7 @@ export default class FormLogin extends Component {
                     <div className="input-label">Password</div>
                     <InputPasswordComponent
                         onGetPassword = {this.getPassword}
+                        ref = {this.InputPasswordComponent}
                     />
                 </div>
 
@@ -72,3 +122,21 @@ export default class FormLogin extends Component {
         )
     }
 }
+
+const mapStateToProps = state =>{
+    return {
+        loading: state.formLoginReducer.loading,
+        data: state.formLoginReducer.data,
+        errors: state.formLoginReducer.errors,
+    }
+}
+
+const mapDispatchToProps = dispatch =>{
+    return {
+        login: (account) =>{
+            dispatch(actLoginApi(account));
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FormLogin)
