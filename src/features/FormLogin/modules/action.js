@@ -9,7 +9,13 @@ export const actLoginApi = (data) =>{
 
         api.post(`/${ApiUrl.ACCOUNT}/login`, data)
         .then(res =>{
-            console.log(res.data);
+
+            let resultLogin = res.data;
+
+            if(resultLogin > 0){
+                localStorage.setItem('accountInfo', JSON.stringify(data));
+            }
+                        
             dispatch(actLoginSuccess(res.data));
         })
         .catch(err =>{

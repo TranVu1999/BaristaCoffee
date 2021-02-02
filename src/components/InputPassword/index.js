@@ -34,12 +34,13 @@ export default class InputPasswordComponent extends Component {
       };
 
     render() {
-        const { notify } = this.state;
+        const { notify} = this.state;
+        const { placeholder } = this.props;
         return (
             <div className="input-group">
                 <input 
                     type="text" 
-                    placeholder="Please Enter Password" 
+                    placeholder= {placeholder} 
                     maxLength = "20"
                     minLength = "8"
                     onBlur={this.handleOnEnter}

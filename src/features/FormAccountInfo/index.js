@@ -1,39 +1,59 @@
 import React, { Component } from 'react';
-
+import InputFieldComponent from '../../components/InputField';
+import InputPhoneNumberComponent from './../../components/InputPhoneNumber';
+import InputUpdatePasswordComponent from './../../components/InputUpdatePassword';
 import './style.scss';
 
-export default class AccountInfoForm extends Component {
+class FormAccountInfo extends Component {
+
+    constructor(props){
+        super(props);
+        this.state = {
+            isUpdatePassword: false,
+        }
+    }
+
+    handleUpdatePasswordForm = () =>{
+        this.setState({isUpdatePassword: !this.state.isUpdatePassword});
+    }
+
+    
+
+    renderUpdatePasswordForm = () =>{
+        const {isUpdatePassword} = this.state;
+        return isUpdatePassword ? (<InputUpdatePasswordComponent/>) : null;
+        
+    }
+
     render() {
+        console.log(this.state)
+
         return (
             <div className="account-content--box form">
                 <span className="account__title">Thông tin tài khoản</span>
                 <div className="bg-white account__content">
                     <form className="account__info">
+
                     <div className="form-group">
                         <div className="input-label">Họ tên</div>
-                        <div className="input-group">
-                        <input type="text" defaultValue="Trần Lê Anh Vũ" /> 
-                        </div>
+                        <InputFieldComponent value = "Trần Lê Anh Vũ" placeholder ="Nhập tên"/>
                     </div>
-                    <div className="form-group">
-                        <div className="input-label">Số điện thoại</div>
-                        <div className="input-group">
-                        <input type="text" className="pattern" defaultValue="0123 456 789" />
-                        <button>Gởi mã xác thực</button> 
-                        </div>
-                    </div>
+
+                    <InputPhoneNumberComponent/>
+
                     <div className="form-group">
                         <div className="input-label">Mã xác thực</div>
-                        <div className="input-group" placeholder="Nhập mã xác thực">
-                        <input type="text" />
-                        </div>
+                        <InputFieldComponent placeholder = "Nhập mã xác thực"/>
                     </div>
+                    
                     <div className="form-group">
                         <div className="input-label">Email </div>
-                        <div className="input-group">
-                        <input type="text" defaultValue="Tranvudpqn123@gmail.com" />
-                        </div>
+                        <InputFieldComponent 
+                            value = "Tranvudpqn123@gmail.com" 
+                            placeholder ="Nhập email"
+                        />
                     </div>
+
                     <div className="form-group">
                         <div className="input-label gender-label">Giới tính</div>
                         <div className="input-group">
@@ -94,38 +114,28 @@ export default class AccountInfoForm extends Component {
                         </select>
                         </div>
                     </div>
+
                     <div className="form-group">
-                        <div className="input-label" />
+                        <div className="input-label"></div>
                         <div className="input-group">
                         <div className="checkbox-group">
-                            <input type="checkbox" id="update-password" />
+                            <input 
+                                type="checkbox" 
+                                id="update-password" 
+                                onChange = {this.handleUpdatePasswordForm}
+                            />
                             <label htmlFor="update-password">
                             <div className="label-checkbox" />
-                            Thay đổi mật khẩu
+                                Thay đổi mật khẩu
                             </label>
                         </div>
                         </div>
                     </div>
-                    <div className="update-password-group">
-                        <div className="form-group">
-                            <div className="input-label"><label>Mật khẩu cũ</label> </div>
-                            <div className="input-group">
-                                <input type="text" placeholder="Nhập mật khẩu cũ" /> 
-                            </div>
-                        </div>
-                        <div className="form-group">
-                        <div className="input-label"><label>Mật khẩu mới</label></div>
-                        <div className="input-group">
-                            <input type="text" placeholder="Nhập mật khẩu mới" /> 
-                        </div>
-                        </div>
-                        <div className="form-group">
-                        <div className="input-label"><label>Nhập lại</label></div>
-                        <div className="input-group">
-                            <input type="text" placeholder="Nhập lại mật khẩu mới" /> 
-                        </div>
-                        </div>
-                    </div>
+
+                    {
+                        this.renderUpdatePasswordForm()
+                    }
+
                     <div className="form-group">
                         <div className="input-label" />
                         <button>Cập nhật</button>
@@ -136,3 +146,5 @@ export default class AccountInfoForm extends Component {
         )
     }
 }
+
+export default FormAccountInfo

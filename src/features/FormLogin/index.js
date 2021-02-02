@@ -31,9 +31,7 @@ class FormLogin extends Component {
     }
 
     handleSubmit = (e) =>{
-        e.preventDefault();
-
-        
+        e.preventDefault(); 
 
         let flag = true;
         const {userEmail, password} = this.state;
@@ -69,10 +67,10 @@ class FormLogin extends Component {
             this.props.login(this.state);
         }
     }
-
-
+    
     render() {
-
+        const resLogin = this.props.data;
+        
         return (
             <form 
                 className="login-form"
@@ -96,6 +94,8 @@ class FormLogin extends Component {
 
                 <div className="form-group">
                     <button>Login</button>
+                    {resLogin === 0 ? <p className="notify warning">Password is not correct!!!</p> : null}
+                    {resLogin && resLogin <= -1 ? <p className="notify warning">Email is not registed!!!</p> : null}
                 </div>
 
                 <div className="form-group login-action">

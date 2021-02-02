@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import "./style.scss";
 import AccountSidebar from "./Sidebar";
-import AccountInfoForm from "./Infoform";
 import AccountInvoice from "./Invoice";
 import AccountAddress from "./Address";
 import AccountLstProduct from "./LstProduct";
 import AccountAddAddress from "./AddAddress";
 import AccountInvoiceDetail from "./InvoiceDetail";
+import FormAccountInfo from "../../features/FormAccountInfo";
 
 export default class AccountContainer extends Component {
 
@@ -14,7 +14,7 @@ export default class AccountContainer extends Component {
         const {alias} = this.props;
         switch (alias) {
             case 'info':
-                return ( <AccountInfoForm/> )
+                return ( <FormAccountInfo/> )
             case 'invoice':
                 return ( <AccountInvoice/> )
             case 'address':
@@ -33,7 +33,7 @@ export default class AccountContainer extends Component {
                 return ( <AccountLstProduct title = {alias}/> )
         
             default:
-                return (  <AccountInfoForm/> )
+                return (  <FormAccountInfo/> )
         }
 
     }
