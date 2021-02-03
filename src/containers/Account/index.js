@@ -39,7 +39,6 @@ export default class AccountContainer extends Component {
     }
 
     render() {
-
         return (
         <div className="cf-container d-flex-between align-start account-page">
             <AccountSidebar />
