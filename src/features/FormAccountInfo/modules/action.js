@@ -16,6 +16,21 @@ export const actGetInfoApi = (data) =>{
     }
 }
 
+export const  actUpdateAccountInfoApi = (data) => {
+    return dispatch =>{
+        dispatch( actGetInfoRequest());
+
+        api.post(`/${ApiUrl.USER}`, data)
+        .then(res =>{                        
+            dispatch( actGetInfoSuccess(res.data));
+        })
+        .catch(err =>{
+            dispatch( actGetInfoFailed(err));
+        })
+    }
+    
+};
+
 const  actGetInfoRequest = () => {
     return {
         type: ActionTypes.GET_GUEST_INFO_REQUEST,
@@ -35,3 +50,17 @@ const  actGetInfoFailed = (err) => {
         payload: err,
     };
 };
+
+
+export const  actUpdateAccountInfo = (data) => {
+    let action =  {
+        type: ActionTypes.UPDATE_INFO,
+        payload: data,
+    };
+    return dispatch =>{
+        dispatch(action);
+    }
+    
+};
+
+

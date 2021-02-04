@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import {actGetInfoApi} from './modules/action';
+import {actGetInfoApi, actUpdateAccountInfo, actUpdateAccountInfoApi} from './modules/action';
 
 import InputFieldComponent from '../../components/InputField';
 import InputPhoneNumberComponent from './../../components/InputPhoneNumber';
@@ -29,7 +29,41 @@ class FormAccountInfo extends Component {
     }
 
     onHandleChange = (event) =>{
-        console.log(event.target);
+        let {name, value, id} = event.target;
+        let userInfo = this.props.data;
+        
+        if(name === 'date' || name === 'month' || name === 'year'){
+            userInfo = {
+                ...userInfo,
+                "birthday": {
+                    ...userInfo.birthday,
+                    [name]: value
+                }
+            };
+        }else{
+            userInfo = {
+                ...userInfo,
+                [name]: value
+            };
+        }
+
+        if(name === 'gender'){
+            userInfo = {
+                ...userInfo,
+                [name]: id
+            };
+        }
+        
+
+        // console.log("form account info ", userInfo);
+        this.props.updateAccountInfo(userInfo);
+    }
+
+    onHandleUpdate = (event) =>{
+        event.preventDefault();
+        // console.log("submit");
+        let userInfo = this.props.data;
+        this.props.updateAccountInfoApi(userInfo);
     }
 
     render() {
@@ -40,7 +74,10 @@ class FormAccountInfo extends Component {
             <div className="account-content--box form">
                 <span className="account__title">Thông tin tài khoản</span>
                 <div className="bg-white account__content">
-                    <form className="account__info">
+                    <form 
+                        className="account__info"
+                        onSubmit = {this.onHandleUpdate}
+                    >
 
                         <div className="form-group">
                             <div className="input-label">Họ tên</div>
@@ -75,14 +112,18 @@ class FormAccountInfo extends Component {
                             <div className="input-label gender-label">Giới tính</div>
                             <div className="input-group">
                                 <RadioFieldComponent 
+                                    id = "male"
                                     name ="gender"
                                     label = "Nam"
-                                    isChecked = {userInfo && userInfo.gender > 0 ? true : false}
+                                    isChecked = {userInfo && userInfo.gender === "male" ? true : false}
+                                    onHandleChange = {this.onHandleChange}
                                 />
                                 <RadioFieldComponent 
+                                    id = "female"
                                     name ="gender"
                                     label = "Nữ"
-                                    isChecked = {userInfo && userInfo.gender < 0n ? true : false}
+                                    isChecked = {userInfo && userInfo.gender === "female" ? true : false}
+                                    onHandleChange = {this.onHandleChange}
                                 />
                             </div>
                         </div>
@@ -92,18 +133,20 @@ class FormAccountInfo extends Component {
                             <div className="select-group">
                                 <SelectFieldComponent 
                                     name = "date"
-                                    value = {10}
+                                    year = {userInfo ? userInfo.birthday.year : 1990}
+                                    month = {userInfo ? userInfo.birthday.month : 1}
+                                    value = {userInfo ? userInfo.birthday.date : 1}
                                     onSelectChange={this.onHandleChange}
                                 />
                                 <SelectFieldComponent 
                                     name = "month"
-                                    value = {10}
+                                    value = {userInfo ? userInfo.birthday.month : 1}
                                     onSelectChange={this.onHandleChange}
                                     
                                 />
                                 <SelectFieldComponent 
                                     name = "year"
-                                    value = {10}
+                                    value = {userInfo ? userInfo.birthday.year : 1990}
                                     onSelectChange={this.onHandleChange}
                                 />
                             </div>
@@ -124,7 +167,9 @@ class FormAccountInfo extends Component {
 
                         <div className="form-group">
                             <div className="input-label" />
-                            <button disabled = {true}>Cập nhật</button>
+                            <button 
+                                // disabled = {true}
+                            >Cập nhật</button>
                         </div>
                     </form>
                 </div>
@@ -150,6 +195,12 @@ const mapDispatchToProps = dispatch =>{
     return {
         fetchData: (data) =>{
             dispatch(actGetInfoApi(data));
+        },
+        updateAccountInfo: (data) =>{
+            dispatch(actUpdateAccountInfo(data))
+        },
+        updateAccountInfoApi: (data) =>{
+            dispatch(actUpdateAccountInfoApi(data))
         }
     }
 }

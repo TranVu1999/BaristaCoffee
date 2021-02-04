@@ -20,10 +20,8 @@ const formAccountInfoReducer = (state = initialState, action) =>{
             state.errors = null;
             return { ...state };
 
-        case ActionTypes.GET_GUEST_INFO_FAILED:
-            state.loading = false;
-            state.data = null;
-            state.errors = action.payload;
+        case ActionTypes.UPDATE_INFO:
+            state.data = action.payload;
             return { ...state };
 
         default: 
