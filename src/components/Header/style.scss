@@ -98,7 +98,7 @@
 
         font-family: 'Oswald', sans-serif;
 
-        &:hover>a{
+        a:hover{
             color: $primary-color;
         }
 
@@ -117,6 +117,10 @@
     li.toggle-sub-menu{
         position: relative;
         cursor: pointer;
+
+        span.arrow_carrot-right{
+            display: none;
+        }
 
         .sub-menu{
             position: absolute;
@@ -182,6 +186,70 @@
 
     .header__cart, .header__search, .header__humburger{
         font-size: 18px;
+    }
+}
+
+.header__nav.header--responsive{
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 75px;
+
+    padding-bottom: 30px;
+    background-color: aliceblue;
+    width: 100%;
+    
+
+    li{
+        display: block;
+        padding: 15px 0 5px;
+        margin: 0px 25px;
+        border-bottom: 1px solid $main-color;
+
+        &:hover{
+            border-color: $primary-color;
+        }
+
+        &:nth-child(6), &:nth-child(7){
+            display: none;
+        }
+
+        &:last-child{
+            border-bottom: none;
+        }
+
+        &.toggle-sub-menu{
+            
+            &>div{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            span.arrow_carrot-right{
+                display: block;
+                font-size: 22px;
+                transition: all .3s;
+            }
+
+            &:hover{
+                span.arrow_carrot-right{
+                    transform: rotate(90deg);
+                }
+            }
+
+            ul{
+                position: initial;
+                text-align: left;
+                margin-top: 8px;
+                background-color: transparent;
+
+                li{
+                    margin-left: 15px;
+                    padding-left: 0;
+                }
+            }
+        } 
     }
 }
 

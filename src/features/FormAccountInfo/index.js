@@ -179,7 +179,10 @@ class FormAccountInfo extends Component {
 
     componentDidMount() {
         let accountInfo = JSON.parse(localStorage.getItem('accountInfo'));
-        this.props.fetchData(accountInfo.accountId);
+        if(accountInfo){
+            this.props.fetchData(accountInfo.accountId);
+        }
+        
     }
 }
 

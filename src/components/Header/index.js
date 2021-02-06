@@ -4,6 +4,13 @@ import logo from "./../../assets/Images/logo/logo-1.png";
 import { NavLink } from "react-router-dom";
 
 export default class HeaderComponent extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      isOpenResMenu : false
+    }
+  }
+
   handleToggleLoginPopup = (event) => {
     this.props.onLogin(true);
     event.preventDefault();
@@ -40,14 +47,24 @@ export default class HeaderComponent extends Component {
     );
   };
 
+  // open responsive mene
+  handleToggleMenu = () =>{
+    this.setState({isOpenResMenu: !this.state.isOpenResMenu});
+  }
+
   render() {
     let { onOpenLogin } = this.props;
+    const {isOpenResMenu} = this.state;
 
     return (
       <header className="header">
         <div className="d-flex-between px-25 header__content">
           <div className="header--nav-toggle">
-            <input type="checkbox" id="toggle-menu" />
+            <input 
+              type="checkbox" 
+              id="toggle-menu" 
+              onChange = {this.handleToggleMenu}
+            />
             <label htmlFor="toggle-menu" className="toggle">
               <span />
               <span />
@@ -55,12 +72,15 @@ export default class HeaderComponent extends Component {
               <span />
             </label>
           </div>
+
           <div className="header__logo">
             <NavLink to="/">
               <img src={logo} alt="logo" />
             </NavLink>
           </div>
-          <nav className="header__nav">
+          <nav 
+            className = {isOpenResMenu ? "header__nav header--responsive" : "header__nav"}
+          >
             <ul>
               <li>
                 <a href="/#">Home</a>
@@ -75,9 +95,14 @@ export default class HeaderComponent extends Component {
                 <a href="/#">Blog</a>
               </li>
               <li className="toggle-sub-menu">
-                <span id="toggleLoginForm">My Account</span>
+                <div>
+                  <span id="toggleLoginForm">My Account</span>
+                  <span aria-hidden="true" className="arrow_carrot-right"></span>
+                </div>
+                
                 {this.handleGuestAction(onOpenLogin)}
               </li>
+
               <li className="bulkhead">
                 <span />
               </li>
@@ -90,11 +115,6 @@ export default class HeaderComponent extends Component {
               <li>
                 <a href="/#" className="header__search">
                   <span className="icon icon-search" />
-                </a>
-              </li>
-              <li>
-                <a href="/#" className="header__humburger">
-                  <i className="fas fa-bars" />
                 </a>
               </li>
             </ul>
