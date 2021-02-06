@@ -29,7 +29,7 @@
     align-items: center;
     margin-bottom: 14px;
     line-height: 1;
-    padding-bottom: 8px;
+    padding: 8px 0;
 
     cursor: pointer;
     position: relative;
@@ -93,4 +93,26 @@
     }
 
 
+}
+
+
+// ========================================================
+// RESPONSIVE
+// ========================================================
+@media screen and (max-width: 320px){
+    .account__sidebar{
+        padding-right: 0;
+
+        .account__author {
+            padding-left: 13px;
+        }
+
+        .account__nav--item {
+            background-color: #fff;
+
+            .res-icon {
+                display: block;
+            }
+        }
+    }
 }

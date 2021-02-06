@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './style.scss';
 import HeaderComponent from './../../components/Header';
 import FooterComponent from './../../components/Footer';
 import { Route, Switch } from 'react-router-dom';
@@ -28,6 +29,7 @@ export default class ClientScreen extends Component {
 
                 <Switch>
                     <Route path = "/my-account/:alias" component = {AccountScreen}/>
+                    <Route path = "/my-account/" component = {AccountScreen}/>
                     <Route path = "/" component = {HomeScreen}/>
                 </Switch>
                 

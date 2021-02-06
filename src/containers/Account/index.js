@@ -9,12 +9,16 @@ import AccountInvoiceDetail from "./InvoiceDetail";
 import FormAccountInfo from "../../features/FormAccountInfo";
 
 export default class AccountContainer extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            windowWidth : document.body.offsetWidth
+        }
+    }
 
     showAccountContent = () =>{
         const {alias} = this.props;
         switch (alias) {
-            case 'info':
-                return ( <FormAccountInfo/> )
             case 'invoice':
                 return ( <AccountInvoice/> )
             case 'address':
@@ -35,19 +39,40 @@ export default class AccountContainer extends Component {
             default:
                 return (  <FormAccountInfo/> )
         }
-
     }
 
+    renderHTML = () =>{
+        const {windowWidth} = this.state;
+        if(windowWidth < 768){
+            return (<AccountSidebar />);
+        }
+
+        return (
+            <>
+                <AccountSidebar />
+                <div className="main-page__content account__container">
+                    <div className="account__container--widget">
+                        {this.showAccountContent()}
+                    </div>
+                </div>
+            </>
+        )
+    }
+
+
+
     render() {
+        console.log("get width", document.body.offsetWidth);
         return (
         <div className="cf-container d-flex-between align-start account-page">
-            <AccountSidebar />
-            <div className="main-page__content account__container">
-                <div className="account__container--widget">
-                    {this.showAccountContent()}
-                </div>
-            </div>
+            {this.renderHTML()}
+            
         </div>
         );
+    }
+
+    componentDidMount(){
+        const {windowWidth} = this.state;
+        console.log("get width compo", windowWidth); 
     }
 }

@@ -41,7 +41,7 @@ export default class HeaderComponent extends Component {
     return (
       <ul className="sub-menu">
         <li>
-          <NavLink to="my-account/info">TranVudpqn123</NavLink>
+          <NavLink to="my-account">TranVudpqn123</NavLink>
         </li>
       </ul>
     );
