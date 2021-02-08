@@ -53,15 +53,11 @@ class FormAccountInfo extends Component {
                 [name]: id
             };
         }
-        
-
-        // console.log("form account info ", userInfo);
         this.props.updateAccountInfo(userInfo);
     }
 
     onHandleUpdate = (event) =>{
         event.preventDefault();
-        // console.log("submit");
         let userInfo = this.props.data;
         this.props.updateAccountInfoApi(userInfo);
     }

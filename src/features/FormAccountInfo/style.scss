@@ -165,3 +165,36 @@
         border: 1px solid rgb(204, 204, 204);
     }
 }
+
+// ========================================================
+// RESPONSIVE
+// ========================================================
+@media screen and (max-width: 320px){
+    .account__info{
+        width: 100%;
+        .form-group{
+            display: block;
+
+            .gender-label, &.form-group--date{
+                display: none;
+            }
+            
+            button{
+                width: 100%;
+            }
+        }
+
+        .update-password-group{
+            label{
+                display: none;
+            }
+        }
+
+        input, textarea{
+            border: none;
+            border-bottom: 1px solid rgb(204, 204, 204);
+            border-radius: 0;
+            padding-left: 0;
+        }
+    }
+}

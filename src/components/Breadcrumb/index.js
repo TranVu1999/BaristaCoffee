@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './style.scss';
+import {NavLink} from 'react-router-dom';
 
 export default class BreadcrumbComponent extends Component {
 
@@ -37,8 +38,6 @@ export default class BreadcrumbComponent extends Component {
 
     render() {
         const {url} = this.props;
-        // console.log("url breadcrumb", path);
-        this.showBreadcrumb(url);
 
         return (
             <div className="main-page__breadcrumb">
@@ -52,9 +51,10 @@ export default class BreadcrumbComponent extends Component {
                 </div>
 
                 <div className="d-flex-between responsive">
-                    <a href="/#" id="beforeNav">
+
+                    <NavLink to = "/my-account">
                         <span aria-hidden="true" className="arrow_carrot-left"></span>
-                    </a>
+                    </NavLink>
                     <h3 id="titlePage">My Account</h3>
                     <a href="/#" className="cart">
                         <span aria-hidden="true" className="icon_cart_alt" />

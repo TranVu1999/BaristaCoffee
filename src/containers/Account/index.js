@@ -16,8 +16,7 @@ export default class AccountContainer extends Component {
         }
     }
 
-    showAccountContent = () =>{
-        const {alias} = this.props;
+    showAccountContent = (alias) =>{
         switch (alias) {
             case 'invoice':
                 return ( <AccountInvoice/> )
@@ -35,24 +34,31 @@ export default class AccountContainer extends Component {
             case 'readed':
             case 'save-for-later':
                 return ( <AccountLstProduct title = {alias}/> )
-        
             default:
                 return (  <FormAccountInfo/> )
         }
     }
 
     renderHTML = () =>{
+        const {alias} = this.props;
         const {windowWidth} = this.state;
+
+        // mobile screen
         if(windowWidth < 768){
-            return (<AccountSidebar />);
+            if(!alias){
+                return (<AccountSidebar />);
+            }
+            return this.showAccountContent(alias);
+            
         }
 
+        // pc screen
         return (
             <>
                 <AccountSidebar />
                 <div className="main-page__content account__container">
                     <div className="account__container--widget">
-                        {this.showAccountContent()}
+                        {this.showAccountContent(alias)}
                     </div>
                 </div>
             </>
@@ -62,17 +68,10 @@ export default class AccountContainer extends Component {
 
 
     render() {
-        console.log("get width", document.body.offsetWidth);
         return (
         <div className="cf-container d-flex-between align-start account-page">
             {this.renderHTML()}
-            
         </div>
         );
-    }
-
-    componentDidMount(){
-        const {windowWidth} = this.state;
-        console.log("get width compo", windowWidth); 
     }
 }
