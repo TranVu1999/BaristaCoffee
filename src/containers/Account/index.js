@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import "./style.scss";
 import AccountSidebar from "./Sidebar";
-import AccountInvoice from "./Invoice";
+import ListInvoice from "./../../features/ListInvoice";
 import AccountAddress from "./Address";
 import AccountLstProduct from "./LstProduct";
 import AccountAddAddress from "./AddAddress";
-import AccountInvoiceDetail from "./InvoiceDetail";
+// import AccountInvoiceDetail from "./InvoiceDetail";
 import FormAccountInfo from "../../features/FormAccountInfo";
 
 export default class AccountContainer extends Component {
@@ -19,11 +19,11 @@ export default class AccountContainer extends Component {
     showAccountContent = (alias) =>{
         switch (alias) {
             case 'invoice':
-                return ( <AccountInvoice/> )
+                return ( <ListInvoice/> )
             case 'address':
                 return ( <AccountAddress/> )
-            case 'invoice-detail':
-                return ( <AccountInvoiceDetail/>)
+            // case 'invoice-detail':
+                // return ( <AccountInvoiceDetail/>)
             case 'add-address':
                 return ( <AccountAddAddress isUpdate = {false}/>)
             case 'update-address':
