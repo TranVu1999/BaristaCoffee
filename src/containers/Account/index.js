@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./style.scss";
 import AccountSidebar from "./Sidebar";
 import ListInvoice from "./../../features/ListInvoice";
-import AccountAddress from "./Address";
+import ListAddress from "./../../features/ListAddress";
 import AccountLstProduct from "./LstProduct";
 import AccountAddAddress from "./AddAddress";
 // import AccountInvoiceDetail from "./InvoiceDetail";
@@ -21,7 +21,7 @@ export default class AccountContainer extends Component {
             case 'invoice':
                 return ( <ListInvoice/> )
             case 'address':
-                return ( <AccountAddress/> )
+                return ( <ListAddress/> )
             // case 'invoice-detail':
                 // return ( <AccountInvoiceDetail/>)
             case 'add-address':

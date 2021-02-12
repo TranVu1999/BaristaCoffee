@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './style.scss';
 import {NavLink} from 'react-router-dom';
 
-export default class AccountAddress extends Component {
+export default class ListAddress extends Component {
     render() {
         return (
             <div className="account-content--box">

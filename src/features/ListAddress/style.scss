@@ -1,4 +1,4 @@
-@import './../../../assets/Sass/variable.scss';
+@import './../../assets/Sass/variable.scss';
 .account__address{
 
     a:hover{
@@ -63,5 +63,24 @@
 
     .respon-info{
         display: none;
+    }
+}
+
+// ========================================================
+// RESPONSIVE
+// ========================================================
+@media screen and (max-width: 320px){
+    .lst-address{
+        .item{
+            display: block;
+        }
+
+        .phone, .name, .address span{
+            display: none;
+        }
+
+        .respon-info{
+            display: block;
+        }
     }
 }
