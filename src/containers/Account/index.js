@@ -3,8 +3,8 @@ import "./style.scss";
 import AccountSidebar from "./Sidebar";
 import ListInvoice from "./../../features/ListInvoice";
 import ListAddress from "./../../features/ListAddress";
-import AccountLstProduct from "./LstProduct";
-import AccountAddAddress from "./AddAddress";
+import AccountListProduct from "./../../features/AccountListProduct";
+import AddAddress from "./../../features/AddAddress";
 // import AccountInvoiceDetail from "./InvoiceDetail";
 import FormAccountInfo from "../../features/FormAccountInfo";
 
@@ -25,15 +25,15 @@ export default class AccountContainer extends Component {
             // case 'invoice-detail':
                 // return ( <AccountInvoiceDetail/>)
             case 'add-address':
-                return ( <AccountAddAddress isUpdate = {false}/>)
+                return ( <AddAddress isUpdate = {false}/>)
             case 'update-address':
-                return ( <AccountAddAddress isUpdate = {true}/>)
+                return ( <AddAddress isUpdate = {true}/>)
 
             case 'favorite':
             case 'commented':
             case 'readed':
             case 'save-for-later':
-                return ( <AccountLstProduct title = {alias}/> )
+                return ( <AccountListProduct title = {alias}/> )
             default:
                 return (  <FormAccountInfo/> )
         }

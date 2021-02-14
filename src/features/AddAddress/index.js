@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-export default class AccountAddAddress extends Component {
+export default class AddAddress extends Component {
 
     showTittleForm = () =>{
         const {isUpdate} = this.props;
