@@ -52,7 +52,6 @@ export default class MainSlider extends Component {
 
     renderHTML = () =>{
         const {pos, currentSlide, slideItem} = this.state;
-        // console.log(this.state);
 
         let html = slideItem.map((item, index) =>{
             if(index === 0){
@@ -107,5 +106,32 @@ export default class MainSlider extends Component {
                 </div>
             </section>
         )
+    }
+
+    componentDidMount(){
+        // done
+        // setInterval(() => {
+        //     let {currentSlide} = this.state;
+
+        //     currentSlide += 1;
+        //     if(currentSlide < 3){
+        //         this.setState({
+        //             pos: currentSlide * 100,
+        //             currentSlide                
+        //         })
+        //     }else{
+        //         this.setState({
+        //             pos: 0,
+        //             currentSlide: 0              
+        //         })
+        //     }
+        // }, 5000);
+    }
+
+    componentWillUnmount(){
+        // done
+        // var interval_id = window.setInterval("", 9999);
+        // for (var i = 1; i < interval_id; i++)
+        //     window.clearInterval(i);
     }
 }
