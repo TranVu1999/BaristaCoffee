@@ -1,0 +1,63 @@
+@import './../../../assets//Sass/variable.scss';
+
+.booking__content{
+    .booking--right, .booking--left{
+        flex: 1;
+    }
+
+    .booking--left{
+        h2{
+            position: relative;
+            margin-bottom: 40px;
+            &::after{
+                content: '';
+                position: absolute;
+                bottom: -20px;
+                left: 0;
+
+                display: block;
+                width: 120px;
+                height: 2px;
+                background-color: $primary-color;
+            }
+        }
+    }
+}
+
+form.form-book-table{
+    font-family: 'Merriweather',serif;
+    input{
+        padding: 18px 15px;
+        font-style: italic;
+        color: $main-color;
+        font-weight: 600;
+
+        box-sizing: border-box;
+        background-color: #fff;
+        height: 50px;
+
+        &::placeholder{
+            color: $main-color;
+        }
+    }
+
+    span.form-book-table--icon{
+        background-color: #fff;
+        display: inline-block;
+        line-height: 44px;
+
+        font-size: 22px;
+        color: $primary-color;
+        width: 50px;
+        height: 50px;
+        text-align: center;
+
+
+    }
+
+    span.form-book-table--label{
+        color: $main-color;
+        font-size: 18px;
+        font-weight: 700;
+    }
+}
