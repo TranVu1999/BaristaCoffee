@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+
 import BookTable from './BookTable';
 import ListBanner from './ListBanner';
 import MainSlider from './MainSlider';
+import OurService from './OurService';
 import Parallax from './Parallax';
 import ServicePost from './ServicePost';
 
@@ -14,6 +16,7 @@ export default class HomePage extends Component {
                 <BookTable/>
                 <ServicePost/>
                 <Parallax/>
+                <OurService/>
             </>
         )
     }
