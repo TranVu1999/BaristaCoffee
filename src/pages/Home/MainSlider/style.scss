@@ -243,3 +243,39 @@
         opacity: 0;
     }
 }
+
+// ========================================================
+// RESPONSIVE
+// ========================================================
+@media screen and (max-width: 320px){
+    .main-slider__content{
+        .item__content{
+            height: 400px;
+        }
+
+        .slide-title-box{
+            left: 15px;
+            width: 80%;
+
+            .title-box__animate, h1{
+                font-size: 36px;
+                line-height: 50px;
+            }
+
+            .desc-box__animate{
+                display: none;
+            }
+
+            .read-more-box__animate{
+                margin-top: 80px;
+            }
+        }
+
+        .main-carousel__nav{
+    
+            .nav-left, .nav-right{
+                top: 55%;
+            }
+        }
+    }
+}
