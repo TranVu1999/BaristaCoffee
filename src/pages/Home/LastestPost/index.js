@@ -14,8 +14,6 @@ export default class LastestPost extends Component {
     }
 
     render() {
-        console.log("lastest post", this.state);
-
         return (
             <section className="cf-container mb-100">
                 <TitleBox smallTitle = "What Happens Here" mainTitle = "Read Our Latest News"/>

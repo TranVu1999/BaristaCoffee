@@ -11,13 +11,9 @@ export default class ListDrink extends Component {
 
     render() {
         const {listDrink} = this.props;
-        console.log("list", listDrink);
 
         const listLeft = listDrink.slice(0, (listDrink.length / 2));
         const listRight = listDrink.slice(listDrink.length / 2, listDrink.length);
-
-        console.log("list left", listLeft);
-        console.log("list right", listRight);
 
         return (
             <div className="cf-container our-menu__content">

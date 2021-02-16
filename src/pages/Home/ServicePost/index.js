@@ -15,7 +15,6 @@ export default class ServicePost extends Component {
     }
     render() {
         const {listServiceContent} = this.state;
-        console.log("list service", listServiceContent);
 
         return (
             <section className = "cf-container">

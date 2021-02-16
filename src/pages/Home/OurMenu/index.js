@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import './style.scss';
 
+import api from './../../../api';
+import * as ApiUrl from './../../../commons/constant/ApiUrl';
+
 import TitleBox from '../../../commons/components/TitleBox'
 import ListDrink from '../../../commons/components/ListDrink';
 
@@ -8,104 +11,7 @@ export default class OurMenu extends Component {
     constructor(props){
         super(props);
         this.state = {
-            listDrink : [
-                {
-                    "drinkId": "drk01",
-                    "drinkTitle": "COFFEE LATE",
-                    "drinkImg": "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851621/BaristaCoffee/drinks/cf1_hkizn2.jpg",
-                    "drinkShortDesc": "Fresh brewed coffee and steamed milk",
-                    "isNew": true,
-                    "drinkPrice": "2.95"
-                },
-                {
-                    "drinkId": "drk02",
-                    "drinkTitle": "COFFEE MOCHA",
-                    "drinkImg": "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851623/BaristaCoffee/drinks/cf2_xb6uro.jpg",
-                    "drinkShortDesc": "Fresh brewed coffee and steamed milk",
-                    "isNew": false,
-                    "drinkPrice": "3.67"
-                },
-                {
-                    "drinkId": "drk03",
-                    "drinkTitle": "WHITE CHOCOLATE MOCHA",
-                    "drinkImg": "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851623/BaristaCoffee/drinks/cf3_pqrxgh.jpg",
-                    "drinkShortDesc": "Fresh brewed coffee and steamed milk",
-                    "isNew": false,
-                    "drinkPrice": "2.79"
-                },
-                {
-                    "drinkId": "drk04",
-                    "drinkTitle": "CAFFE AMERICANO",
-                    "drinkImg": "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851623/BaristaCoffee/drinks/cf4_wxxmfc.jpg",
-                    "drinkShortDesc": "Fresh brewed coffee and steamed milk",
-                    "isNew": false,
-                    "drinkPrice": "3.06"
-                },
-                {
-                    "drinkId": "drk05",
-                    "drinkTitle": "CAPPUCCINO",
-                    "drinkImg": "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851623/BaristaCoffee/drinks/cf5_lssszd.jpg",
-                    "drinkShortDesc": "Fresh brewed coffee and steamed milk",
-                    "isNew": false,
-                    "drinkPrice": "4.03"
-                },
-                {
-                    "drinkId": "drk06",
-                    "drinkTitle": "VANILLA LATTE",
-                    "drinkImg": "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851623/BaristaCoffee/drinks/cf6_ktujh3.jpg",
-                    "drinkShortDesc": "Fresh brewed coffee and steamed milk",
-                    "isNew": false,
-                    "drinkPrice": "3.65"
-                },
-                {
-                    "drinkId": "drk07",
-                    "drinkTitle": "ICED GINGERBREAD LATTE",
-                    "drinkImg": "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851623/BaristaCoffee/drinks/cf7_agn6eh.jpg",
-                    "drinkShortDesc": "Fresh brewed coffee and steamed milk",
-                    "isNew": true,
-                    "drinkPrice": "3.92"
-                },
-                {
-                    "drinkId": "drk08",
-                    "drinkTitle": "ICED CAFFE MOCHA",
-                    "drinkImg": "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851623/BaristaCoffee/drinks/cf8_mjm8pz.jpg",
-                    "drinkShortDesc": "Fresh brewed coffee and steamed milk",
-                    "isNew": false,
-                    "drinkPrice": "2.60"
-                },
-                {
-                    "drinkId": "drk09",
-                    "drinkTitle": "ICED SMOKED LATTE",
-                    "drinkImg": "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851621/BaristaCoffee/drinks/cf10_kymgai.jpg",
-                    "drinkShortDesc": "Fresh brewed coffee and steamed milk",
-                    "isNew": false,
-                    "drinkPrice": "3.05"
-                },
-                {
-                    "drinkId": "drk10",
-                    "drinkTitle": "CARAMEL MACCHIATO",
-                    "drinkImg": "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851622/BaristaCoffee/drinks/cf11_alphny.jpg",
-                    "drinkShortDesc": "Fresh brewed coffee and steamed milk",
-                    "isNew": false,
-                    "drinkPrice": "2.54"
-                },
-                {
-                    "drinkId": "drk11",
-                    "drinkTitle": "ESPRESSO MACCHIATO",
-                    "drinkImg": "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851622/BaristaCoffee/drinks/cf12_uok8wg.jpg",
-                    "drinkShortDesc": "Fresh brewed coffee and steamed milk",
-                    "isNew": false,
-                    "drinkPrice": "2.98"
-                },
-                {
-                    "drinkId": "drk12",
-                    "drinkTitle": "ICED CARAMEL LATTE",
-                    "drinkImg": "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851624/BaristaCoffee/drinks/cf9_uy0mte.jpg",
-                    "drinkShortDesc": "Fresh brewed coffee and steamed milk",
-                    "isNew": false,
-                    "drinkPrice": "4.67"
-                }
-            ]
+            listDrink : []
         }
     }
 
@@ -374,5 +280,17 @@ export default class OurMenu extends Component {
             </section>
 
         )
+    }
+
+    componentDidMount(){
+        api.get(`/${ApiUrl.DRINK}/get-recent`)
+        .then(res =>{
+            this.setState({
+                listDrink: res.data
+            });
+        })
+        .catch(err =>{
+            console.log("err", err);
+        })
     }
 }
