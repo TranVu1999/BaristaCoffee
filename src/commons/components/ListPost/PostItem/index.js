@@ -6,18 +6,42 @@ export default class PostItem extends Component {
 
         return (
             <article className="post intro-post">
-                <div className="post--image">
-                <a href="/#">
-                    <img src = {postItem.postImg} alt="post" />
-                </a>
+                <div 
+                    className="post--image"
+                    style = {{
+                        marginBottom: postItem.postNum ? "0px" : "25px "
+                    }}
+                >
+                    <a href="/#">
+                        <img src = {postItem.postImg} alt="post" />
+                    </a>
                 </div>
                 <div className="post--text">
-                <h3 className="post--text__title">
-                    <span className="number">{postItem.postNum}</span>
-                    <a href="/#">{postItem.postTitle}</a>
-                </h3>
-                <p className="post--text__short-desc">{postItem.postShortDesc}</p>
-                <a href="/#" className="barista-read-more">Read more <span className="icon icon-arrow-right2" /></a>
+                    <h3 className="post--text__title">
+                        {postItem.postNum ? (
+                            <span className="number">{postItem.postNum}</span>
+                        ) : ""}
+                        
+                        <a href="/#">{postItem.postTitle}</a>
+                    </h3>
+
+                    {postItem.postAuthor ? (
+                        <div class="post--text__info">
+                            <div class="post--text__info--author">
+                                <a href="/#">by {postItem.postAuthor}</a>
+                            </div>
+                            <div class="post--text__info--categories">
+                                <a href="/#">{postItem.postCategory}</a>
+                            </div>
+                            <div class="post--text__info--update">
+                                <span>{postItem.postDate}</span>
+                            </div>
+                        </div>
+                    ) : ""}
+                    
+
+                    <p className="post--text__short-desc">{postItem.postShortDesc}</p>
+                    <a href="/#" className="barista-read-more">Read more <span className="icon icon-arrow-right2" /></a>
                 </div>
             </article>
         )

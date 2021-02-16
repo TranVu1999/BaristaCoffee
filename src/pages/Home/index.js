@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import BookTable from './BookTable';
 import HotSale from './HotSale';
+import LastestPost from './LastestPost';
 import ListBanner from './ListBanner';
 import MainSlider from './MainSlider';
 import OurMenu from './OurMenu';
@@ -23,6 +24,7 @@ export default class HomePage extends Component {
                 <SmallSlider/>
                 <OurMenu/>
                 <HotSale/>
+                <LastestPost/>
             </>
         )
     }
