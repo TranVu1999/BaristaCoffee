@@ -3,7 +3,6 @@ import React, { Component } from 'react'
 export default class DrinkItem extends Component {
     render() {
         const {drinkContent} = this.props;
-        console.log("drinkContent", drinkContent);
 
         return (
             <div className="menu-item">

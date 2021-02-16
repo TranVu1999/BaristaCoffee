@@ -26,14 +26,14 @@ export default class PostItem extends Component {
                     </h3>
 
                     {postItem.postAuthor ? (
-                        <div class="post--text__info">
-                            <div class="post--text__info--author">
+                        <div className="post--text__info">
+                            <div className="post--text__info--author">
                                 <a href="/#">by {postItem.postAuthor}</a>
                             </div>
-                            <div class="post--text__info--categories">
+                            <div className="post--text__info--categories">
                                 <a href="/#">{postItem.postCategory}</a>
                             </div>
-                            <div class="post--text__info--update">
+                            <div className="post--text__info--update">
                                 <span>{postItem.postDate}</span>
                             </div>
                         </div>
