@@ -25,7 +25,7 @@ export default class LastestPost extends Component {
     }
 
     componentDidMount(){
-        api.get(`/${ApiUrl.POST}/3`)
+        api.get(`/${ApiUrl.POST}/get-recent`)
         .then(res =>{
             this.setState({
                 listPost: res.data

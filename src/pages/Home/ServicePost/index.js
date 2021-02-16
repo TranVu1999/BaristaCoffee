@@ -1,38 +1,46 @@
 import React, { Component } from 'react'
+
+import api from './../../../api';
+import * as ApiUrl from './../../../commons/constant/ApiUrl';
+
 import ListPost from '../../../commons/components/ListPost';
+
 
 export default class ServicePost extends Component {
     constructor(props){
         super(props);
         this.state = {
-            listServiceContent: [
-                {
-                    postImg: "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851627/BaristaCoffee/other/service-1_pnhw2j.jpg",
-                    postNum: "01",
-                    postTitle: "BEAUTIFUL PLACE",
-                    postShortDesc: "Alienum phaedrum to rquatos nec eu, vis detraxit periculis ex, nihil expetendis in mei. Mei an pericula euripidis, hinc partem ei est. Eos ei nisl graecis, vix aperiri consequat an. Eius lorem tincidunt vix atle."
-                },
-                {
-                    postImg: "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851627/BaristaCoffee/other/service-2_kdmfgc.jpg",
-                    postNum: "02",
-                    postTitle: " FEEL THE COFFEE",
-                    postShortDesc: "Alienum phaedrum to rquatos nec eu, vis detraxit periculis ex, nihil expetendis in mei. Mei an pericula euripidis, hinc partem ei est. Eos ei nisl graecis, vix aperiri consequat an. Eius lorem tincidunt vix atle."
-                },
-                {
-                    postImg: "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851627/BaristaCoffee/other/service-3_lmqhci.jpg",
-                    postNum: "03",
-                    postTitle: "FULL TASTE",
-                    postShortDesc: "Alienum phaedrum to rquatos nec eu, vis detraxit periculis ex, nihil expetendis in mei. Mei an pericula euripidis, hinc partem ei est. Eos ei nisl graecis, vix aperiri consequat an. Eius lorem tincidunt vix atle."
-                }
-            ]
+            listServiceContent: []
         }
     }
     render() {
         const {listServiceContent} = this.state;
+        console.log("list service", listServiceContent);
+
         return (
             <section className = "cf-container">
                 <ListPost listPost = {listServiceContent}/>
             </section>
         )
+    }
+
+    componentDidMount(){
+        api.get(`/${ApiUrl.POST}/get-service`)
+        .then(res =>{
+            let temp = [];
+            let lengthListService = res.data.length;
+
+            for(let i = 0; i < lengthListService; i++){
+                let newItem = {...res.data[i], postNum: "0" + (i + 1)}
+                temp.push(newItem);
+            }
+
+            this.setState({
+                listServiceContent: temp
+            });
+        })
+        .catch(err =>{
+            console.log("err", err);
+        })
     }
 }
