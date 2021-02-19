@@ -99,11 +99,17 @@
 // RESPONSIVE
 // ========================================================
 @media screen and (max-width: 320px){
+
+    .banner{
+        .cf-container{
+            width: 100%;
+        }
+    }
     .banner__content{
         display: block;
 
         .banner__item{
-            margin-bottom: 30px;
+            margin-bottom: 5px;
 
             &:first-child{
                 margin-right: 0;

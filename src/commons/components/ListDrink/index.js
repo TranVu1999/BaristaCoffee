@@ -1,5 +1,7 @@
-import React, { Component } from 'react'
-import DrinkItem from './DrinkItem'
+import React, { Component } from 'react';
+import './style.scss';
+
+import DrinkItem from './DrinkItem';
 
 export default class ListDrink extends Component {
 

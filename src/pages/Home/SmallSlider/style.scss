@@ -1,5 +1,5 @@
 .small-slider{
-    .small-slider--left{
+    &--left{
         background-image: url(https://res.cloudinary.com/doem0ysxl/image/upload/v1611851620/BaristaCoffee/backgrounds/slider-bg_ls8twe.jpg);
         background-position: 100% 100%;
         min-height: 372px;
@@ -20,7 +20,7 @@
         }
     }
 
-    .small-slider--right{
+    &--right{
         flex: 1;
 
         .small-carousel{
@@ -60,6 +60,50 @@
                     width: 16px;
                     box-shadow: 0 0 10px #fff;
                 }
+            }
+        }
+    }
+}
+
+// ========================================================
+// RESPONSIVE
+// ========================================================
+@media screen and (max-width: 320px){
+    .small-slider{
+        .cf-container{
+            width: 100%;
+            padding: 0;
+        }
+    }
+
+    .small-slider__content{
+        display: block;
+    }
+
+    .small-slider--left{
+        width: 100%;
+        padding: 30px 20px;
+
+        .small-slider--text{
+            width: 100%;
+
+            h2{
+                font-size: 30px;
+            }
+        }
+    }
+
+    .small-slider--right {
+        .small-carousel__dots{
+            top: 90%;
+            right: 0;
+            left: 0;
+            flex-direction: row;
+            justify-content: center;
+
+            button{
+                display: inline-block;
+                margin: 0 5px;
             }
         }
     }

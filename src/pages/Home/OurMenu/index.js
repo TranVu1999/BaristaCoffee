@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './style.scss';
 
 import api from './../../../api';
 import * as ApiUrl from './../../../commons/constant/ApiUrl';

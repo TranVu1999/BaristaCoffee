@@ -69,17 +69,16 @@
 // ========================================================
 @media screen and (max-width: 320px){
     .parallax{
-        min-height: 700px;
+        min-height: 600px;
         .parallax__content{
             display: block;
-            padding: 40px 0;
+            padding: 40px 15px;
 
             
         }
     
         .parallax--left{
-            padding-left: 0;
-            padding: 0 50px;
+            display: none;
         }
     
         .parallax--right{
