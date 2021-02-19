@@ -2,6 +2,7 @@ import HomePage from './Home';
 import AccountPage from './Account';
 import AboutPage from './About';
 import BookingPage from './Booking';
+import ContactPage from './Contact';
 
 const routes =  [
     {
@@ -18,6 +19,11 @@ const routes =  [
         path: "/booking",
         exact: true,
         component: BookingPage
+    },
+    {
+        path: "/contact",
+        exact: true,
+        component: ContactPage
     },
     {
         path: "/",
