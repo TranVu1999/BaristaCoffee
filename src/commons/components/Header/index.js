@@ -83,13 +83,13 @@ export default class Header extends Component {
           >
             <ul>
               <li>
-                <a href="/#">Home</a>
+                <NavLink to = "/">Home</NavLink>
               </li>
               <li>
-                <a href="/#">About</a>
+                <NavLink to = "/about">About</NavLink>
               </li>
               <li>
-                <a href="/#">Shop</a>
+                <NavLink to = "/my-account">Shop</NavLink>
               </li>
               <li>
                 <a href="/#">Blog</a>

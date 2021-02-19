@@ -4,7 +4,7 @@ export default class AccountPage extends Component {
     render() {
         return (
             <div>
-                account page
+                about page
             </div>
         )
     }
