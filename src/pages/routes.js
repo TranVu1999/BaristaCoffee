@@ -1,6 +1,7 @@
 import HomePage from './Home';
 import AccountPage from './Account';
 import AboutPage from './About';
+import BookingPage from './Booking';
 
 const routes =  [
     {
@@ -12,6 +13,11 @@ const routes =  [
         path: "/about",
         exact: true,
         component: AboutPage
+    },
+    {
+        path: "/booking",
+        exact: true,
+        component: BookingPage
     },
     {
         path: "/",

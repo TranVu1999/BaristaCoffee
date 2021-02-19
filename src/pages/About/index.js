@@ -6,7 +6,7 @@ export default class AboutPage extends Component {
     render() {
         return (
             <>
-                <Banner/>
+                <Banner bannerTitle = "About Me"/>
 
                 <section className="main-page section-padding">
                     <div className="cf-container">

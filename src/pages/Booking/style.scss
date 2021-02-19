@@ -1,4 +1,4 @@
-@import './../../../assets//Sass/variable.scss';
+@import './../../assets/Sass/variable.scss';
 
 .booking__content{
     .booking--right, .booking--left{
@@ -21,5 +21,13 @@
                 background-color: $primary-color;
             }
         }
+    }
+}
+// ========================================================
+// RESPONSIVE
+// ========================================================
+@media screen and (max-width: 320px){
+    .booking__content{
+        display: block;
     }
 }
