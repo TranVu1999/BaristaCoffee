@@ -3,6 +3,7 @@ import AccountPage from './Account';
 import AboutPage from './About';
 import BookingPage from './Booking';
 import ContactPage from './Contact';
+import NotFoundPage from './NotFound';
 
 const routes =  [
     {
@@ -24,6 +25,11 @@ const routes =  [
         path: "/contact",
         exact: true,
         component: ContactPage
+    },
+    {
+        path: "/not-found",
+        exact: true,
+        component: NotFoundPage
     },
     {
         path: "/",
