@@ -4,6 +4,7 @@ import AboutPage from './About';
 import BookingPage from './Booking';
 import ContactPage from './Contact';
 import NotFoundPage from './NotFound';
+import WhatWeOfferPage from './WhatWeOffer';
 
 const routes =  [
     {
@@ -30,6 +31,11 @@ const routes =  [
         path: "/not-found",
         exact: true,
         component: NotFoundPage
+    },
+    {
+        path: "/what-we-offer",
+        exact: true,
+        component: WhatWeOfferPage
     },
     {
         path: "/",
