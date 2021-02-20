@@ -92,7 +92,7 @@ export default class Header extends Component {
                 <NavLink to = "/shop">Shop</NavLink>
               </li>
               <li>
-                <a href="/#">Blog</a>
+              <NavLink to = "/blog-list">Blog</NavLink>
               </li>
               <li className="toggle-sub-menu">
                 <div>

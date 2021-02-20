@@ -6,6 +6,7 @@ import ContactPage from './Contact';
 import NotFoundPage from './NotFound';
 import WhatWeOfferPage from './WhatWeOffer';
 import ShopPage from './Shop';
+import BlogListPage from './BlogList';
 
 const routes =  [
     {
@@ -42,6 +43,11 @@ const routes =  [
         path: "/shop",
         exact: true,
         component: ShopPage
+    },
+    {
+        path: "/blog-list",
+        exact: true,
+        component: BlogListPage
     },
     {
         path: "/",
