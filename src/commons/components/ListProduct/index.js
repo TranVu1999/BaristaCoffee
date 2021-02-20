@@ -12,8 +12,15 @@ export default class ListProduct extends Component {
     }
 
     render() {
+        const {rowShow} = this.props;
         return (
-            <div className="cf-container d-gr-4 lst-product__container"> 
+            <div 
+                className= {
+                    rowShow 
+                    ?`d-gr-${rowShow} lst-product__container`
+                    : "d-gr-4 lst-product__container"
+                }
+            > 
                 {this.renderListProduct()}
             </div>
         )

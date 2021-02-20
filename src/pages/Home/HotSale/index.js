@@ -50,7 +50,9 @@ export default class HotSale extends Component {
         return (
             <section className="section-padding lst-product">
                 <TitleBox smallTitle = "What Happens Here" mainTitle = "Merchandise - Sale"/>
-                <ListProduct listProduct = {this.state.listProduct}/>
+                <div className = "cf-container">
+                    <ListProduct listProduct = {this.state.listProduct}/>
+                </div>
             </section>
 
         )

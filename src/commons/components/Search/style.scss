@@ -1,0 +1,23 @@
+@import './../../../assets/Sass/variable.scss';
+form.search{
+    input{
+        border: 2px solid #e2e2e2;
+        height: 35px;
+        line-height: 35px;
+        padding: 0 15px;
+
+        font-size: 14px;
+        flex: 1;
+    }
+
+    button{
+        background-color: $primary-color;
+        color: #fff;
+        height: 35px;
+        width: 35px;
+
+        &:hover{
+            background-color: #333;
+        }
+    }
+}

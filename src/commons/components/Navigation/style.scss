@@ -1,0 +1,27 @@
+@import './../../../assets/Sass/variable.scss';
+
+.nav{
+    background-color: #eae7de;
+    padding: 35px 0;
+
+    .nav--left, .nav--right{
+        font-size: 20px;
+        font-weight: 700;
+        &:hover{
+            color: $primary-color;
+        }
+    }
+
+    .nav--number{
+        display: inline-block;
+        padding: 0 13px;
+        font-weight: 700;
+        font-family: 'Merriweather',serif;
+        font-size: 18px;
+
+        color: $main-color;
+        &:hover, &.active{
+            color: $primary-color;
+        }
+    }
+}

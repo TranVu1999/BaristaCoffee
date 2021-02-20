@@ -28,7 +28,7 @@ class App extends Component {
       // <>
       //   <ClientScreen/>
       // </>
-      <div className = "main-wrapper">
+      <div className = "main-wrapper page">
         <Header onOpenLogin = {this.handleLoginPopup}/>
 
         <Switch>

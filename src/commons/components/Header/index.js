@@ -89,7 +89,7 @@ export default class Header extends Component {
                 <NavLink to = "/about">About</NavLink>
               </li>
               <li>
-                <NavLink to = "/my-account">Shop</NavLink>
+                <NavLink to = "/shop">Shop</NavLink>
               </li>
               <li>
                 <a href="/#">Blog</a>
