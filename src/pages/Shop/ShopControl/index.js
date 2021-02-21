@@ -5,7 +5,7 @@ export default class ShopControl extends Component {
     render() {
         return (
             <div className="d-flex-between lst-product__control">
-                <span className="result-count">Showing all 12 results</span>
+                <span className="result-count">Showing all {this.props.amount} results</span>
                 <form className="sort-lst-product">
                     <div className="form-group">
                     <div className="select-box">

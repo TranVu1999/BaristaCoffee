@@ -5,10 +5,14 @@ import './style.scss';
 export default class ListProduct extends Component {
 
     renderListProduct = () =>{
-        const {listProduct} = this.props;
-        return listProduct.map((item, index) =>{
-            return <ProductItem key = {index} productContent = {item}/>
-        })
+        const {lstProduct} = this.props;
+        if(lstProduct){
+            return lstProduct.map((item, index) =>{
+                return <ProductItem key = {index} productContent = {item}/>
+            })
+        }
+        return null;
+        
     }
 
     render() {

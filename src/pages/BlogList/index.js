@@ -12,8 +12,8 @@ export default class BlogListPage extends Component {
 
                 <MainPage>
                     <div className="cf-container">
-                        <div className="d-flex-between align-start shop-page">
-                            <div className="main-page__content">
+                        <div className="d-flex-between align-start  post-list-page">
+                            <div className="main-page__content post-list__content">
                                 
                             </div>
 

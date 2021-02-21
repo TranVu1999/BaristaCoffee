@@ -6,8 +6,22 @@ import ShopProduct from './ShopProduct';
 import ShopSidebar from './ShopSidebar';
 import ShopControl from './ShopControl';
 
+import api from './../../api';
+import * as ApiUrl from './../../commons/constant/ApiUrl';
+
 export default class ShopPage extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            pageActive: 0,
+            amount: 0,
+            lstProduct: []
+        }
+    }
+
     render() {
+        const {amount, lstProduct, pageActive} = this.state;
+
         return (
             <>
                 <Banner bannerTitle = "Shop" bannerImg = "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851628/BaristaCoffee/other/shop-title-area_fjcbvl.jpg"/>
@@ -16,8 +30,8 @@ export default class ShopPage extends Component {
                     <div className="cf-container">
                         <div className="d-flex-between align-start shop-page">
                             <div className="main-page__content">
-                                <ShopControl/>
-                                <ShopProduct/>
+                                <ShopControl amount = {amount}/>
+                                <ShopProduct lstProduct = {lstProduct}/>
                             </div>
 
                             <div className="main-page__sidebar">
@@ -28,8 +42,24 @@ export default class ShopPage extends Component {
                     </div>
                 </MainPage>
 
-                <Navigation/>
+                <Navigation amount = {amount} per = "9" pageActive= {pageActive}/>
             </>
         )
+    }
+
+    componentDidMount(){
+        const data = {page: 0}
+
+        api.post(`/${ApiUrl.SHOP}/`, data)
+        .then(res =>{
+            this.setState({
+                pageActive: 0,
+                amount: res.data.amount,
+                lstProduct: [...res.data.lstProduct]
+            })
+        })
+        .catch(err =>{
+            console.log("err", err);
+        })
     }
 }

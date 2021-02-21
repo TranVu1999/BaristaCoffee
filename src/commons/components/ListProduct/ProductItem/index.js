@@ -8,7 +8,7 @@ export default class ProductItem extends Component {
         return (
             <div className="product-item">
                 <a href="/#" className="product-item__thumb">
-                    <img src= {productContent.productImg} alt="product" />
+                    <img src= {productContent.productAvatar} alt="product" />
                     <button className="add-to-cart"><span className="icon icon-libreoffice" /> Add To Cart</button>
                 </a>
 
