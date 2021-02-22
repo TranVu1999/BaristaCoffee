@@ -40,6 +40,8 @@ export default class ShopControl extends Component {
         this.setState({
             isOpenSelectBox: false,
             resultSpan: span
+        }, () =>{
+            this.props.onHandleSort(index);
         })
     }
 

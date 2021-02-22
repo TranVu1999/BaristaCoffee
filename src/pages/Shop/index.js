@@ -14,6 +14,7 @@ export default class ShopPage extends Component {
     constructor(props){
         super(props);
         this.state = {
+            sortBy: 2,
             isLoading: true,
             pageActive: 0,
             amount: 0,
@@ -21,12 +22,13 @@ export default class ShopPage extends Component {
         }
     }
 
-    getDataFromAPI = (data, page)=>{
+    getDataFromAPI = (data)=>{
+
         api.post(`/${ApiUrl.SHOP}/`, data)
         .then(res =>{
             this.setState({
                 isLoading: false,
-                pageActive: page,
+                pageActive: data.page,
                 amount: res.data.amount,
                 lstProduct: [...res.data.lstProduct]
             })
@@ -38,14 +40,26 @@ export default class ShopPage extends Component {
 
     handleChoosePage = (page) =>{
         if(page !== this.state.pageActive){
-            const data = {page: page};
+            const data = {page: page, sortBy: this.state.sortBy};
             this.setState({
                 ...this.state,
-                isLoading: true
+                isLoading: true,
+                pageActive: page
             })
 
-            this.getDataFromAPI(data, page)
+            this.getDataFromAPI(data)
         }
+        
+    }
+
+    handleSort = (sortBy) =>{
+        const data = {page: this.state.pageActive, sortBy}
+        this.setState({
+            ...this.state,
+            sortBy
+        }, () =>{
+            this.getDataFromAPI(data);
+        })
         
     }
 
@@ -65,7 +79,10 @@ export default class ShopPage extends Component {
                                     ? <Loading/>
                                     :(
                                         <>
-                                            <ShopControl amount = {amount}/>
+                                            <ShopControl 
+                                                amount = {amount}
+                                                onHandleSort = {this.handleSort}
+                                            />
                                             <ShopProduct lstProduct = {lstProduct}/>
                                         </>
                                     )
@@ -92,7 +109,10 @@ export default class ShopPage extends Component {
     }
 
     componentDidMount(){
-        const data = {page: 0}
-        this.getDataFromAPI(data, 0);
+        const data = {page: this.state.pageActive, sortBy: this.state.sortBy}
+        this.setState({...this.state, isLoading: true}, () =>{
+            this.getDataFromAPI(data);
+        });
+        
     }
 }
