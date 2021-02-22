@@ -21,6 +21,34 @@ export default class ShopPage extends Component {
         }
     }
 
+    getDataFromAPI = (data, page)=>{
+        api.post(`/${ApiUrl.SHOP}/`, data)
+        .then(res =>{
+            this.setState({
+                isLoading: false,
+                pageActive: page,
+                amount: res.data.amount,
+                lstProduct: [...res.data.lstProduct]
+            })
+        })
+        .catch(err =>{
+            console.log("err", err);
+        })
+    }
+
+    handleChoosePage = (page) =>{
+        if(page !== this.state.pageActive){
+            const data = {page: page};
+            this.setState({
+                ...this.state,
+                isLoading: true
+            })
+
+            this.getDataFromAPI(data, page)
+        }
+        
+    }
+
     render() {
         const {amount, lstProduct, pageActive, isLoading} = this.state;
 
@@ -51,7 +79,12 @@ export default class ShopPage extends Component {
                         </div>
                         
                     </div>
-                    <Navigation amount = {amount} per = "9" pageActive= {pageActive}/>
+                    <Navigation 
+                        amount = {amount} 
+                        per = "9" 
+                        pageActive= {pageActive}
+                        onChoosePage = {this.handleChoosePage}
+                    />
                 </MainPage>
 
                 
@@ -61,18 +94,6 @@ export default class ShopPage extends Component {
 
     componentDidMount(){
         const data = {page: 0}
-
-        api.post(`/${ApiUrl.SHOP}/`, data)
-        .then(res =>{
-            this.setState({
-                isLoading: false,
-                pageActive: 0,
-                amount: res.data.amount,
-                lstProduct: [...res.data.lstProduct]
-            })
-        })
-        .catch(err =>{
-            console.log("err", err);
-        })
+        this.getDataFromAPI(data, 0);
     }
 }

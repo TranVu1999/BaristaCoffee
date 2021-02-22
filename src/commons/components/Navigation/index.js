@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import './style.scss';
 
 class Navigation extends Component {
+
+    handleChoosePage = (page) =>{
+        this.props.onChoosePage(page);
+    }
+
     renderNavItem = () =>{
         const {amount, per, pageActive} = this.props;
         if(amount){
@@ -20,20 +25,23 @@ class Navigation extends Component {
                         <li 
                             className="nav--number active" 
                             key = {index}
-                        ><a href="/#">{index + 1}</a></li>
+                            onClick = {() => this.handleChoosePage(index)}
+                        >{index + 1}</li>
                     )
                 }
                 return (
                     <li 
                         className="nav--number" 
                         key = {index}
-                    ><a href="/#">{index + 1}</a></li>
+                        onClick = {() => this.handleChoosePage(index)}
+                    >{index + 1}</li>
                 )
             })
         }
         
 
     }
+
     render() {
         return (
             <section className="nav">

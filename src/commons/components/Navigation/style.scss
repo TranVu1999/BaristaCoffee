@@ -20,7 +20,9 @@
         font-family: 'Merriweather',serif;
         font-size: 18px;
 
+        cursor: pointer;
         color: $main-color;
+        
         &:hover, &.active{
             color: $primary-color;
         }
