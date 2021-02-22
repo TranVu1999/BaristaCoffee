@@ -58,7 +58,6 @@ export default class ShopPage extends Component {
                 <Banner bannerTitle = "Shop" bannerImg = "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851628/BaristaCoffee/other/shop-title-area_fjcbvl.jpg"/>
 
                 <MainPage>
-                    
                     <div className="cf-container">
                         <div className="d-flex-between align-start shop-page">
                             <div className="main-page__content">

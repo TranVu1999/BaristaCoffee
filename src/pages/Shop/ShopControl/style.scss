@@ -9,6 +9,11 @@
     font-family: 'Merriweather',serif;
     font-style: italic;
 
+    .select-box{
+        position: relative;
+        padding: 0 0 0 15px;
+    }
+
     .select-result-box{
         width: 210px;
         height: 50px;
@@ -25,4 +30,34 @@
             }
         }
     }
+
+    .select-option-box{
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 10;
+
+        background-color: #fff;
+        padding-left: 15px;
+        padding-bottom: 8px;
+        width: 100%;
+
+        display: none;
+
+        &.open{
+            display: block;
+        }
+        
+
+        .select-item{
+            padding: 4px 0;
+            cursor: pointer;
+
+            &:hover{
+                color: $primary-color;
+            }
+        }
+    }
+
+
 }
