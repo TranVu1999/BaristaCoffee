@@ -8,11 +8,13 @@ import ShopControl from './ShopControl';
 
 import api from './../../api';
 import * as ApiUrl from './../../commons/constant/ApiUrl';
+import Loading from '../../commons/components/Loading';
 
 export default class ShopPage extends Component {
     constructor(props){
         super(props);
         this.state = {
+            isLoading: true,
             pageActive: 0,
             amount: 0,
             lstProduct: []
@@ -20,18 +22,27 @@ export default class ShopPage extends Component {
     }
 
     render() {
-        const {amount, lstProduct, pageActive} = this.state;
+        const {amount, lstProduct, pageActive, isLoading} = this.state;
 
         return (
             <>
+                
                 <Banner bannerTitle = "Shop" bannerImg = "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851628/BaristaCoffee/other/shop-title-area_fjcbvl.jpg"/>
 
                 <MainPage>
+                    
                     <div className="cf-container">
                         <div className="d-flex-between align-start shop-page">
                             <div className="main-page__content">
-                                <ShopControl amount = {amount}/>
-                                <ShopProduct lstProduct = {lstProduct}/>
+                                {isLoading 
+                                    ? <Loading/>
+                                    :(
+                                        <>
+                                            <ShopControl amount = {amount}/>
+                                            <ShopProduct lstProduct = {lstProduct}/>
+                                        </>
+                                    )
+                                }
                             </div>
 
                             <div className="main-page__sidebar">
@@ -40,9 +51,10 @@ export default class ShopPage extends Component {
                         </div>
                         
                     </div>
+                    <Navigation amount = {amount} per = "9" pageActive= {pageActive}/>
                 </MainPage>
 
-                <Navigation amount = {amount} per = "9" pageActive= {pageActive}/>
+                
             </>
         )
     }
@@ -53,6 +65,7 @@ export default class ShopPage extends Component {
         api.post(`/${ApiUrl.SHOP}/`, data)
         .then(res =>{
             this.setState({
+                isLoading: false,
                 pageActive: 0,
                 amount: res.data.amount,
                 lstProduct: [...res.data.lstProduct]

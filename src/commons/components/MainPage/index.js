@@ -5,7 +5,7 @@ import './style.scss';
 export default class MainPage extends Component {
     render() {
         return (
-            <section className="main-page section-padding">
+            <section className="main-page">
                 {this.props.children}
             </section>
         )
