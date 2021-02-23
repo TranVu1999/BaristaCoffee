@@ -123,6 +123,8 @@ export default class ShopPage extends Component {
     }
 
     componentDidMount(){
+        console.log("shop props", this.props);
+        
         let data = {page: this.state.pageActive, sortBy: this.state.sortBy}
         const requestShop = api.post(`/${ApiUrl.SHOP}/`, data);
 
