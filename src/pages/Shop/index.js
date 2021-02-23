@@ -16,6 +16,7 @@ export default class ShopPage extends Component {
     constructor(props){
         super(props);
         this.state = {
+            lstTopRated: [],
             lstProductCate: [],
             sortBy: 2,
             isLoading: true,
@@ -56,6 +57,7 @@ export default class ShopPage extends Component {
 
     handleSort = (sortBy) =>{
         const data = {page: this.state.pageActive, sortBy}
+        
         this.setState({
             ...this.state,
             sortBy
@@ -71,7 +73,8 @@ export default class ShopPage extends Component {
             lstProduct, 
             pageActive, 
             isLoading, 
-            lstProductCate
+            lstProductCate,
+            lstTopRated
         } = this.state;
 
         return (
@@ -98,7 +101,10 @@ export default class ShopPage extends Component {
                             </div>
 
                             <div className="main-page__sidebar">
-                                <ShopSidebar lstProductCate = {lstProductCate}/>
+                                <ShopSidebar 
+                                    lstProductCate = {lstProductCate}
+                                    lstTopRated = {lstTopRated}
+                                />
                             </div>
                         </div>
                         
@@ -117,17 +123,24 @@ export default class ShopPage extends Component {
     }
 
     componentDidMount(){
-        const data = {page: this.state.pageActive, sortBy: this.state.sortBy}
+        let data = {page: this.state.pageActive, sortBy: this.state.sortBy}
         const requestShop = api.post(`/${ApiUrl.SHOP}/`, data);
+
+        data = {page: this.state.pageActive, sortBy: 1}
+        const requestShopTopRated = api.post(`/${ApiUrl.SHOP}/`, data);
         const requestProductCate = api.get(`/product-category`);
 
-        axios.all([requestShop, requestProductCate])
+        axios.all([requestShop, requestShopTopRated, requestProductCate])
         .then(
             axios.spread((...responses) =>{
                 const resShop = responses[0];
-                const resProductCate = responses[1];
+                const resProductCate = responses[2];
+                const resTopRated = responses[1];
+                
 
                 this.setState({
+                    ...this.state,
+                    lstTopRated: [...resTopRated.data.lstProduct],
                     lstProductCate: [...resProductCate.data],
                     isLoading: false,
                     pageActive: data.page,

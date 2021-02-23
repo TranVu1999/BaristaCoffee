@@ -8,12 +8,13 @@ export default class ShopSidebar extends Component {
     constructor(props){
         super(props);
         this.state = {
+            lstTopRated: [],
             lstTag: []
         }
     }
 
     render() {
-        const {lstTag} = this.state;
+        const {lstTag, lstTopRated} = this.state;
 
         return (
             <>
@@ -21,8 +22,8 @@ export default class ShopSidebar extends Component {
                     <Search/>
                 </SidebarWidget>
 
-                <SidebarWidget widgetTitle = "Recent Posts">
-                    <ListProduct/>
+                <SidebarWidget widgetTitle = "TOP RATED PRODUCTS">
+                    <ListProduct lstProduct = {lstTopRated.slice(0,3)}/>
                 </SidebarWidget>
 
                 <SidebarWidget widgetTitle = "Tags">
@@ -50,7 +51,8 @@ export default class ShopSidebar extends Component {
 
             this.setState({
                 ...this.state,
-                lstTag
+                lstTag,
+                lstTopRated: this.props.lstTopRated
             })
         }
     }

@@ -2,15 +2,20 @@ import React, { Component } from 'react'
 
 export default class index extends Component {
     render() {
+        const {productContent} = this.props;
+
         return (
             <div className="prod-item">
                 <a href="/#" className="prod-thumb">
-                <img src="https://res.cloudinary.com/doem0ysxl/image/upload/v1611851630/BaristaCoffee/shop/prod2_xocw36.jpg" alt="prod thumb" />
+                <img src={productContent.productAvatar} alt="prod thumb" />
                 </a>
                 <div className="prod-text">
-                <span className="prod-title"><a href="/#">Make it Simple</a> </span>
+                <span className="prod-title"><a href="/#">{productContent.productTitle}</a> </span>
                 <div className="product-rate">
-                    <div className="product-rate--overlay" style={{width: '30%'}} />
+                    <div 
+                        className="product-rate--overlay" 
+                        style={{width: 100 - productContent.productRating + '%'}} 
+                    />
                     <span className="icon icon-star-full" />
                     <span className="icon icon-star-full" />
                     <span className="icon icon-star-full" />
