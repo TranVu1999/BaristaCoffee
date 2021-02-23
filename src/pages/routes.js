@@ -40,7 +40,7 @@ const routes =  [
         component: WhatWeOfferPage
     },
     {
-        path: "/product-category/:prodCate",
+        path: "/product-category/:prodCateAlias",
         exact: true,
         component: ShopPage
     },

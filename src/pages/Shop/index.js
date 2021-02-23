@@ -16,6 +16,7 @@ export default class ShopPage extends Component {
     constructor(props){
         super(props);
         this.state = {
+            prodCateAlias: '',
             lstTopRated: [],
             lstProductCate: [],
             sortBy: 2,
@@ -56,7 +57,7 @@ export default class ShopPage extends Component {
     }
 
     handleSort = (sortBy) =>{
-        const data = {page: this.state.pageActive, sortBy}
+        const data = {page: this.state.pageActive, sortBy, prodCateAlias: this.state.prodCateAlias}
         
         this.setState({
             ...this.state,
@@ -123,9 +124,14 @@ export default class ShopPage extends Component {
     }
 
     componentDidMount(){
-        console.log("shop props", this.props);
-        
+        const {url, params} = this.props.match;
+        console.log("url", url);
+
         let data = {page: this.state.pageActive, sortBy: this.state.sortBy}
+        if(url.indexOf("product-category")){
+            data = {...data, prodCateAlias: params.prodCateAlias};
+        }
+
         const requestShop = api.post(`/${ApiUrl.SHOP}/`, data);
 
         data = {page: this.state.pageActive, sortBy: 1}
@@ -154,5 +160,59 @@ export default class ShopPage extends Component {
         .catch(err =>{
             console.log("err", err);
         })    
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.match.params.prodCateId !== prevState.prodCateAlias){
+            const prodCateAlias = nextProps.match.params.prodCateAlias;
+            return {prodCateAlias};
+        }
+       return null;
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if(prevState.prodCateAlias!==this.state.prodCateAlias){
+            this.setState({
+                ...this.state,
+                prodCateAlias: this.state.prodCateAlias
+            }, () => {
+                const {url, params} = this.props.match;
+                console.log("url", url);
+
+                let data = {page: this.state.pageActive, sortBy: this.state.sortBy}
+                if(url.indexOf("product-category")){
+                    data = {...data, prodCateAlias: params.prodCateAlias};
+                }
+
+                const requestShop = api.post(`/${ApiUrl.SHOP}/`, data);
+
+                data = {page: this.state.pageActive, sortBy: 1}
+                const requestShopTopRated = api.post(`/${ApiUrl.SHOP}/`, data);
+                const requestProductCate = api.get(`/product-category`);
+
+                axios.all([requestShop, requestShopTopRated, requestProductCate])
+                .then(
+                    axios.spread((...responses) =>{
+                        const resShop = responses[0];
+                        const resProductCate = responses[2];
+                        const resTopRated = responses[1];
+                        
+
+                        this.setState({
+                            ...this.state,
+                            lstTopRated: [...resTopRated.data.lstProduct],
+                            lstProductCate: [...resProductCate.data],
+                            isLoading: false,
+                            pageActive: data.page,
+                            amount: resShop.data.amount,
+                            lstProduct: [...resShop.data.lstProduct]
+                        })
+                    })
+                )
+                .catch(err =>{
+                    console.log("err", err);
+                })    
+            })
+        }
     }
 }
