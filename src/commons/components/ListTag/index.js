@@ -3,14 +3,26 @@ import './style.scss';
 import TagItem from './TagItem';
 
 class ListTag extends Component {
+
+    renderTag = () =>{
+        const {lstTag} = this.props;
+
+        if(lstTag){
+            return lstTag.map((item, index) =>{
+                return <TagItem 
+                    key = {index}
+                    tagItem = {item}
+                />
+            })
+        }
+
+        return null;
+        
+    }
     render() {
         return (
            <div className="lst-tag">
-                <TagItem tagTitle = "Coffee Cup"/>
-                <TagItem tagTitle = "Coffee Pot"/>
-                <TagItem tagTitle = "Coffee Treats"/>
-                <TagItem tagTitle = "Ground Coffee"/>
-                <TagItem tagTitle = "Paper Bag"/>
+                {this.renderTag()}
             </div>
         );
     }

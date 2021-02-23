@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import axios from 'axios';
+
 import Banner from '../../commons/components/Banner';
 import MainPage from '../../commons/components/MainPage';
 import Navigation from '../../commons/components/Navigation';
@@ -14,6 +16,7 @@ export default class ShopPage extends Component {
     constructor(props){
         super(props);
         this.state = {
+            lstProductCate: [],
             sortBy: 2,
             isLoading: true,
             pageActive: 0,
@@ -23,13 +26,12 @@ export default class ShopPage extends Component {
     }
 
     getDataFromAPI = (data)=>{
-
         api.post(`/${ApiUrl.SHOP}/`, data)
         .then(res =>{
             this.setState({
+                ...this.state,
                 isLoading: false,
                 pageActive: data.page,
-                amount: res.data.amount,
                 lstProduct: [...res.data.lstProduct]
             })
         })
@@ -64,7 +66,13 @@ export default class ShopPage extends Component {
     }
 
     render() {
-        const {amount, lstProduct, pageActive, isLoading} = this.state;
+        const {
+            amount, 
+            lstProduct, 
+            pageActive, 
+            isLoading, 
+            lstProductCate
+        } = this.state;
 
         return (
             <>
@@ -90,7 +98,7 @@ export default class ShopPage extends Component {
                             </div>
 
                             <div className="main-page__sidebar">
-                                <ShopSidebar/>
+                                <ShopSidebar lstProductCate = {lstProductCate}/>
                             </div>
                         </div>
                         
@@ -110,9 +118,26 @@ export default class ShopPage extends Component {
 
     componentDidMount(){
         const data = {page: this.state.pageActive, sortBy: this.state.sortBy}
-        this.setState({...this.state, isLoading: true}, () =>{
-            this.getDataFromAPI(data);
-        });
-        
+        const requestShop = api.post(`/${ApiUrl.SHOP}/`, data);
+        const requestProductCate = api.get(`/product-category`);
+
+        axios.all([requestShop, requestProductCate])
+        .then(
+            axios.spread((...responses) =>{
+                const resShop = responses[0];
+                const resProductCate = responses[1];
+
+                this.setState({
+                    lstProductCate: [...resProductCate.data],
+                    isLoading: false,
+                    pageActive: data.page,
+                    amount: resShop.data.amount,
+                    lstProduct: [...resShop.data.lstProduct]
+                })
+            })
+        )
+        .catch(err =>{
+            console.log("err", err);
+        })    
     }
 }
