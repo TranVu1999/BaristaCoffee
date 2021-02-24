@@ -9,13 +9,13 @@ export default class ProductItem extends Component {
 
         return (
             <div className="product-item">
-                <NavLink to={`product-detail/${productContent.productAlias}`} className="product-item__thumb">
+                <NavLink to={`/product-detail/${productContent.productAlias}`} className="product-item__thumb">
                     <img src= {productContent.productAvatar} alt="product" />
                     <button className="add-to-cart"><span className="icon icon-libreoffice" /> Add To Cart</button>
                 </NavLink>
 
                 <div className="product-item__text">
-                    <h4 className="product-title"><NavLink to={`product-detail/${productContent.productAlias}`} >{productContent.productTitle}</NavLink></h4>
+                    <h4 className="product-title"><NavLink to={`/product-detail/${productContent.productAlias}`} >{productContent.productTitle}</NavLink></h4>
                     <div className="product-rate">
                         <div className="product-rate--overlay" style={{width: 100 - productContent.rating + "%"}} />
                         <span className="icon icon-star-full" />

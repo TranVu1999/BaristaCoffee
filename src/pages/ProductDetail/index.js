@@ -33,7 +33,7 @@ export default class ProductDetailPage extends Component {
                             <div className="product-detail__content">
                                 <div className="d-flex-between align-start">
                                     <ProductThumb productImage = {productImage}/>
-                                    <ProductSummary/>
+                                    <ProductSummary productInfo = {productDetail}/>
                                 </div>
                             </div>
                         </div>
