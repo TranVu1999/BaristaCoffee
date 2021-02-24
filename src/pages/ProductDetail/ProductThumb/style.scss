@@ -1,0 +1,22 @@
+.product-detail{
+    .product-images{
+        width: 47%;
+        margin-right: 4%;
+    }
+    .product-thumb{
+        width: 100%;
+        img{
+            width: 100%;
+            object-fit: cover;
+        }
+    }
+
+    .product-lst-images{
+        margin-top: 10px;
+        .product-item--image{
+            width: 95px;
+            height: 95px;
+        }
+    }
+    
+}

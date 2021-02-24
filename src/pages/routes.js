@@ -7,6 +7,7 @@ import NotFoundPage from './NotFound';
 import WhatWeOfferPage from './WhatWeOffer';
 import ShopPage from './Shop';
 import BlogListPage from './BlogList';
+import ProductDetailPage from './ProductDetail';
 
 const routes =  [
     {
@@ -48,6 +49,11 @@ const routes =  [
         path: "/shop",
         exact: true,
         component: ShopPage
+    },
+    {
+        path: "/product-detail/:prodAlias",
+        exact: true,
+        component: ProductDetailPage
     },
     {
         path: "/blog-list",
