@@ -3,8 +3,9 @@ import FormAddCart from '../FormAddCart';
 import './style.scss';
 
 import {NavLink} from 'react-router-dom';
+import {connect} from 'react-redux';
 
-export default class ProductSummary extends Component {
+class ProductSummary extends Component {
 
     standardizedString = (str) =>{
         return str ? str.replace(/ /g, '-').toLowerCase() :"";
@@ -12,17 +13,18 @@ export default class ProductSummary extends Component {
     }
 
     renderProductInfo = () =>{
-        const {productInfo} = this.props;
+        const {prodInfo} = this.props;
 
-        if(productInfo){
+        if(prodInfo){
+            console.log("product detail", prodInfo);
             return (
                 <>
-                    <h3 className="product-title">{productInfo.productTitle}</h3>
+                    <h3 className="product-title">{prodInfo.prodTitle}</h3>
                     <div className="product-rate__box">
                         <div className="product-rate">
                             <div 
                                 className="product-rate--overlay" 
-                                style={{width: 100 - productInfo.productRating + '%'}} 
+                                style={{width: 100 - prodInfo.productRating + '%'}} 
                             />
 
                                 <span className="icon icon-star-full" />
@@ -37,23 +39,23 @@ export default class ProductSummary extends Component {
                             </p>
                         </div>
                     <p className="product-price">
-                        {   productInfo.productPromo 
+                        {   prodInfo.prodPromo 
                             ? (
-                                <del> <span className="price-symboy">$</span>{productInfo.productPromo}</del>
+                                <del> <span className="price-symboy">$</span>{prodInfo.productPromo}</del>
                             )
                             : ""
                         }
                         
-                        <span> <span className="price-symboy">$</span>{productInfo.productPrice}</span> 
+                        <span> <span className="price-symboy">$</span>{prodInfo.prodPrice}</span> 
                     </p>
-                    <p className="product__short-desc">{productInfo.productShortDesc}</p>
+                    <p className="product__short-desc">{prodInfo.prodShortDesc}</p>
 
                     <FormAddCart/>
 
                     <div className="product-meta">
                         <div className="product-meta__item">
                             <label>Sku</label>
-                            <span>{productInfo.productSKU}</span>
+                            <span>{prodInfo.prodSKU}</span>
                         </div>
 
                         <div className="product-meta__item">
@@ -65,8 +67,8 @@ export default class ProductSummary extends Component {
                             <label>Tag</label>
                             <span>
                                 <NavLink 
-                                    to = {"/product-category/" + this.standardizedString(productInfo.prodCateTitle)}
-                                >{productInfo.prodCateTitle}</NavLink>
+                                    to = {"/product-category/" + this.standardizedString(prodInfo.prodCateTitle)}
+                                >{prodInfo.prodCateTitle}</NavLink>
                             </span>
                         </div>
                     </div>
@@ -99,3 +101,20 @@ export default class ProductSummary extends Component {
         )
     }
 }
+
+const mapStateToProps = state =>{
+    const prodDetail = state.productDetailReducer.data;
+    return {
+        prodInfo: {
+            prodTitle: prodDetail.productTitle,
+            prodRating: prodDetail.productRating,
+            prodPromo: prodDetail.productPromo,
+            prodPrice: prodDetail.productPrice,
+            prodShortDesc: prodDetail.productShortDesc,
+            prodSKU: prodDetail.productSKU,
+            prodCateTitle: prodDetail.prodCateTitle,
+        }
+    }
+}
+
+export default connect(mapStateToProps, null)(ProductSummary)

@@ -4,25 +4,16 @@ import './style.scss';
 import Banner from '../../commons/components/Banner'
 import MainPage from '../../commons/components/MainPage'
 import ProductThumb from './ProductThumb'
-
-import api from './../../api';
-import axios from 'axios';
 import ProductSummary from './ProductSummary';
 
-export default class ProductDetailPage extends Component {
-    constructor(props){
-        super(props);
-        this.state ={
-            productDetail: {
-                
-            }
-        }
-    }
+import {connect} from 'react-redux';
+import {actProductDetailApi} from './modules/actions';
+
+class ProductDetailPage extends Component {
 
     render() {
-        const {productDetail} = this.state;
-        const {productImage} = productDetail;
-
+        console.log("product detail page", this.props.prodInfo);
+        
         return (
             <>
                 <Banner bannerTitle = "Shop" bannerImg = "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851628/BaristaCoffee/other/shop-title-area_fjcbvl.jpg"/>
@@ -32,8 +23,8 @@ export default class ProductDetailPage extends Component {
                         <div className = "product-detail">
                             <div className="product-detail__content">
                                 <div className="d-flex-between align-start">
-                                    <ProductThumb productImage = {productImage}/>
-                                    <ProductSummary productInfo = {productDetail}/>
+                                    <ProductThumb/>
+                                    <ProductSummary/>
                                 </div>
                             </div>
                         </div>
@@ -45,23 +36,22 @@ export default class ProductDetailPage extends Component {
 
     componentDidMount(){
         const {prodAlias} = this.props.match.params;
-        console.log("prod alias", prodAlias);
-
-        const reqProductDetail = api.get(`/product/${prodAlias}`);
-
-        axios.all([reqProductDetail])
-        .then(
-            axios.spread((...responses) =>{
-                const resProductDetail = responses[0];
-
-                this.setState({
-                    ...this.state,
-                    productDetail: resProductDetail.data
-                })
-            })
-        )
-        .catch(err =>{
-            console.log("err", err);
-        })    
+        this.props.fetchData(prodAlias);
     }
 }
+
+const mapStateToProps = state =>{
+    return {
+        prodInfo: state.productDetailReducer.data
+    }
+} 
+
+const mapDispatchToProps = dispatch =>{
+    return {
+        fetchData: produAlias =>{
+            dispatch(actProductDetailApi(produAlias))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductDetailPage)

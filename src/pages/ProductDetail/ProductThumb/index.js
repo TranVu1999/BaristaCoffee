@@ -1,29 +1,37 @@
 import React, { Component } from 'react';
+import ProductImage from './ProductImage';
 import './style.scss';
+import {connect} from 'react-redux';
 
-export default class ProductThumb extends Component {
+import {actChangeProductAvatar} from './../modules/actions';
+
+class ProductThumb extends Component {
+    onhanldeChoseImage = (index) =>{
+        const {prodMoreImage} = this.props;
+        this.props.handleChangeProductAvatar(prodMoreImage[index]);
+    }
+
     renderImage = () =>{
-        const {productImage} = this.props;
-        if(productImage){
+        const {prodAvatar, prodMoreImage} = this.props;
+
+        if(prodAvatar){
             return (
                 <>
                     <div className="product-thumb">
-                        <img src={productImage.productAvatar} alt="product avatar" />
+                        <img src={prodAvatar} alt="product avatar" />
                     </div>
 
                     <div className="d-flex-between product-lst-images">
                         
                         {
-                            productImage.productMoreImage.map((item, index) =>{
+                            prodMoreImage.map((item, index) =>{
                                 return (
-                                    <div 
-                                        className="product-item--image"
+                                    <ProductImage
                                         key = {index}
-                                    >
-                                        <div className="product-thumb">
-                                            <img src={item} alt="product" />
-                                        </div>
-                                    </div>
+                                        prodImg = {item}
+                                        indexImg = {index}
+                                        onChoseImage = {this.onhanldeChoseImage}
+                                    />
                                 )
                             })
                         }
@@ -44,3 +52,21 @@ export default class ProductThumb extends Component {
         )
     }
 }
+
+const mapStateToProps = state =>{
+    const {productImage} = state.productDetailReducer.data;
+    return{
+        prodAvatar: productImage.productAvatar,
+        prodMoreImage: productImage.productMoreImage
+    }
+}
+
+const mapDispatchToProps = dispatch =>{
+    return {
+        handleChangeProductAvatar: imgUrl =>{
+            dispatch(actChangeProductAvatar(imgUrl))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductThumb)
