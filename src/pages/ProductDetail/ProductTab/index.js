@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './style.scss';
 import {connect} from 'react-redux';
 import ListComment from '../../../commons/components/ListComment';
+import FormReview from '../../../commons/components/FormReview';
 
 class ProductTab extends Component {
 
@@ -52,6 +53,7 @@ class ProductTab extends Component {
             <div className="product-tab__item">
                 <h2>{this.props.amountComment} Reviews For <span>Paper Bag</span> </h2>
                 <ListComment/>
+                <FormReview/>
             </div>
         )
     }
