@@ -10,9 +10,11 @@ let initialState = {
         productPrice: 0,
         productPromo: 0,
         productRating: 0,
+        prodReview: [],
         productShortDesc: '',
         prodCateTitle: '',
         productSLU: '',
+        prodInfomation: {},
         productImage: {
             productAvatar: '',
             productMoreImage: []
@@ -35,8 +37,10 @@ const productDetailReducer = (state = initialState, action) =>{
                 productPromo: 0,
                 productRating: 0,
                 productShortDesc: '',
+                prodReview: [],
                 prodCateTitle: '',
                 productSLU: '',
+                prodInfomation: {},
                 productImage: {
                     productAvatar: '',
                     productMoreImage: []

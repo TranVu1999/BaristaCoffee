@@ -8,12 +8,11 @@ import ProductSummary from './ProductSummary';
 
 import {connect} from 'react-redux';
 import {actProductDetailApi} from './modules/actions';
+import ProductTab from './ProductTab';
 
 class ProductDetailPage extends Component {
 
-    render() {
-        console.log("product detail page", this.props.prodInfo);
-        
+    render() {        
         return (
             <>
                 <Banner bannerTitle = "Shop" bannerImg = "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851628/BaristaCoffee/other/shop-title-area_fjcbvl.jpg"/>
@@ -26,6 +25,8 @@ class ProductDetailPage extends Component {
                                     <ProductThumb/>
                                     <ProductSummary/>
                                 </div>
+                                
+                                <ProductTab/>
                             </div>
                         </div>
                     </div>
