@@ -69,10 +69,10 @@ export default class FormReview extends Component {
 
                     <form className = "form-comment">
                         <div className = "form-group">
-                            <textarea cols= "45" rows = "8" placeholder="Your Review"></textarea>
+                            <textarea cols= "45" rows = "8" defaultValue="" placeholder = "Your Review"></textarea>
                         </div>
-                        <div class="form-group">
-                            <button class="coffee-btn">Submit</button>
+                        <div className="form-group">
+                            <button className="coffee-btn">Submit</button>
                         </div>
                         
                     </form>

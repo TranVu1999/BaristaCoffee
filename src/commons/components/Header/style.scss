@@ -108,6 +108,29 @@
 
     }
 
+    .toggle-box{
+        min-height: 0;
+        max-height: 0;
+        transition: all 1s;
+        overflow: hidden;
+
+        &::before{
+            content: '';
+            display: block;
+            height: 2px;
+            background-color: $primary-color;
+        }
+    }
+
+    li.toggle-span{
+        cursor: pointer;
+        &:hover{
+            .toggle-box{
+                max-height: 800px;
+            }
+        }
+    }
+
     li.bulkhead{
         span{
             border-right: 2px solid rgba(0,0,0,.5);

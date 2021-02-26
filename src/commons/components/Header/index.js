@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./style.scss";
 import logo from "./../../../assets/Images/logo/logo-1.png";
 import { NavLink } from "react-router-dom";
+import CartHeader from "../CartHeader";
 
 export default class Header extends Component {
   constructor(props){
@@ -106,11 +107,15 @@ export default class Header extends Component {
               <li className="bulkhead">
                 <span />
               </li>
-              <li>
-                <a href="/#" className="header__cart">
-                  <span className="icon icon-cart" />
-                  <span className="number">0</span>
-                </a>
+              <li class="toggle-span">
+                <div className="header__cart">
+                  <div>
+                    <span class="icon icon-cart"></span>
+                    <span class="number">0</span>
+                  </div>
+
+                  <CartHeader/>
+                </div>
               </li>
               <li>
                 <a href="/#" className="header__search">
