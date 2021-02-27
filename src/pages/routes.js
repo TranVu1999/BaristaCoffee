@@ -8,6 +8,7 @@ import WhatWeOfferPage from './WhatWeOffer';
 import ShopPage from './Shop';
 import BlogListPage from './BlogList';
 import ProductDetailPage from './ProductDetail';
+import ViewCartPage from './ViewCart';
 
 const routes =  [
     {
@@ -59,6 +60,11 @@ const routes =  [
         path: "/blog-list",
         exact: true,
         component: BlogListPage
+    },
+    {
+        path: "/view-cart",
+        exact: true,
+        component: ViewCartPage
     },
     {
         path: "/",
