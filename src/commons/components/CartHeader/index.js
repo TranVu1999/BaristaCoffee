@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './style.scss';
 import {connect} from 'react-redux';
 import CartItem from './CartItem';
+import {NavLink} from 'react-router-dom';
 
 class CartHeader extends Component {
 
@@ -21,7 +22,7 @@ class CartHeader extends Component {
                     
 
                     <div className="d-flex-between cart__control">
-                        <a href="/#" className="barista-btn">View Cart</a>
+                        <NavLink to="/view-cart" className="barista-btn">View Cart</NavLink>
                         <a href="/#" className="barista-btn">Check Out</a>
                     </div>
                 </>

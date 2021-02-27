@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import FormAddCart from '../FormAddCart';
+import FormAddCart from './../../../commons/components/FormAddCart';
 import './style.scss';
 
 import {NavLink} from 'react-router-dom';

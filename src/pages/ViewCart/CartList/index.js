@@ -1,33 +1,90 @@
 import React, { Component } from 'react';
 import './style.scss';
+import UpdateCart from './../../../commons/components/UpdateCart';
+import {connect} from 'react-redux';
+import { NavLink } from 'react-router-dom';
+import {actUpdateItem, actRemoveItem} from './../../../commons/modules/Cart/actions'
 
-export default class CartList extends Component {
+class CartList extends Component {
+
+    onHandleUpdateCart = (prodId, number)=>{
+        const prodInfo = {
+            prodId,
+            number
+        };
+
+        this.props.updateItem(prodInfo);
+    }
+
+    onHandleRemoveCartItem = (prodId) =>{
+        this.props.onRemoveItem(prodId);
+    }
+    
+    renderCartItem = () =>{
+        const {dataCart} = this.props;
+
+        return dataCart.map((item, index) =>{
+            return (
+                <div key = {index} className="cart-item">
+                    <div className="product-thumbnail">
+                        <button
+                            onClick = {() => this.onHandleRemoveCartItem(item.prodId)}
+                        >
+                            <span aria-hidden="true" className="icon_close" />
+                        </button>
+                    </div>
+
+                    <div className="product-name">
+                        <div className="product-image">
+                            <NavLink to = {`/product-detail/${item.prodAlias}`}>
+                                <img src={item.prodAvatar} alt="product" />
+                            </NavLink>
+                            
+                        </div>
+                        <div className="product-text">
+                            <NavLink to = {`/product-detail/${item.prodAlias}`}>
+                                {item.prodTitle}
+                            </NavLink>
+                            
+                        </div>
+                    </div>
+                    <div className="product-price">${item.prodPrice}</div>
+
+                    <div className="product-quanity">
+                        <UpdateCart 
+                            defaultValue = {item.amount} 
+                            prodId = {item.prodId}
+                            onHandleUpdateCart = {this.onHandleUpdateCart}
+                        />
+                    </div>
+
+                    <div className="product-total">${item.prodPrice * item.amount + ".00"}</div>
+                </div>
+            )
+        })
+    }
     render() {
         return (
-            <div className="cart-item">
-                <div className="product-thumbnail">
-                    <button>
-                    <span aria-hidden="true" className="icon_close" />
-                    </button>
-                </div>
-                <div className="product-name">
-                    <div className="product-image">
-                        <img src="https://barista.qodeinteractive.com/wp-content/uploads/2016/03/product-image-2-500x500.jpg" alt="product" />
-                    </div>
-                    <div className="product-text">Paper Bag</div>
-                </div>
-                <div className="product-price">$79.00</div>
-                <div className="product-quanity">
-                    <form className="d-flex-between product-add-cart">
-                    <div className="form-group--amount">
-                        <button className="btn-increase"><span aria-hidden="true" className="icon_minus-06" /></button>
-                        <input type="text" defaultValue={1} />
-                        <button className="btn-decrease"><span aria-hidden="true" className="icon_plus" /></button>
-                    </div>
-                    </form>
-                </div>
-                <div className="product-total">$7900.00</div>
-            </div>
+            <>{this.renderCartItem()}</>
         )
     }
 }
+
+const mapStateToProps = state =>{
+    return {
+        dataCart: state.cartReducer.data
+    }
+}
+
+const mapDispatchToProps = dispatch =>{
+    return{
+        updateItem: prodInfo =>{
+            dispatch(actUpdateItem(prodInfo))
+        },
+        onRemoveItem: prodId =>{
+            dispatch(actRemoveItem(prodId))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CartList);

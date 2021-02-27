@@ -14,3 +14,10 @@ export const actRemoveItem = (data) =>{
         payload: data
     }
 }
+
+export const actUpdateItem = (data) =>{
+    return {
+        type: ActionTypes.UPDATE_PRODUCT_CART,
+        payload: data
+    }
+}

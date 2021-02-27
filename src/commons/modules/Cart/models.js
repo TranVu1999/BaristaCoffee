@@ -24,6 +24,15 @@ export const removeItem = (lstCart, prodId) =>{
     return [...lstCart]
 }
 
+export const updateItem = (lstCart, prodInfo) =>{
+    const {prodId, number} = prodInfo;
+    let index = findCartItem(lstCart, prodId);
+    if(index !== -1){
+        lstCart[index].amount += number;
+    }
+    return [...lstCart]
+}
+
 const findCartItem = (lstCart, prodId) =>{
     for(let index in lstCart){
         if(lstCart[index].prodId === prodId){
