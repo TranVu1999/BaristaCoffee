@@ -1,61 +1,57 @@
 import React, { Component } from 'react';
 import './style.scss';
+import {connect} from 'react-redux';
+import CartItem from './CartItem';
 
-export default class CartHeader extends Component {
+class CartHeader extends Component {
+
+    renderCartData = () =>{
+        const {dataCart} = this.props;
+
+        if(dataCart.length > 0){
+            return (
+                <>
+                    {
+                        dataCart.map((item, index) => {
+                            return (
+                                <CartItem key = {index} prodContent = {item}/>
+                            )
+                        })
+                    }
+                    
+
+                    <div className="d-flex-between cart__control">
+                        <a href="/#" className="barista-btn">View Cart</a>
+                        <a href="/#" className="barista-btn">Check Out</a>
+                    </div>
+                </>
+                
+            )
+        }
+
+        return (
+            <div className="cart-notify">
+                No products in the cart
+            </div>
+        )
+    }
+
     render() {
         return (
             <div className="toggle-box cart--header">
-                <div className="cart__item">
-                    <div className="item--thumbnail">
-                    <a href="/#">
-                        <img src="https://barista.qodeinteractive.com/wp-content/uploads/2016/03/product-image-7-1-500x500.jpg" alt = "product" />
-                    </a>
-                    </div>
-                    <div className="item--text">
-                        <a href="/#">Choco Bites</a>
-                        <span>Quanity: 1</span>
-                        <p>$63.00</p>
-                    </div>
-                    <button className="item--control">
-                        <span aria-hidden="true" className="icon_close" />
-                    </button>
-                </div>
-                <div className="cart__item">
-                    <div className="item--thumbnail">
-                    <a href="/#">
-                        <img src="https://barista.qodeinteractive.com/wp-content/uploads/2016/03/product-image-7-1-500x500.jpg" alt = "product" />
-                    </a>
-                    </div>
-                    <div className="item--text">
-                    <a href="/#">Choco Bites</a>
-                    <span>Quanity: 1</span>
-                    <p>$63.00</p>
-                    </div>
-                    <button className="item--control">
-                    <span aria-hidden="true" className="icon_close" />
-                    </button>
-                </div>
-                <div className="cart__item">
-                    <div className="item--thumbnail">
-                    <a href="/#">
-                        <img src="https://barista.qodeinteractive.com/wp-content/uploads/2016/03/product-image-7-1-500x500.jpg" alt = "product" />
-                    </a>
-                    </div>
-                    <div className="item--text">
-                    <a href="/#">Choco Bites</a>
-                    <span>Quanity: 1</span>
-                    <p>$63.00</p>
-                    </div>
-                    <button className="item--control">
-                    <span aria-hidden="true" className="icon_close" />
-                    </button>
-                </div>
-                <div className="d-flex-between cart__control">
-                    <a href="/#" className="barista-btn">View Cart</a>
-                    <a href="/#" className="barista-btn">Check Out</a>
-                </div>
+                
+                {this.renderCartData()}
+                
             </div>
 
         )
     }
 }
+
+const mapStateToProps = state =>{
+    return {
+        dataCart: state.cartReducer.data
+    }
+}
+
+export default connect(mapStateToProps)(CartHeader);

@@ -60,8 +60,6 @@ class ProductTab extends Component {
 
     render() {
         const {currentTab} = this.state;
-        const {prodInfo} = this.props;
-        console.log("product info", prodInfo);
 
         return (
             <div className="product-tabs">

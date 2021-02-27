@@ -3,8 +3,9 @@ import "./style.scss";
 import logo from "./../../../assets/Images/logo/logo-1.png";
 import { NavLink } from "react-router-dom";
 import CartHeader from "../CartHeader";
+import {connect} from 'react-redux';
 
-export default class Header extends Component {
+class Header extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -54,7 +55,7 @@ export default class Header extends Component {
   }
 
   render() {
-    let { onOpenLogin } = this.props;
+    let { onOpenLogin, amountCart } = this.props;
     const {isOpenResMenu} = this.state;
 
     return (
@@ -111,7 +112,7 @@ export default class Header extends Component {
                 <div className="header__cart">
                   <div>
                     <span class="icon icon-cart"></span>
-                    <span class="number">0</span>
+                    <span class="number">{amountCart}</span>
                   </div>
 
                   <CartHeader/>
@@ -129,3 +130,12 @@ export default class Header extends Component {
     );
   }
 }
+
+const mapStateToProps = state =>{
+  let amountCart = 0;
+  for(let item of state.cartReducer.data){ amountCart += item.amount}
+  return {
+    amountCart
+  }
+}
+export default connect(mapStateToProps) (Header)

@@ -5,7 +5,23 @@ import './style.scss';
 import {NavLink} from 'react-router-dom';
 import {connect} from 'react-redux';
 
+import {actAddCart} from './../../../commons/modules/Cart/actions';
+
 class ProductSummary extends Component {
+
+    onHandleAddCart = (number) =>{
+        const {prodInfo} = this.props;
+        let data = {
+            prodId: prodInfo.prodId,
+            prodTitle: prodInfo.prodTitle,
+            prodAlias: prodInfo.prodAlias,
+            prodPrice: prodInfo.prodPrice,
+            prodPromo: prodInfo.prodPromo,
+            prodAvatar: prodInfo.prodAvatar,
+            amount: number
+        }
+        this.props.addCart(data);
+    }
 
     standardizedString = (str) =>{
         return str ? str.replace(/ /g, '-').toLowerCase() :"";
@@ -16,7 +32,6 @@ class ProductSummary extends Component {
         const {prodInfo} = this.props;
 
         if(prodInfo){
-            console.log("product detail", prodInfo);
             return (
                 <>
                     <h3 className="product-title">{prodInfo.prodTitle}</h3>
@@ -50,7 +65,9 @@ class ProductSummary extends Component {
                     </p>
                     <p className="product__short-desc">{prodInfo.prodShortDesc}</p>
 
-                    <FormAddCart/>
+                    <FormAddCart 
+                        onHandleAddCart = {this.onHandleAddCart}
+                    />
 
                     <div className="product-meta">
                         <div className="product-meta__item">
@@ -91,8 +108,8 @@ class ProductSummary extends Component {
         }
     }
 
-    render() {
-        
+    render() {  
+        console.log("product detail", this.props.prod);      
         return (
             
             <div className="product-summary">
@@ -113,8 +130,20 @@ const mapStateToProps = state =>{
             prodShortDesc: prodDetail.productShortDesc,
             prodSKU: prodDetail.productSKU,
             prodCateTitle: prodDetail.prodCateTitle,
+            prodAlias: prodDetail.productAlias,
+            prodId: prodDetail.productId,
+            prodAvatar: prodDetail.productImage.productAvatar
+        },
+        prod: prodDetail
+    }
+}
+
+const mapDispatchToProps = dispatch =>{
+    return {
+        addCart: product =>{
+            dispatch(actAddCart(product))
         }
     }
 }
 
-export default connect(mapStateToProps, null)(ProductSummary)
+export default connect(mapStateToProps, mapDispatchToProps)(ProductSummary)

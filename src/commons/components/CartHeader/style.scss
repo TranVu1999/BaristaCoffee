@@ -70,6 +70,17 @@
     }
 
     .cart__control{
-        margin: 30px 15px 15px;
+        margin: 30px 15px 30px;
+    }
+
+    .cart-notify{
+        padding: 15px 0 15px 25px;
+        color: #888;
+        font-family: 'Open Sans',sans-serif;
+        font-size: 14px;
+
+        line-height: 26px;
+        font-weight: 400;
+        text-transform: initial;
     }
 }

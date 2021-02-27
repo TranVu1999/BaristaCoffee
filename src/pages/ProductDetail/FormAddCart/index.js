@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './style.scss';
 
-export default class FormAddCart extends Component {
+class FormAddCart extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -20,6 +20,10 @@ export default class FormAddCart extends Component {
 
     onHandleSubmit = (event) =>{
         event.preventDefault();
+    }
+    
+    onHandleAddCart = () =>{
+        this.props.onHandleAddCart(this.state.number);
     }
 
     render() {
@@ -42,9 +46,14 @@ export default class FormAddCart extends Component {
                     ><span aria-hidden="true" className="icon_plus" /></button>
                 </div>
                 <div className="form-group">
-                    <button className="coffee-btn">Add To Cart</button>
+                    <button 
+                        className="coffee-btn"
+                        onClick = {this.onHandleAddCart}
+                    >Add To Cart</button>
                 </div>
             </form>
         )
     }
 }
+
+export default FormAddCart;
