@@ -4,6 +4,7 @@ import './assets/Sass/index.scss';
 // LAYOUT
 import Header from './commons/components/Header';
 import Footer from './commons/components/Footer';
+import Login from './commons/components/Login';
 
 import {Switch, Route} from 'react-router-dom';
 import routes from './pages/routes';
@@ -25,9 +26,6 @@ class App extends Component {
   render(){
     const {isOpenLogin} = this.state;
     return (
-      // <>
-      //   <ClientScreen/>
-      // </>
       <div className = "main-wrapper page">
         <Header onOpenLogin = {this.handleLoginPopup}/>
 
@@ -39,10 +37,10 @@ class App extends Component {
 
         <Footer/>
 
-        {/* <LoginComponent 
+        <Login 
             isOpenLogin = {isOpenLogin}
             isClosePopup = {this.handleLoginPopup}
-        /> */}
+        />
       </div>
     );
   }

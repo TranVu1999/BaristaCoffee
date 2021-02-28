@@ -25,9 +25,9 @@ export default class ProductItem extends Component {
                             ><span className="icon icon-libreoffice" /> Add To Cart</button>
                         ) :
                         (
-                            <button 
-                                className="add-to-cart"
-                            ><span className="icon_check"></span> View Cart</button>
+                            <NavLink to = "view-cart" 
+                                className="view-cart"
+                            ><span className="icon_check"></span> View Cart</NavLink>
                         )
                     }
                     

@@ -33,7 +33,8 @@
             display: block;
         }
 
-        button.add-to-cart{
+        button.add-to-cart,
+        a.view-cart{
             position: absolute;
             bottom: -50px;
             left: 0;
@@ -62,7 +63,7 @@
 
     &:hover{
         .product-item__thumb{
-            button.add-to-cart{
+            button.add-to-cart, a.view-cart{
                 bottom: 0;
             }
         }
