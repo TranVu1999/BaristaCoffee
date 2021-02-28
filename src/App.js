@@ -7,7 +7,7 @@ import Footer from './commons/components/Footer';
 
 import {Switch, Route} from 'react-router-dom';
 import routes from './pages/routes';
-import Login from "./commons/components/Login";
+import Login from "./containers/Login";
 
 
 class App extends Component {

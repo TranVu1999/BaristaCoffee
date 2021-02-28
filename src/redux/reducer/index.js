@@ -4,13 +4,15 @@ import formAccountInfoReducer from './../../features/FormAccountInfo/modules/red
 import accountListProductReducer from './../../features/AccountListProduct/modules/reducer';
 import productDetailReducer from './../../pages/ProductDetail/modules/reducer';
 import cartReducer from './../../commons/modules/Cart/reducer';
+import loginReducer from './../../commons/modules/Login/reducer';
 
 const rootReducer = combineReducers({
     formLoginReducer,
     formAccountInfoReducer,
     accountListProductReducer,
     productDetailReducer,
-    cartReducer
+    cartReducer,
+    loginReducer
 });
 
 export default rootReducer;

@@ -1,14 +1,24 @@
 import React, { Component } from 'react';
 import './style.scss';
 
-export default class Popup extends Component {
+class Popup extends Component {
+    onHandleOpenLoginForm = () =>{
+        this.props.onHandleOpenLoginForm(false);
+    }
+
     render() {
+        const {isOpen} = this.props;
         return (
-            <div id="login-popup" className="popup login-popup">
+            <div 
+                className = {isOpen ? "popup active" : "popup"}
+            >
                 <div className="popup__container">
                     <div className="popup--header">
                     <h3>Account Login</h3>
-                    <button id="btnCloseLoginPopup" className="close-popup">
+                    <button 
+                        className="close-popup"
+                        onClick = {this.onHandleOpenLoginForm}
+                    >
                         <span aria-hidden="true" className="icon_close_alt2" />
                     </button>
                     </div>
@@ -21,3 +31,5 @@ export default class Popup extends Component {
         )
     }
 }
+
+export default Popup;

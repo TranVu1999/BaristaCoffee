@@ -33,7 +33,7 @@
     }
 
     &.active{
-        .login__container{
+        .popup__container{
             animation: movePopup .5s;
         }
     }

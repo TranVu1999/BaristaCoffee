@@ -4,6 +4,7 @@ import './style.scss';
 import FormLogin from '../../features/FormLogin';
 
 export default class LoginComponent extends Component {
+    
 
     render() {
         const {isOpenLogin, isClosePopup} = this.props;

@@ -4,6 +4,7 @@ import logo from "./../../../assets/Images/logo/logo-1.png";
 import { NavLink } from "react-router-dom";
 import CartHeader from "../CartHeader";
 import {connect} from 'react-redux';
+import {actOpenLoginPopup} from './../../modules/Login/actions';
 
 class Header extends Component {
   constructor(props){
@@ -54,8 +55,14 @@ class Header extends Component {
     this.setState({isOpenResMenu: !this.state.isOpenResMenu});
   }
 
+  onHandleOpenLoginForm = () =>{
+    this.props.onHandleOpenLoginForm(true);
+  }
+
   render() {
-    let { onOpenLogin, amountCart } = this.props;
+    let {amountCart, accountFlag } = this.props;
+    console.log("account flag", accountFlag);
+
     const {isOpenResMenu} = this.state;
 
     return (
@@ -121,7 +128,12 @@ class Header extends Component {
                   <span aria-hidden="true" class="arrow_triangle-down"></span>
                 </div>
                 
-                {this.handleGuestAction(onOpenLogin)}
+                <ul className="sub-menu">
+                  <li 
+                    onClick = {this.onHandleOpenLoginForm}
+                  ><span>Sign In</span></li>
+                  <li><a href="/#">Sign Up</a></li>
+                </ul>
               </li>
 
               <li className="bulkhead">
@@ -153,8 +165,17 @@ class Header extends Component {
 const mapStateToProps = state =>{
   let amountCart = 0;
   for(let item of state.cartReducer.data){ amountCart += item.amount}
+  
   return {
     amountCart
   }
 }
-export default connect(mapStateToProps) (Header)
+
+const mapDispatchToProps = dispatch =>{
+  return{
+    onHandleOpenLoginForm: isLoginForm =>{
+      dispatch(actOpenLoginPopup(isLoginForm))
+    }
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps) (Header)
