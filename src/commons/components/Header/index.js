@@ -87,8 +87,26 @@ class Header extends Component {
               <li>
                 <NavLink to = "/">Home</NavLink>
               </li>
-              <li>
-                <NavLink to = "/about">About</NavLink>
+              <li className="toggle-sub-menu">
+                <div>
+                  <span id="toggleLoginForm">About</span>
+                  <span aria-hidden="true" className="arrow_carrot-right"></span>
+                  <span aria-hidden="true" class="arrow_triangle-down"></span>
+                </div>
+                <ul className="sub-menu">
+                  <li>
+                    <NavLink to="about">About Me</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="contact">Contact Us</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="what-we-offer">What We Offer</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="booking">Booking</NavLink>
+                  </li>
+                </ul>
               </li>
               <li>
                 <NavLink to = "/shop">Shop</NavLink>
@@ -100,6 +118,7 @@ class Header extends Component {
                 <div>
                   <span id="toggleLoginForm">My Account</span>
                   <span aria-hidden="true" className="arrow_carrot-right"></span>
+                  <span aria-hidden="true" class="arrow_triangle-down"></span>
                 </div>
                 
                 {this.handleGuestAction(onOpenLogin)}

@@ -150,12 +150,13 @@
             right: -15px;
             top: 200%;
             width: 200px;
-            height: 0;
+            min-height: 0;
+            max-height: 0;
 
             background-color: #fff;
             text-align: right;
             overflow: hidden;
-            transition: all .3s ease-in-out;
+            transition: all .8s ease-in-out;
 
             &::before{
                 content: '';
@@ -179,7 +180,7 @@
 
         &:hover{
             .sub-menu{
-                height: 70px;
+                max-height: 500px;
             }
             
         }
