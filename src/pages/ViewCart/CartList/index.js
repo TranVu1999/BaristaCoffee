@@ -63,6 +63,7 @@ class CartList extends Component {
             )
         })
     }
+    
     render() {
         return (
             <>{this.renderCartItem()}</>

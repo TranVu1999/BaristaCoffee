@@ -8,20 +8,40 @@ import CartCalculate from './CartCalculate';
 import {connect} from 'react-redux';
 import AccordingToggle from '../../commons/components/AccordingToggle';
 import { NavLink } from 'react-router-dom';
+import CartItemRemoved from './CartItemRemoved';
 
 class ViewCartPage extends Component {
-    render() {
+    getSubTotalCart = () =>{
         const {dataCart} = this.props;
+        let cost = 0;
+        for(let item of dataCart){
+            cost += item.prodPrice * item.amount;
+        }
+        return cost;
+    }
+
+    render() {
+        const {dataCart, dataRemoved} = this.props;
 
         return (
             <MainPage>
                 <Breadcrumb mainTitle = "View Cart"/>
 
-                <div className="cart-page">
+                <div className="cf-container cart-page">
+                    {
+                        dataRemoved.length > 0 ?
+                        (
+                            <div>
+                                <h3>Removed</h3>
+                                <CartItemRemoved/>
+                            </div>
+                        ): null
+                    }
+                                        
                 {
                     dataCart.length > 0 ?
                     (
-                        <div className="cf-container">
+                        <>
                             <div className="cart__content">
                                 <div className="cart--header">
                                     <div className="cart-item">
@@ -39,15 +59,19 @@ class ViewCartPage extends Component {
                                 </div>
                             </div>
 
-                            <CartTotal/>
+                            <CartTotal subTotal = {this.getSubTotalCart()}/>
                             <CartCalculate/>
-                            
-                        </div>
+                        </>    
+                        
                         
                     ) :
                     (
                         <div className = "cf-container">
-                            <AccordingToggle/>
+                            <AccordingToggle>
+                            <div className="accordition-toggle--box">
+                                <div className = "accordition-span">Your cart is currently empty.</div>
+                            </div>
+                            </AccordingToggle>
                             <NavLink 
                                 to = "/shop" 
                                 class="return-to-shop"
@@ -56,8 +80,6 @@ class ViewCartPage extends Component {
                     )
                 }
                 </div>
-                
-
             </MainPage>
         )
     }
@@ -65,7 +87,8 @@ class ViewCartPage extends Component {
 
 const mapStateToProps = state =>{
     return {
-        dataCart: state.cartReducer.data
+        dataCart: state.cartReducer.data,
+        dataRemoved: state.cartReducer.removed
     }
 }
 

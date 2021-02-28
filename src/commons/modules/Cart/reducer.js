@@ -3,6 +3,7 @@ import * as cartModel from './models';
 
 let initialState = {
     data: [],
+    removed: [],
     errors: null
 };
 
@@ -18,8 +19,24 @@ const cartReducer = (state = initialState, action) =>{
 
         case ActionTypes.REMOVE_PRODUCT_CART:{
             let data = [...state.data];
+            let removed = [...state.removed];
+
+            removed.push(cartModel.getCartItem(data, action.payload));
             data = cartModel.removeItem(data, action.payload);
-            return { ...state, data };
+            
+
+            return { ...state, data, removed };
+        }
+
+        case ActionTypes.UNDO_PRODUCT_CART:{
+            let data = [...state.data];
+            let removed = [...state.removed];
+
+            data.push(cartModel.getCartItem(removed, action.payload));
+            removed = cartModel.removeItem(removed, action.payload);
+            
+
+            return { ...state, data, removed };
         }
             
 

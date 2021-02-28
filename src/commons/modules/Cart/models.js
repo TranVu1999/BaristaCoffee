@@ -33,6 +33,14 @@ export const updateItem = (lstCart, prodInfo) =>{
     return [...lstCart]
 }
 
+export const getCartItem = (lstCart, prodId) =>{
+    for(let index in lstCart){
+        if(lstCart[index].prodId === prodId){
+            return {...lstCart[index]};
+        }
+    }
+}
+
 const findCartItem = (lstCart, prodId) =>{
     for(let index in lstCart){
         if(lstCart[index].prodId === prodId){

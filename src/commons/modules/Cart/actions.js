@@ -15,6 +15,14 @@ export const actRemoveItem = (data) =>{
     }
 }
 
+export const actUndoItem = (data) =>{
+    
+    return {
+        type: ActionTypes.UNDO_PRODUCT_CART,
+        payload: data
+    }
+}
+
 export const actUpdateItem = (data) =>{
     return {
         type: ActionTypes.UPDATE_PRODUCT_CART,
