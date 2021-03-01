@@ -3,7 +3,15 @@ import * as ActionTypes from './constants';
 let initialState = {
     isLoginForm: false,
     data: {
-        accountInfo: {},
+        accountInfo: {
+            userEmail: "admin@gmail.com",
+            accountProduct: {
+                readed: [],
+                favorite: [],
+                commented: [],
+                saveForLate: []
+            }
+        },
         flag: -2
     },
     errors: null
@@ -20,7 +28,15 @@ const loginReducer = (state = initialState, action) =>{
         case ActionTypes.LOGIN_REQUEST:
             state.loading = true;
             state.data = {
-                accountInfo: {},
+                accountInfo: {
+                    userEmail: "admin@gmail.com",
+                    accountProduct: {
+                        readed: [],
+                        favorite: [],
+                        commented: [],
+                        saveForLate: []
+                    }
+                },
                 flag: -2
             };
             state.errors = null;
@@ -41,7 +57,15 @@ const loginReducer = (state = initialState, action) =>{
                 };
             }else{
                 state.data = {
-                    accountInfo: {},
+                    accountInfo: {
+                        userEmail: "admin@gmail.com",
+                        accountProduct: {
+                            readed: [],
+                            favorite: [],
+                            commented: [],
+                            saveForLate: []
+                        }
+                    },
                     flag: -2
                 }; 
             }
