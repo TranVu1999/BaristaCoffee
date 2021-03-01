@@ -10,7 +10,6 @@ export const actOpenLoginPopup = (data) =>{
 }
 
 export const actLoginApi = (data) =>{
-    console.log(data)
     return dispatch =>{
         dispatch(actLoginRequest());
 
@@ -27,6 +26,15 @@ export const actLoginApi = (data) =>{
         .catch(err =>{
             dispatch(actLoginFailed(err));
         })
+    }
+}
+
+export const actInitAccountInfo = () =>{
+    const accountInfo = JSON.parse(localStorage.getItem('accountInfo'));
+    
+    return{
+        type: ActionTypes.INIT_ACCOUNT,
+        payload: accountInfo
     }
 }
 

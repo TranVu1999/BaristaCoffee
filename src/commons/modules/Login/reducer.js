@@ -27,11 +27,27 @@ const loginReducer = (state = initialState, action) =>{
             return { ...state };
 
         case ActionTypes.LOGIN_SUCCESS:
-            state.loading = false;
+            state.isLoginForm = false;
             state.data = action.payload;
-            console.log("success", state);
             state.errors = null;
-            return { ...state };
+            return { ...state};
+
+        case ActionTypes.INIT_ACCOUNT:
+            state.isLoginForm = false;
+            if(action.payload){
+                state.data = {
+                    accountInfo: action.payload,
+                    flag: 1
+                };
+            }else{
+                state.data = {
+                    accountInfo: {},
+                    flag: -2
+                }; 
+            }
+
+            state.errors = null;
+            return { ...state};
 
         case ActionTypes.LOGIN_FAILED:
             state.loading = false;

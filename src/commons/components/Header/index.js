@@ -20,22 +20,14 @@ class Header extends Component {
   };
 
   handleGuestAction = (onOpenLogin) => {
-    const accountInfo = JSON.parse(localStorage.getItem("accountInfo"));
-    if (!accountInfo) {
+    let {accountInfo, accountFlag} = this.props;
+
+    if (accountFlag === 1) {
+      console.log("accountInfo", accountInfo)
       return (
         <ul className="sub-menu">
           <li>
-            <span
-              href="/#"
-              onClick={(e) => {
-                onOpenLogin(true);
-              }}
-            >
-              Sign In
-            </span>
-          </li>
-          <li>
-            <a href="/#">Sign Up</a>
+            <NavLink to="my-account">{accountInfo.userEmail.substring(0, accountInfo.userEmail.indexOf('@'))}</NavLink>
           </li>
         </ul>
       );
@@ -43,9 +35,10 @@ class Header extends Component {
 
     return (
       <ul className="sub-menu">
-        <li>
-          <NavLink to="my-account">TranVudpqn123</NavLink>
-        </li>
+        <li 
+          onClick = {this.onHandleOpenLoginForm}
+        ><span>Sign In</span></li>
+        <li><NavLink to="signup">Sign Up</NavLink></li>
       </ul>
     );
   };
@@ -60,9 +53,7 @@ class Header extends Component {
   }
 
   render() {
-    let {amountCart, accountFlag } = this.props;
-    console.log("account flag", accountFlag);
-
+    let {amountCart, accountInfo, accountFlag} = this.props;
     const {isOpenResMenu} = this.state;
 
     return (
@@ -127,13 +118,9 @@ class Header extends Component {
                   <span aria-hidden="true" className="arrow_carrot-right"></span>
                   <span aria-hidden="true" class="arrow_triangle-down"></span>
                 </div>
+                {this.handleGuestAction()}
                 
-                <ul className="sub-menu">
-                  <li 
-                    onClick = {this.onHandleOpenLoginForm}
-                  ><span>Sign In</span></li>
-                  <li><NavLink to="signup">Sign Up</NavLink></li>
-                </ul>
+                
               </li>
 
               <li className="bulkhead">
@@ -165,9 +152,12 @@ class Header extends Component {
 const mapStateToProps = state =>{
   let amountCart = 0;
   for(let item of state.cartReducer.data){ amountCart += item.amount}
-  
+
+  const accountInfo = state.loginReducer.data;
   return {
-    amountCart
+    amountCart,
+    accountInfo: accountInfo.accountInfo,
+    accountFlag: accountInfo.flag
   }
 }
 

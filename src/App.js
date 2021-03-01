@@ -6,6 +6,8 @@ import Header from './commons/components/Header';
 import Footer from './commons/components/Footer';
 
 import {Switch, Route} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {actInitAccountInfo} from './commons/modules/Login/actions';
 import routes from './pages/routes';
 import Login from "./containers/Login";
 
@@ -29,7 +31,21 @@ class App extends Component {
       </div>
     );
   }
+
+  componentDidMount(){
+    this.props.onInitAccountInfo();
+  }
   
 }
 
-export default App;
+const mapDispatchToProps = dispatch =>{
+  return{
+    onInitAccountInfo: () =>{
+      dispatch(actInitAccountInfo())
+    }
+  }
+}
+
+
+
+export default connect(null, mapDispatchToProps)(App);
