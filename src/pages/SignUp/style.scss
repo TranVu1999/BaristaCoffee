@@ -1,0 +1,21 @@
+.signup-page{
+    .signup--left, .signup--right{
+        flex: 1;
+        align-self: flex-start;
+    }
+
+    .signup--right{
+        text-align: right;
+    }
+
+    img{
+        width: 80%;
+        height: auto;
+    }
+
+    .form-signup{
+        .form-group{
+            margin-bottom: 20px;
+        }
+    }
+}

@@ -132,7 +132,7 @@ class Header extends Component {
                   <li 
                     onClick = {this.onHandleOpenLoginForm}
                   ><span>Sign In</span></li>
-                  <li><a href="/#">Sign Up</a></li>
+                  <li><NavLink to="signup">Sign Up</NavLink></li>
                 </ul>
               </li>
 

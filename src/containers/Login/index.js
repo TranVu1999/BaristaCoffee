@@ -3,6 +3,8 @@ import Popup from './../../commons/components/Popup';
 import InputEmail from './../../commons/components/InputEmail';
 import InputPassword from './../../commons/components/InputPassword';
 
+import {NavLink} from 'react-router-dom';
+
 import {connect} from 'react-redux';
 import {actOpenLoginPopup, actLoginApi} from './../../commons/modules/Login/actions';
 
@@ -73,7 +75,7 @@ class Login extends Component {
                         </div>
 
                         <div className="form-group login-action">
-                        <a href="/#">Create account?</a>
+                        <NavLink to="signup">Create account?</NavLink>
                         /
                         <a href="/#">Forgot password?</a>
                         </div>
