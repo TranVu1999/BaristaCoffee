@@ -10,13 +10,19 @@ class Search extends Component {
     constructor(props){
         super(props);
         this.state = {
-            searchStr: ''
+            searchStr: '',
+            isOpenListKey: false
         };
         this.throttleHandleChange = debounce(this.throttleHandleChange.bind(this), 300);
     }
 
     throttleHandleChange() {
-        this.props.onGetListKeyword(this.state.searchStr.toLowerCase());
+        const data = {
+            accountId: this.props.accountInfo.accountId,
+            keyword: this.state.searchStr.toLowerCase()
+        }
+        this.props.onGetListKeyword(data);
+        this.setState({...this.state, isOpenListKey: true})
     }
 
     onHandleChange = (event) =>{
@@ -64,7 +70,7 @@ class Search extends Component {
     }
 
     render() {
-        const {searchStr} = this.state;
+        const {searchStr, isOpenListKey} = this.state;
         return (
            <div className="search-box">
                 <div className="d-flex-center form-group">
@@ -72,12 +78,16 @@ class Search extends Component {
                         type="text" 
                         placeholder="Type here..." 
                         onChange = {this.onHandleChange}
+                        onBlur = {() => this.setState({...this.state, isOpenListKey: false})}
                         value = {searchStr}
                     />
                     <button><span aria-hidden="true" className="icon_search" /></button>
                 </div>
 
-                <div className ="search-result">
+                <div 
+                    className ="search-result"
+                    style = {{display: isOpenListKey ? "block" : "none"}}
+                >
                     {this.renderListSearch()}
                 </div>
             </div>
@@ -88,7 +98,8 @@ class Search extends Component {
 
 const mapStateToProps = state =>{
     return {
-        listKeyword: state.keywordReducer.data.listKeyword
+        listKeyword: state.keywordReducer.data.listKeyword,
+        accountInfo: state.loginReducer.data.accountInfo
     }
 }
 

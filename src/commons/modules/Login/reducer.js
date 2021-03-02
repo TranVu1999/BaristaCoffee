@@ -4,6 +4,7 @@ let initialState = {
     isLoginForm: false,
     data: {
         accountInfo: {
+            accountId: "none",
             userEmail: "admin@gmail.com",
             accountProduct: {
                 readed: [],
@@ -29,6 +30,7 @@ const loginReducer = (state = initialState, action) =>{
             state.loading = true;
             state.data = {
                 accountInfo: {
+                    accountId: "none",
                     userEmail: "admin@gmail.com",
                     accountProduct: {
                         readed: [],
@@ -58,6 +60,7 @@ const loginReducer = (state = initialState, action) =>{
             }else{
                 state.data = {
                     accountInfo: {
+                        accountId: "none",
                         userEmail: "admin@gmail.com",
                         accountProduct: {
                             readed: [],
