@@ -1,40 +1,43 @@
 import React, { Component } from 'react';
+import { debounce, throttle } from 'lodash';
 import './style.scss';
 
-export default class Search extends Component {
+import {actGetListKeywordApi} from './../../modules/Keyword/actions';
+
+import {connect} from 'react-redux';
+
+class Search extends Component {
     constructor(props){
         super(props);
         this.state = {
-            searchStr: '',
-            lstSearch: [
-                "Coffee Bags",
-                "Paper Cup",
-                "Groud Coffee",
-                "Paper Bag",
-                "Tea Cup",
-            ]
-        }
+            searchStr: ''
+        };
+        this.throttleHandleChange = debounce(this.throttleHandleChange.bind(this), 300);
+    }
+
+    throttleHandleChange() {
+        this.props.onGetListKeyword(this.state.searchStr.toLowerCase());
     }
 
     onHandleChange = (event) =>{
         const {value} = event.target;
-
         this.setState({
             ...this.state,
             searchStr: value
-            
-        });
+        }, this.throttleHandleChange());
     }
 
     renderSearchItem = (keyItem, contentItem, contentSearch) =>{
         const indexSearch = contentItem.toLowerCase().indexOf(contentSearch);
-        if(indexSearch && indexSearch !== -1){
+
+        if(contentSearch && indexSearch !== -1){
             const lengthContentSearch = contentSearch.length;
+
             let startStr = contentItem.slice(0, indexSearch);
             let temp = contentItem.slice(indexSearch);
             let middleStr = temp.slice(0, lengthContentSearch);
             let endStr = contentItem.slice(indexSearch + lengthContentSearch);
-            
+
             return <div key = {keyItem} className = "search-result--item">
                 {startStr}
                 <span>{middleStr}</span>
@@ -42,17 +45,23 @@ export default class Search extends Component {
             </div>
         }
 
+        return null;
+
     }
 
     renderListSearch = () =>{
-        let {lstSearch, searchStr} = this.state;
+        let {searchStr} = this.state;
+        let {listKeyword} = this.props;
         searchStr = searchStr.toLowerCase();
 
-        return lstSearch.map((item, index) =>{
-            return this.renderSearchItem(index, item, searchStr);
-        })
-    }
+        if(listKeyword){
+            return listKeyword.map((item, index) =>{
+                return this.renderSearchItem(index, item.key, searchStr);
+            })
+        }
 
+        return null;
+    }
 
     render() {
         const {searchStr} = this.state;
@@ -76,3 +85,19 @@ export default class Search extends Component {
         )
     }
 }
+
+const mapStateToProps = state =>{
+    return {
+        listKeyword: state.keywordReducer.data.listKeyword
+    }
+}
+
+const mapDispatchToProps = dispatch =>{
+    return{
+        onGetListKeyword: (keyword) =>{
+            dispatch(actGetListKeywordApi(keyword))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Search)
