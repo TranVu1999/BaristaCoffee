@@ -5,12 +5,14 @@ import { NavLink } from "react-router-dom";
 import CartHeader from "../CartHeader";
 import {connect} from 'react-redux';
 import {actOpenLoginPopup} from './../../modules/Login/actions';
+import SearchPage from "../SearchPage";
 
 class Header extends Component {
   constructor(props){
     super(props);
     this.state = {
-      isOpenResMenu : false
+      isOpenResMenu : false,
+      isOpenSearchPage: false
     }
   }
 
@@ -52,12 +54,24 @@ class Header extends Component {
     this.props.onHandleOpenLoginForm(true);
   }
 
+  onHandleOpenSearchPage = () =>{
+    this.setState({
+      ...this.state,
+      isOpenSearchPage: !this.state.isOpenSearchPage
+    })
+  }
+
   render() {
-    let {amountCart, accountInfo, accountFlag} = this.props;
-    const {isOpenResMenu} = this.state;
+    let {amountCart} = this.props;
+    const {isOpenResMenu, isOpenSearchPage} = this.state;
 
     return (
       <header className="header">
+        <SearchPage 
+          isOpenSearchPage = {isOpenSearchPage}
+          onHandleOpenSearchPage = {this.onHandleOpenSearchPage}
+        />
+
         <div className="d-flex-between px-25 header__content">
           <div className="header--nav-toggle">
             <input 
@@ -137,9 +151,12 @@ class Header extends Component {
                 </div>
               </li>
               <li>
-                <a href="/#" className="header__search">
+                <button 
+                  className="header__search"
+                  onClick = {this.onHandleOpenSearchPage}
+                >
                   <span className="icon icon-search" />
-                </a>
+                </button>
               </li>
             </ul>
           </nav>
@@ -168,4 +185,5 @@ const mapDispatchToProps = dispatch =>{
     }
   }
 }
+
 export default connect(mapStateToProps, mapDispatchToProps) (Header)
