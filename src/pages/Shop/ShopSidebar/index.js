@@ -4,17 +4,18 @@ import Search from './../../../commons/components/Search';
 import ListProduct from './ListProduct';
 import ListTag from './../../../commons/components/ListTag';
 
-export default class ShopSidebar extends Component {
+import {connect} from 'react-redux';
+
+class ShopSidebar extends Component {
     constructor(props){
         super(props);
         this.state = {
-            lstTopRated: [],
             lstTag: []
         }
     }
 
     render() {
-        const {lstTag, lstTopRated} = this.state;
+        const {lstTag} = this.state;
 
         return (
             <>
@@ -23,7 +24,7 @@ export default class ShopSidebar extends Component {
                 </SidebarWidget>
 
                 <SidebarWidget widgetTitle = "TOP RATED PRODUCTS">
-                    <ListProduct lstProduct = {lstTopRated.slice(0,3)}/>
+                    <ListProduct/>
                 </SidebarWidget>
 
                 <SidebarWidget widgetTitle = "Tags">
@@ -39,15 +40,15 @@ export default class ShopSidebar extends Component {
         )
     }
 
-        
     componentDidUpdate(prevProps, prevState) {
-        if(prevProps.lstProductCate!==this.props.lstProductCate){
-            let lstTag = this.props.lstProductCate.map((item, index) =>{
+        if(prevProps.listProductCate!==this.props.listProductCate){
+            let lstTag = this.props.listProductCate.map((item, index) =>{
                 return {
                     'tagTitle': item.prodCateTitle,
                     'tagAlias': '/product-category/' + item.prodCateAlias
                 }
             })
+            console.log("ok");
 
             this.setState({
                 ...this.state,
@@ -57,3 +58,13 @@ export default class ShopSidebar extends Component {
         }
     }
 }
+
+const mapStateToProps = state =>{
+    return {
+        listProductCate: state.shopReducer.data.listProductCate
+    }
+}
+
+export default connect(mapStateToProps, null)(ShopSidebar) 
+
+

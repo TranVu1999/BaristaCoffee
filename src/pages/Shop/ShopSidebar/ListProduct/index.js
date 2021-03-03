@@ -2,16 +2,17 @@ import React, { Component } from 'react'
 import './style.scss';
 import ProductItem from './ProductItem';
 
-export default class ListProduct extends Component {
-    renderProductItem = () =>{
-        const {lstProduct} = this.props;
+import {connect} from 'react-redux';
 
-        return lstProduct.map((item, index) => {
+class ListProduct extends Component {
+    renderProductItem = () =>{
+        const {listTopRated} = this.props;
+
+        return listTopRated.slice(0, 3).map((item, index) => {
             return <ProductItem key = {index} productContent = {item}/>
         })
     }
     render() {
-        this.renderProductItem();
         return (
             <div className="lst-prod">
                 {this.renderProductItem()}
@@ -19,3 +20,11 @@ export default class ListProduct extends Component {
         )
     }
 }
+
+const mapStateToProps = state =>{
+    return {
+        listTopRated: state.shopReducer.data.listTopRated
+    }
+}
+
+export default connect(mapStateToProps)(ListProduct)

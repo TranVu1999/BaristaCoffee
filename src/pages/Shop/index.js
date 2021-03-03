@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 
 import Banner from '../../commons/components/Banner';
 import MainPage from '../../commons/components/MainPage';
@@ -12,18 +11,23 @@ import api from './../../api';
 import * as ApiUrl from './../../commons/constant/ApiUrl';
 import Loading from '../../commons/components/Loading';
 
-export default class ShopPage extends Component {
+import {
+    actInitShopApi, 
+    actGetDataShopApi, 
+    actChoosePage,
+    actChooseSortBy
+} from './../../commons/modules/Shop/actions';
+
+import {connect} from 'react-redux';
+
+class ShopPage extends Component {
     constructor(props){
         super(props);
         this.state = {
             prodCateAlias: '',
-            lstTopRated: [],
-            lstProductCate: [],
             sortBy: 2,
-            isLoading: true,
             pageActive: 0,
-            amount: 0,
-            lstProduct: []
+            amount: 0
         }
     }
 
@@ -43,40 +47,43 @@ export default class ShopPage extends Component {
     }
 
     handleChoosePage = (page) =>{
-        if(page !== this.state.pageActive){
-            const data = {page: page, sortBy: this.state.sortBy};
-            this.setState({
-                ...this.state,
-                isLoading: true,
-                pageActive: page
-            })
-
-            this.getDataFromAPI(data)
-        }
-        
-    }
-
-    handleSort = (sortBy) =>{
-        const data = {page: this.state.pageActive, sortBy, prodCateAlias: this.state.prodCateAlias}
-        
-        this.setState({
-            ...this.state,
-            sortBy
-        }, () =>{
-            this.getDataFromAPI(data);
+        this.props.onHanldeChoosePage(page);
+        this.props.onGetDataShop({
+            page,
+            sortBy: this.props.sortBy
         })
         
     }
 
+    handleSort = (sortBy) =>{
+        const {pageActive} = this.props;
+        this.props.onHandleSort(sortBy);
+        this.props.onGetDataShop({
+            page: pageActive,
+            sortBy
+        })
+
+        // const data = {
+        //     page: this.state.pageActive, sortBy, prodCateAlias: this.state.prodCateAlias
+        // }
+        
+        // this.setState({
+        //     ...this.state,
+        //     sortBy
+        // }, () =>{
+        //     this.getDataFromAPI(data);
+        // })
+        
+    }
+
     render() {
+
         const {
-            amount, 
-            lstProduct, 
-            pageActive, 
+            listProduct, 
             isLoading, 
-            lstProductCate,
-            lstTopRated
-        } = this.state;
+            amount, 
+            pageActive
+        } = this.props;
 
         return (
             <>
@@ -87,7 +94,7 @@ export default class ShopPage extends Component {
                     <div className="cf-container">
                         <div className="d-flex-between align-start shop-page">
                             <div className="main-page__content">
-                                {isLoading 
+                                {0
                                     ? <Loading/>
                                     :(
                                         <>
@@ -95,17 +102,14 @@ export default class ShopPage extends Component {
                                                 amount = {amount}
                                                 onHandleSort = {this.handleSort}
                                             />
-                                            <ShopProduct lstProduct = {lstProduct}/>
+                                            <ShopProduct lstProduct = {listProduct}/>
                                         </>
                                     )
                                 }
                             </div>
 
                             <div className="main-page__sidebar">
-                                <ShopSidebar 
-                                    lstProductCate = {lstProductCate}
-                                    lstTopRated = {lstTopRated}
-                                />
+                                <ShopSidebar />
                             </div>
                         </div>
                         
@@ -117,49 +121,16 @@ export default class ShopPage extends Component {
                         onChoosePage = {this.handleChoosePage}
                     />
                 </MainPage>
-
-                
+     
             </>
         )
     }
 
     componentDidMount(){
-        const {url, params} = this.props.match;
-        console.log("url", url);
-
-        let data = {page: this.state.pageActive, sortBy: this.state.sortBy}
-        if(url.indexOf("product-category")){
-            data = {...data, prodCateAlias: params.prodCateAlias};
-        }
-
-        const requestShop = api.post(`/${ApiUrl.SHOP}/`, data);
-
-        data = {page: this.state.pageActive, sortBy: 1}
-        const requestShopTopRated = api.post(`/${ApiUrl.SHOP}/`, data);
-        const requestProductCate = api.get(`/product-category`);
-
-        axios.all([requestShop, requestShopTopRated, requestProductCate])
-        .then(
-            axios.spread((...responses) =>{
-                const resShop = responses[0];
-                const resProductCate = responses[2];
-                const resTopRated = responses[1];
-                
-
-                this.setState({
-                    ...this.state,
-                    lstTopRated: [...resTopRated.data.lstProduct],
-                    lstProductCate: [...resProductCate.data],
-                    isLoading: false,
-                    pageActive: data.page,
-                    amount: resShop.data.amount,
-                    lstProduct: [...resShop.data.lstProduct]
-                })
-            })
-        )
-        .catch(err =>{
-            console.log("err", err);
-        })    
+        // global state
+        this.props.onInitShop({
+            page: 0, sortBy: 2
+        });
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -171,48 +142,68 @@ export default class ShopPage extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if(prevState.prodCateAlias!==this.state.prodCateAlias){
-            this.setState({
-                ...this.state,
-                prodCateAlias: this.state.prodCateAlias
-            }, () => {
-                const {url, params} = this.props.match;
-                console.log("url", url);
+        // if(prevState.prodCateAlias!==this.state.prodCateAlias){
+        //     this.setState({
+        //         ...this.state,
+        //         prodCateAlias: this.state.prodCateAlias
+        //     }, () => {
+        //         const {url, params} = this.props.match;
 
-                let data = {page: this.state.pageActive, sortBy: this.state.sortBy}
-                if(url.indexOf("product-category")){
-                    data = {...data, prodCateAlias: params.prodCateAlias};
-                }
+        //         let data = {page: this.state.pageActive, sortBy: this.state.sortBy}
+        //         if(url.indexOf("product-category")){
+        //             data = {...data, prodCateAlias: params.prodCateAlias};
+        //         }
 
-                const requestShop = api.post(`/${ApiUrl.SHOP}/`, data);
+        //         const requestShop = api.post(`/${ApiUrl.SHOP}/`, data);
 
-                data = {page: this.state.pageActive, sortBy: 1}
-                const requestShopTopRated = api.post(`/${ApiUrl.SHOP}/`, data);
-                const requestProductCate = api.get(`/product-category`);
+        //         axios.all([requestShop])
+        //         .then(
+        //             axios.spread((...responses) =>{
+        //                 const resShop = responses[0];
+        //                 this.setState({
+        //                     ...this.state,
+        //                     isLoading: false,
+        //                     pageActive: data.page,
+        //                     amount: resShop.data.amount,
+        //                     lstProduct: [...resShop.data.lstProduct]
+        //                 })
+        //             })
+        //         )
+        //         .catch(err =>{
+        //             console.log("err", err);
+        //         })    
+        //     })
+        // }
+    }
+}
 
-                axios.all([requestShop, requestShopTopRated, requestProductCate])
-                .then(
-                    axios.spread((...responses) =>{
-                        const resShop = responses[0];
-                        const resProductCate = responses[2];
-                        const resTopRated = responses[1];
-                        
+const mapStateToProps = state =>{
+    const shopInfo = state.shopReducer;
 
-                        this.setState({
-                            ...this.state,
-                            lstTopRated: [...resTopRated.data.lstProduct],
-                            lstProductCate: [...resProductCate.data],
-                            isLoading: false,
-                            pageActive: data.page,
-                            amount: resShop.data.amount,
-                            lstProduct: [...resShop.data.lstProduct]
-                        })
-                    })
-                )
-                .catch(err =>{
-                    console.log("err", err);
-                })    
-            })
+    return{
+        listProduct: shopInfo.data.listProduct.lstProduct,
+        amount: shopInfo.data.listProduct.amount,
+        isLoading: shopInfo.isLoading,
+        pageActive: shopInfo.data.pageActive,
+        sortBy: shopInfo.data.sortBy
+    }
+}
+
+const mapDispatchToProps = dispatch =>{
+    return {
+        onInitShop: (data) =>{
+            dispatch(actInitShopApi(data))
+        },
+        onGetDataShop: data => {
+            dispatch(actGetDataShopApi(data))
+        },
+        onHanldeChoosePage: pageActive =>{
+            dispatch(actChoosePage(pageActive))
+        },
+        onHandleSort: sortBy =>{
+            dispatch(actChooseSortBy(sortBy))
         }
     }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(ShopPage)

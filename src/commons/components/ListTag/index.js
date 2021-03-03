@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import './style.scss';
 import TagItem from './TagItem';
 
+import {connect} from 'react-redux';
+
 class ListTag extends Component {
 
     renderTag = () =>{
+
         const {lstTag} = this.props;
 
         if(lstTag){
@@ -28,4 +31,10 @@ class ListTag extends Component {
     }
 }
 
-export default ListTag;
+const mapStateToProps = state =>{
+    return {
+        listProductCate: state.shopReducer.data.listProductCate
+    }
+}
+
+export default connect(mapStateToProps) (ListTag);

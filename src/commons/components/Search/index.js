@@ -3,6 +3,7 @@ import { debounce, throttle } from 'lodash';
 import './style.scss';
 
 import {actGetListKeywordApi} from './../../modules/Keyword/actions';
+import {actGetDataShopByKeyApi} from './../../modules/Shop/actions';
 
 import {connect} from 'react-redux';
 
@@ -17,9 +18,10 @@ class Search extends Component {
     }
 
     throttleHandleChange() {
+        const {searchStr} = this.state;
         const data = {
             accountId: this.props.accountInfo.accountId,
-            keyword: this.state.searchStr.toLowerCase()
+            keyword: searchStr.toLowerCase()
         }
         this.props.onGetListKeyword(data);
         this.setState({...this.state, isOpenListKey: true})
@@ -69,10 +71,23 @@ class Search extends Component {
         return null;
     }
 
+    onGetData = (event) =>{
+        event.preventDefault();
+        this.props.onGetDataByKeyword({
+            page: this.props.pageActive,
+            sortBy: this.props.sortBy,
+            prodCateAlias: this.props.prodCateAlias,
+            keyword: this.state.searchStr,
+        });
+    }
+
     render() {
         const {searchStr, isOpenListKey} = this.state;
         return (
-           <div className="search-box">
+           <form 
+            className="search-box"
+            onSubmit = {this.onGetData}
+           >
                 <div className="d-flex-center form-group">
                     <input 
                         type="text" 
@@ -90,16 +105,21 @@ class Search extends Component {
                 >
                     {this.renderListSearch()}
                 </div>
-            </div>
+            </form>
 
         )
     }
 }
 
 const mapStateToProps = state =>{
+    const shopInfo = state.shopReducer;
     return {
         listKeyword: state.keywordReducer.data.listKeyword,
-        accountInfo: state.loginReducer.data.accountInfo
+        accountInfo: state.loginReducer.data.accountInfo,
+
+        pageActive: shopInfo.data.pageActive,
+        sortBy: shopInfo.data.sortBy,
+        prodCateAlias: shopInfo.data.prodCateAlias
     }
 }
 
@@ -107,6 +127,9 @@ const mapDispatchToProps = dispatch =>{
     return{
         onGetListKeyword: (keyword) =>{
             dispatch(actGetListKeywordApi(keyword))
+        },
+        onGetDataByKeyword: (keyword) =>{
+            dispatch(actGetDataShopByKeyApi(keyword))
         }
     }
 }

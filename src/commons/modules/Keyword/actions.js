@@ -4,8 +4,6 @@ import api from '../../../api';
 export const actGetListKeywordApi = (data) =>{
     return dispatch =>{
         dispatch(actGetListKeywordRequest());
-        console.log("api", `/product/search/${data.keyword}&${data.accountId}`);
-        
         api.get(`/product/search/${data.keyword}&${data.accountId}`)
         .then(res =>{
             dispatch(actGetListKeywordSuccess(res.data));

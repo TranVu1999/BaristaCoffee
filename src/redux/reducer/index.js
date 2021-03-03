@@ -6,6 +6,7 @@ import productDetailReducer from './../../pages/ProductDetail/modules/reducer';
 import cartReducer from './../../commons/modules/Cart/reducer';
 import loginReducer from './../../commons/modules/Login/reducer';
 import keywordReducer from './../../commons/modules/Keyword/reducer';
+import shopReducer from './../../commons/modules/Shop/reducer';
 
 const rootReducer = combineReducers({
     formLoginReducer,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
     productDetailReducer,
     cartReducer,
     loginReducer, 
-    keywordReducer
+    keywordReducer,
+    shopReducer
 });
 
 export default rootReducer;
