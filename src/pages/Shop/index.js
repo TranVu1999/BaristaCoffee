@@ -28,7 +28,9 @@ class ShopPage extends Component {
         super(props);
         this.state = {
             prodCateAlias: 'empty',
-            isOpenSidebar: false
+            isOpenSidebar: false,
+            pastURL: '',
+            currentURL: '' 
         }
     }
 
@@ -138,26 +140,21 @@ class ShopPage extends Component {
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        if(nextProps.match.params.prodCateAlias){
-            // return {prodCateAlias: nextProps.match.params.prodCateAlias};
+        if(nextProps.match.url !== prevState.currentURL){
             return {
-                isInint: false,
-                prodCateAlias: nextProps.match.params.prodCateAlias
-            };
-        }else{
-            return {
-                isInint: true,
                 prodCateAlias: nextProps.match.params.prodCateAlias,
-                prevState
-            };
+                pastURL: prevState.currentURL, 
+                currentURL: nextProps.match.url
+            }
         }
+        return null;
         
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if(this.state.isInint){ 
-            // this.props.onResetListProduct();
-        }else{
+        console.log("current", this.state);
+        const {pastURL, currentURL} = this.state;
+        if(pastURL === '/shop' && currentURL.indexOf("product-category") !== -1){
             if(this.state.prodCateAlias && this.state.prodCateAlias !== prevState.prodCateAlias){
                 let {prodCateAlias} = this.state;
                 prodCateAlias = prodCateAlias.slice(prodCateAlias.indexOf("=") + 1)
@@ -169,9 +166,29 @@ class ShopPage extends Component {
                     keyword: "empty",
                 });
             }
-            
+        }else if(currentURL === '/shop' && pastURL.indexOf("product-category") !== -1){
+            this.setState({
+                prodCateAlias: 'empty',
+                isOpenSidebar: false,
+                pastURL: '',
+                currentURL: ''
+            })
+            this.props.onGetDataShop({
+                page: 0, sortBy: 2
+            });
+        }else if(pastURL.indexOf("product-category") !== -1 && currentURL.indexOf("product-category") !== -1){
+            if(this.state.prodCateAlias && this.state.prodCateAlias !== prevState.prodCateAlias){
+                let {prodCateAlias} = this.state;
+                prodCateAlias = prodCateAlias.slice(prodCateAlias.indexOf("=") + 1)
+                this.props.onUpdateProductCategory(prodCateAlias)
+                this.props.onGetDataByKeyword({
+                    page: this.props.pageActive,
+                    sortBy: this.props.sortBy,
+                    prodCateAlias,
+                    keyword: "empty",
+                });
+            }
         }
-        
     }
 }
 

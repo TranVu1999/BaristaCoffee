@@ -73,7 +73,8 @@ export const actGetDataShopApi = (data) =>{
             axios.spread((...responses) =>{
                 const resShop = responses[0].data;
                 dispatch(actShopSuccess({
-                    listProduct : resShop
+                    listProduct : resShop, 
+                    prodCateAlias: 'empty'
                 }));
             })
         )
