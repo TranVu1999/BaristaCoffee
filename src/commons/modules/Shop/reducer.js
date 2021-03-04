@@ -12,6 +12,10 @@ let initialState = {
         listProduct: {
             amount: 0,
             lstProduct: []
+        },
+        initListProduct: {
+            amount: 0,
+            lstProduct: []
         }
     },
     errors: null
@@ -25,6 +29,18 @@ const shopReducer = (state = initialState, action) =>{
             state.data = {...state.data};
             state.errors = null;
             return { ...state };
+
+        case ActionTypes.SHOP_INIT_LIST_PRODUCT:
+                state.isLoading = false;
+                state.data.initListProduct = action.payload
+                state.errors = null;
+                return { ...state};
+
+        case ActionTypes.SHOP_RESET_LIST_PRODUCT:
+                state.isLoading = false;
+                state.data.listProduct = {...state.data.initListProduct};
+                state.errors = null;
+                return { ...state};
 
         case ActionTypes.SHOP_SUCCESS:
             state.isLoading = false;
@@ -51,6 +67,10 @@ const shopReducer = (state = initialState, action) =>{
 
         case ActionTypes.SHOP_CHOOSE_SORTBY:
             state.data.sortBy = action.payload;
+            return { ...state};
+
+        case ActionTypes.SHOP_CHOOSE_CATEGORY:
+            state.data.prodCateAlias = action.payload;
             return { ...state};
 
         default: 

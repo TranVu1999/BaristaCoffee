@@ -44,12 +44,7 @@ const routes =  [
         component: WhatWeOfferPage
     },
     {
-        path: "/product-category/:prodCateAlias",
-        exact: true,
-        component: ShopPage
-    },
-    {
-        path: "/shop",
+        path: "/shop/:prodCateAlias?",
         exact: true,
         component: ShopPage
     },

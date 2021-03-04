@@ -15,35 +15,20 @@ import {
     actInitShopApi, 
     actGetDataShopApi, 
     actChoosePage,
-    actChooseSortBy
+    actChooseSortBy,
+    actGetDataShopByKeyApi,
+    actInitListProductApi,
+    actResetListProduct
 } from './../../commons/modules/Shop/actions';
-
+import {actUpdateUrl} from './../../commons/modules/Url/actions';
 import {connect} from 'react-redux';
 
 class ShopPage extends Component {
     constructor(props){
         super(props);
         this.state = {
-            prodCateAlias: '',
-            sortBy: 2,
-            pageActive: 0,
-            amount: 0
+            prodCateAlias: 'empty'
         }
-    }
-
-    getDataFromAPI = (data)=>{
-        api.post(`/${ApiUrl.SHOP}/`, data)
-        .then(res =>{
-            this.setState({
-                ...this.state,
-                isLoading: false,
-                pageActive: data.page,
-                lstProduct: [...res.data.lstProduct]
-            })
-        })
-        .catch(err =>{
-            console.log("err", err);
-        })
     }
 
     handleChoosePage = (page) =>{
@@ -62,25 +47,12 @@ class ShopPage extends Component {
             page: pageActive,
             sortBy
         })
-
-        // const data = {
-        //     page: this.state.pageActive, sortBy, prodCateAlias: this.state.prodCateAlias
-        // }
-        
-        // this.setState({
-        //     ...this.state,
-        //     sortBy
-        // }, () =>{
-        //     this.getDataFromAPI(data);
-        // })
-        
     }
 
     render() {
 
         const {
             listProduct, 
-            isLoading, 
             amount, 
             pageActive
         } = this.props;
@@ -131,49 +103,51 @@ class ShopPage extends Component {
         this.props.onInitShop({
             page: 0, sortBy: 2
         });
+
+        this.props.onUpdateUrl({
+            params: this.props.match.params,
+            url: this.props.match.url,
+            path: this.props.match.path
+        })
+
+        this.props.onInitListProduct({
+            page: 0, sortBy: 2
+        })
+        
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.match.params.prodCateId !== prevState.prodCateAlias){
-            const prodCateAlias = nextProps.match.params.prodCateAlias;
-            return {prodCateAlias};
+        if(nextProps.match.params.prodCateAlias){
+            // return {prodCateAlias: nextProps.match.params.prodCateAlias};
+            return {
+                isInint: false,
+                prodCateAlias: nextProps.match.params.prodCateAlias
+            };
+        }else{
+            return {
+                isInint: true,
+                prodCateAlias: nextProps.match.params.prodCateAlias
+            };
         }
-       return null;
+        
     }
 
     componentDidUpdate(prevProps, prevState) {
-        // if(prevState.prodCateAlias!==this.state.prodCateAlias){
-        //     this.setState({
-        //         ...this.state,
-        //         prodCateAlias: this.state.prodCateAlias
-        //     }, () => {
-        //         const {url, params} = this.props.match;
-
-        //         let data = {page: this.state.pageActive, sortBy: this.state.sortBy}
-        //         if(url.indexOf("product-category")){
-        //             data = {...data, prodCateAlias: params.prodCateAlias};
-        //         }
-
-        //         const requestShop = api.post(`/${ApiUrl.SHOP}/`, data);
-
-        //         axios.all([requestShop])
-        //         .then(
-        //             axios.spread((...responses) =>{
-        //                 const resShop = responses[0];
-        //                 this.setState({
-        //                     ...this.state,
-        //                     isLoading: false,
-        //                     pageActive: data.page,
-        //                     amount: resShop.data.amount,
-        //                     lstProduct: [...resShop.data.lstProduct]
-        //                 })
-        //             })
-        //         )
-        //         .catch(err =>{
-        //             console.log("err", err);
-        //         })    
-        //     })
-        // }
+        if(this.state.isInint){ 
+            this.props.onResetListProduct();
+        }else{
+            if(this.state.prodCateAlias && this.state.prodCateAlias !== prevState.prodCateAlias){
+                const {prodCateAlias} = this.state;
+                this.props.onGetDataByKeyword({
+                    page: this.props.pageActive,
+                    sortBy: this.props.sortBy,
+                    prodCateAlias: prodCateAlias.slice(prodCateAlias.indexOf("=") + 1),
+                    keyword: "empty",
+                });
+            }
+            
+        }
+        
     }
 }
 
@@ -185,7 +159,8 @@ const mapStateToProps = state =>{
         amount: shopInfo.data.listProduct.amount,
         isLoading: shopInfo.isLoading,
         pageActive: shopInfo.data.pageActive,
-        sortBy: shopInfo.data.sortBy
+        sortBy: shopInfo.data.sortBy,
+        prodCateAlias: shopInfo.data.prodCateAlias
     }
 }
 
@@ -202,6 +177,18 @@ const mapDispatchToProps = dispatch =>{
         },
         onHandleSort: sortBy =>{
             dispatch(actChooseSortBy(sortBy))
+        },
+        onUpdateUrl: url =>{
+            dispatch(actUpdateUrl(url))
+        },
+        onGetDataByKeyword: (keyword) =>{
+            dispatch(actGetDataShopByKeyApi(keyword))
+        },
+        onInitListProduct: data=>{
+            dispatch(actInitListProductApi(data))
+        },
+        onResetListProduct: () =>{
+            dispatch(actResetListProduct())
         }
     }
 }

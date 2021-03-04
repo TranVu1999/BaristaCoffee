@@ -4,7 +4,10 @@ import ListOfferImg from '../../commons/components/ListOfferImg'
 import MainPage from '../../commons/components/MainPage';
 import FullBanner from '../../commons/components/FullBanner';
 
-export default class WhatWeOfferPage extends Component {
+import {connect} from 'react-redux';
+import {actUpdateUrl} from './../../commons/modules/Url/actions';
+
+class WhatWeOfferPage extends Component {
     render() {
         return (
             <>
@@ -21,4 +24,22 @@ export default class WhatWeOfferPage extends Component {
             </>
         )
     }
+
+    componentDidMount(){
+        this.props.onUpdateUrl({
+            params: this.props.match.params,
+            url: this.props.match.url,
+            path: this.props.match.path
+        })
+    }
 }
+
+const mapDispatchToProps = dispatch =>{
+    return {
+        onUpdateUrl: url =>{
+            dispatch(actUpdateUrl(url))
+        }
+    }
+}
+
+export default connect(null, mapDispatchToProps) (WhatWeOfferPage)

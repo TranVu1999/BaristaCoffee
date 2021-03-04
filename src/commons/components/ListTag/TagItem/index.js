@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import './style.scss';
 import {NavLink} from 'react-router-dom';
 
-export default class TagItem extends Component {
+
+class TagItem extends Component {
+
     render() {
         const {tagItem} = this.props;
 
@@ -14,3 +16,5 @@ export default class TagItem extends Component {
         )
     }
 }
+
+export default TagItem

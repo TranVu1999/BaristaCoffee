@@ -5,7 +5,10 @@ import AccordingToggle from '../../commons/components/AccordingToggle';
 import ConfirmInfo from './ConfirmInfo';
 import ConfirmInvoice from './ConfirmInvoice';
 
-export default class CheckoutPage extends Component {
+import {connect} from 'react-redux';
+import {actUpdateUrl} from './../../commons/modules/Url/actions';
+
+class CheckoutPage extends Component {
     render() {
         return (
             <MainPage>
@@ -46,4 +49,22 @@ export default class CheckoutPage extends Component {
             </MainPage>
         )
     }
+
+    componentDidMount(){
+        this.props.onUpdateUrl({
+            params: this.props.match.params,
+            url: this.props.match.url,
+            path: this.props.match.path
+        })
+    }
 }
+
+const mapDispatchToProps = dispatch =>{
+    return {
+        onUpdateUrl: url =>{
+            dispatch(actUpdateUrl(url))
+        }
+    }
+}
+
+export default connect(null, mapDispatchToProps)(CheckoutPage)

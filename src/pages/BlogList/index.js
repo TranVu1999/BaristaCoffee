@@ -4,7 +4,10 @@ import MainPage from '../../commons/components/MainPage';
 import Navigation from '../../commons/components/Navigation';
 import BlogSidebar from './BlogSidebar';
 
-export default class BlogListPage extends Component {
+import {connect} from 'react-redux';
+import {actUpdateUrl} from './../../commons/modules/Url/actions';
+
+class BlogListPage extends Component {
     render() {
         return (
             <>
@@ -29,4 +32,22 @@ export default class BlogListPage extends Component {
             </>
         )
     }
+
+    componentDidMount(){
+        this.props.onUpdateUrl({
+            params: this.props.match.params,
+            url: this.props.match.url,
+            path: this.props.match.path
+        })
+    }
 }
+
+const mapDispatchToProps = dispatch =>{
+    return {
+        onUpdateUrl: url =>{
+            dispatch(actUpdateUrl(url))
+        }
+    }
+}
+
+export default connect(null, mapDispatchToProps)(BlogListPage)

@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import './style.scss';
 import Banner from '../../commons/components/Banner';
 
-export default class AboutPage extends Component {
+import {connect} from 'react-redux';
+import {actUpdateUrl} from './../../commons/modules/Url/actions';
+
+class AboutPage extends Component {
     render() {
         return (
             <>
@@ -46,4 +49,22 @@ export default class AboutPage extends Component {
             </>
         )
     }
+
+    componentDidMount(){
+        this.props.onUpdateUrl({
+            params: this.props.match.params,
+            url: this.props.match.url,
+            path: this.props.match.path
+        })
+    }
 }
+
+const mapDispatchToProps = dispatch =>{
+    return {
+        onUpdateUrl: url =>{
+            dispatch(actUpdateUrl(url))
+        }
+    }
+}
+
+export default connect(null, mapDispatchToProps)(AboutPage)

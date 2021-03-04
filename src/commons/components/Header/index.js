@@ -61,12 +61,31 @@ class Header extends Component {
     })
   }
 
+  isDarkHearder = () =>{
+    let {urlPath} = this.props;
+    if(
+      urlPath.indexOf("about") !== -1 ||
+      urlPath.indexOf("booking") !== -1 ||
+      urlPath.indexOf("what-we-offer") !== -1 ||
+      urlPath.indexOf("blog-list") !== -1 ||
+      urlPath.indexOf("shop") !== -1 ||
+      urlPath.indexOf("product-detail") !== -1 ||
+      urlPath.indexOf("contact") !== -1
+    ){
+      return true;
+    }
+
+    return false;
+  }
+
   render() {
     let {amountCart} = this.props;
     const {isOpenResMenu, isOpenSearchPage} = this.state;
 
     return (
-      <header className="header">
+      <header 
+        className= {this.isDarkHearder() ? "header dark" : "header"}
+      >
         <SearchPage 
           isOpenSearchPage = {isOpenSearchPage}
           onHandleOpenSearchPage = {this.onHandleOpenSearchPage}
@@ -89,19 +108,21 @@ class Header extends Component {
 
           <div className="header__logo">
             <NavLink to="/">
-              <img src={logo} alt="logo" />
+              <img src={!this.isDarkHearder() ? logo : "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851625/BaristaCoffee/logo/logo-2_x72h08.png"} alt="logo" />
+              
             </NavLink>
           </div>
+
           <nav 
             className = {isOpenResMenu ? "header__nav header--responsive" : "header__nav"}
           >
             <ul>
               <li>
-                <NavLink to = "/">Home</NavLink>
+                <NavLink to = "/" className="nav-span">Home</NavLink>
               </li>
               <li className="toggle-sub-menu">
-                <div>
-                  <span id="toggleLoginForm">About</span>
+                <div className="nav-span">
+                  <span >About</span>
                   <span aria-hidden="true" className="arrow_carrot-right"></span>
                   <span aria-hidden="true" class="arrow_triangle-down"></span>
                 </div>
@@ -121,13 +142,13 @@ class Header extends Component {
                 </ul>
               </li>
               <li>
-                <NavLink to = "/shop">Shop</NavLink>
+                <NavLink to = "/shop" className="nav-span">Shop</NavLink>
               </li>
               <li>
-              <NavLink to = "/blog-list">Blog</NavLink>
+              <NavLink to = "/blog-list" className="nav-span">Blog</NavLink>
               </li>
               <li className="toggle-sub-menu">
-                <div>
+                <div className="nav-span">
                   <span id="toggleLoginForm">My Account</span>
                   <span aria-hidden="true" className="arrow_carrot-right"></span>
                   <span aria-hidden="true" class="arrow_triangle-down"></span>
@@ -143,7 +164,7 @@ class Header extends Component {
               <li class="toggle-span">
                 <div className="header__cart">
                   <div>
-                    <span class="icon icon-cart"></span>
+                    <span class="nav-span icon icon-cart" ></span>
                     <span class="number">{amountCart}</span>
                   </div>
 
@@ -155,7 +176,7 @@ class Header extends Component {
                   className="header__search"
                   onClick = {this.onHandleOpenSearchPage}
                 >
-                  <span className="icon icon-search" />
+                  <span className="nav-span icon icon-search" />
                 </button>
               </li>
             </ul>
@@ -174,7 +195,8 @@ const mapStateToProps = state =>{
   return {
     amountCart,
     accountInfo: accountInfo.accountInfo,
-    accountFlag: accountInfo.flag
+    accountFlag: accountInfo.flag,
+    urlPath: state.urlReducer.urlInfo.path
   }
 }
 

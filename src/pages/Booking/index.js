@@ -3,7 +3,10 @@ import './style.scss';
 import Banner from '../../commons/components/Banner';
 import BookingForm from '../../commons/components/BookingForm';
 
-export default class BookingPage extends Component {
+import {connect} from 'react-redux';
+import {actUpdateUrl} from './../../commons/modules/Url/actions';
+
+class BookingPage extends Component {
     render() {
         return (
             <>
@@ -32,4 +35,22 @@ export default class BookingPage extends Component {
             
         )
     }
+
+    componentDidMount(){
+        this.props.onUpdateUrl({
+            params: this.props.match.params,
+            url: this.props.match.url,
+            path: this.props.match.path
+        })
+    }
 }
+
+const mapDispatchToProps = dispatch =>{
+    return {
+        onUpdateUrl: url =>{
+            dispatch(actUpdateUrl(url))
+        }
+    }
+}
+
+export default connect(null, mapDispatchToProps)(BookingPage)

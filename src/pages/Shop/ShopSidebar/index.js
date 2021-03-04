@@ -28,7 +28,7 @@ class ShopSidebar extends Component {
                 </SidebarWidget>
 
                 <SidebarWidget widgetTitle = "Tags">
-                    <ListTag lstTag = {lstTag}/>
+                    <ListTag lstTag = {lstTag} urlStart="shop"/>
                 </SidebarWidget>
 
                 <SidebarWidget>
@@ -45,10 +45,14 @@ class ShopSidebar extends Component {
             let lstTag = this.props.listProductCate.map((item, index) =>{
                 return {
                     'tagTitle': item.prodCateTitle,
-                    'tagAlias': '/product-category/' + item.prodCateAlias
+                    'tagAlias': '/shop/product-category=' + item.prodCateAlias
                 }
             })
-            console.log("ok");
+
+            lstTag.push({
+                'tagTitle': "All",
+                'tagAlias': '/shop'
+            })
 
             this.setState({
                 ...this.state,

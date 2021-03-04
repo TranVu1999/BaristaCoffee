@@ -10,6 +10,8 @@ import AccordingToggle from '../../commons/components/AccordingToggle';
 import { NavLink } from 'react-router-dom';
 import CartItemRemoved from './CartItemRemoved';
 
+import {actUpdateUrl} from './../../commons/modules/Url/actions';
+
 class ViewCartPage extends Component {
     getSubTotalCart = () =>{
         const {dataCart} = this.props;
@@ -83,6 +85,14 @@ class ViewCartPage extends Component {
             </MainPage>
         )
     }
+
+    componentDidMount(){
+        this.props.onUpdateUrl({
+            params: this.props.match.params,
+            url: this.props.match.url,
+            path: this.props.match.path
+        })
+    }
 }
 
 const mapStateToProps = state =>{
@@ -92,4 +102,12 @@ const mapStateToProps = state =>{
     }
 }
 
-export default connect(mapStateToProps)(ViewCartPage);
+const mapDispatchToProps = dispatch =>{
+    return {
+        onUpdateUrl: url =>{
+            dispatch(actUpdateUrl(url))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ViewCartPage);

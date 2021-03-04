@@ -8,6 +8,7 @@ import ProductSummary from './ProductSummary';
 
 import {connect} from 'react-redux';
 import {actProductDetailApi} from './modules/actions';
+import {actUpdateUrl} from './../../commons/modules/Url/actions';
 import ProductTab from './ProductTab';
 
 class ProductDetailPage extends Component {
@@ -38,6 +39,11 @@ class ProductDetailPage extends Component {
     componentDidMount(){
         const {prodAlias} = this.props.match.params;
         this.props.fetchData(prodAlias);
+        this.props.onUpdateUrl({
+            params: this.props.match.params,
+            url: this.props.match.url,
+            path: this.props.match.path
+        })
     }
 }
 
@@ -51,6 +57,9 @@ const mapDispatchToProps = dispatch =>{
     return {
         fetchData: produAlias =>{
             dispatch(actProductDetailApi(produAlias))
+        },
+        onUpdateUrl: url =>{
+            dispatch(actUpdateUrl(url))
         }
     }
 }

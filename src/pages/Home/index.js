@@ -11,7 +11,10 @@ import Parallax from './Parallax';
 import ServicePost from './ServicePost';
 import SmallSlider from './SmallSlider';
 
-export default class HomePage extends Component {
+import {connect} from 'react-redux';
+import {actUpdateUrl} from './../../commons/modules/Url/actions';
+
+class HomePage extends Component {
     render() {
         return (
             <>
@@ -28,4 +31,18 @@ export default class HomePage extends Component {
             </>
         )
     }
+
+    componentDidMount(){
+        this.props.onUpdateUrl(this.props.match);
+    }
 }
+
+const mapDispatchToProps = dispatch =>{
+    return {
+        onUpdateUrl: url =>{
+            dispatch(actUpdateUrl(url))
+        }
+    }
+}
+
+export default connect(null, mapDispatchToProps)(HomePage)

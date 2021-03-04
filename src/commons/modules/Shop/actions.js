@@ -34,6 +34,34 @@ export const actInitShopApi = (data) =>{
     }
 }
 
+export const actInitListProductApi = (data) =>{
+    return dispatch =>{
+        const requestShop = api.post(`/${ApiUrl.SHOP}/`, data);
+        
+        axios.all([requestShop])
+        .then(
+            axios.spread((...responses) =>{
+                const resShop = responses[0].data;
+                dispatch({
+                    type: ActionTypes.SHOP_INIT_LIST_PRODUCT,
+                    payload: resShop
+                });
+            })
+        )
+        .catch(err =>{
+            dispatch(actShopFailed(err));
+        })
+    }
+}
+
+export const actResetListProduct = (data) =>{
+    return dispatch =>{
+        dispatch({
+            type: ActionTypes.SHOP_RESET_LIST_PRODUCT
+        });
+    }
+}
+
 export const actGetDataShopApi = (data) =>{
     
     return dispatch =>{
@@ -80,6 +108,13 @@ export const actGetDataShopByKeyApi = (data) =>{
 export const actChoosePage = (data) => {
     return {
         type: ActionTypes.SHOP_CHOOSE_PAGE,
+        payload: data,
+    };
+};
+
+export const actChooseCategory = (data) => {
+    return {
+        type: ActionTypes.SHOP_CHOOSE_CATEGORY,
         payload: data,
     };
 };
