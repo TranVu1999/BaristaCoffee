@@ -84,6 +84,7 @@ export const actGetDataShopApi = (data) =>{
 }
 
 export const actGetDataShopByKeyApi = (data) =>{
+    
     return dispatch =>{
         dispatch(actShopRequest());
         const requestShop = api.get(

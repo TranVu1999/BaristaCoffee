@@ -39,6 +39,10 @@ const shopReducer = (state = initialState, action) =>{
         case ActionTypes.SHOP_RESET_LIST_PRODUCT:
                 state.isLoading = false;
                 state.data.listProduct = {...state.data.initListProduct};
+                state.data.prodCateAlias = 'empty';
+                state.data.sortBy = 2
+                state.data.pageActive = 0
+                state.data.amount = 0;
                 state.errors = null;
                 return { ...state};
 

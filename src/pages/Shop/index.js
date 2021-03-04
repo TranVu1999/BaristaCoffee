@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './style.scss';
 
 import Banner from '../../commons/components/Banner';
 import MainPage from '../../commons/components/MainPage';
@@ -6,9 +7,6 @@ import Navigation from '../../commons/components/Navigation';
 import ShopProduct from './ShopProduct';
 import ShopSidebar from './ShopSidebar';
 import ShopControl from './ShopControl';
-
-import api from './../../api';
-import * as ApiUrl from './../../commons/constant/ApiUrl';
 import Loading from '../../commons/components/Loading';
 
 import {
@@ -18,16 +16,19 @@ import {
     actChooseSortBy,
     actGetDataShopByKeyApi,
     actInitListProductApi,
-    actResetListProduct
+    actResetListProduct,
+    actChooseCategory
 } from './../../commons/modules/Shop/actions';
 import {actUpdateUrl} from './../../commons/modules/Url/actions';
 import {connect} from 'react-redux';
+import ShopControlSidebar from './ShopControlSidebar';
 
 class ShopPage extends Component {
     constructor(props){
         super(props);
         this.state = {
-            prodCateAlias: 'empty'
+            prodCateAlias: 'empty',
+            isOpenSidebar: false
         }
     }
 
@@ -41,15 +42,30 @@ class ShopPage extends Component {
     }
 
     handleSort = (sortBy) =>{
-        const {pageActive} = this.props;
+        const {pageActive, prodCateAlias} = this.props;
         this.props.onHandleSort(sortBy);
-        this.props.onGetDataShop({
+        // this.props.onGetDataShop({
+        //     page: pageActive,
+        //     sortBy
+        // })
+
+        this.props.onGetDataByKeyword({
             page: pageActive,
-            sortBy
+            sortBy,
+            prodCateAlias,
+            keyword: "empty",
+        });
+    }
+
+    onHanldeSidebarControl = (flag) =>{
+        this.setState({
+            ...this.state,
+            isOpenSidebar: !this.state.isOpenSidebar
         })
     }
 
     render() {
+        const {isOpenSidebar} = this.state;
 
         const {
             listProduct, 
@@ -65,6 +81,9 @@ class ShopPage extends Component {
                 <MainPage>
                     <div className="cf-container">
                         <div className="d-flex-between align-start shop-page">
+                            <ShopControlSidebar
+                                onHanldeSidebarControl = {this.onHanldeSidebarControl}
+                            />
                             <div className="main-page__content">
                                 {0
                                     ? <Loading/>
@@ -80,7 +99,9 @@ class ShopPage extends Component {
                                 }
                             </div>
 
-                            <div className="main-page__sidebar">
+                            <div 
+                                className = {isOpenSidebar ? "main-page__sidebar open" : "main-page__sidebar"}
+                            >
                                 <ShopSidebar />
                             </div>
                         </div>
@@ -126,7 +147,8 @@ class ShopPage extends Component {
         }else{
             return {
                 isInint: true,
-                prodCateAlias: nextProps.match.params.prodCateAlias
+                prodCateAlias: nextProps.match.params.prodCateAlias,
+                prevState
             };
         }
         
@@ -134,14 +156,16 @@ class ShopPage extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         if(this.state.isInint){ 
-            this.props.onResetListProduct();
+            // this.props.onResetListProduct();
         }else{
             if(this.state.prodCateAlias && this.state.prodCateAlias !== prevState.prodCateAlias){
-                const {prodCateAlias} = this.state;
+                let {prodCateAlias} = this.state;
+                prodCateAlias = prodCateAlias.slice(prodCateAlias.indexOf("=") + 1)
+                this.props.onUpdateProductCategory(prodCateAlias)
                 this.props.onGetDataByKeyword({
                     page: this.props.pageActive,
                     sortBy: this.props.sortBy,
-                    prodCateAlias: prodCateAlias.slice(prodCateAlias.indexOf("=") + 1),
+                    prodCateAlias,
                     keyword: "empty",
                 });
             }
@@ -189,6 +213,9 @@ const mapDispatchToProps = dispatch =>{
         },
         onResetListProduct: () =>{
             dispatch(actResetListProduct())
+        },
+        onUpdateProductCategory: data =>{
+            dispatch(actChooseCategory(data))
         }
     }
 }
