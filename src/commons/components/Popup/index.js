@@ -7,14 +7,14 @@ class Popup extends Component {
     }
 
     render() {
-        const {isOpen} = this.props;
+        const {isOpen, popupTitle} = this.props;
         return (
             <div 
                 className = {isOpen ? "popup active" : "popup"}
             >
                 <div className="popup__container">
                     <div className="popup--header">
-                    <h3>Account Login</h3>
+                    <h3>{popupTitle ? popupTitle : "Account Login"}</h3>
                     <button 
                         className="close-popup"
                         onClick = {this.onHandleOpenLoginForm}
