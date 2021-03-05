@@ -21,6 +21,26 @@ export const actProductDetailApi = (prodAlias) =>{
     }
 }
 
+export const actAddCommentlApi = (data) =>{
+    return dispatch =>{        
+        const reqcomment = api.post(`/product/comment`, data);
+
+        axios.all([reqcomment])
+        .then(
+            axios.spread((...responses) =>{
+                const resComment = responses[0].data;
+                console.log("commented", resComment);
+                if(resComment === "ok"){
+                    dispatch(actUpdateListComment(data))
+                }
+            })
+        )
+        .catch(err =>{
+            dispatch(actProductDetailFailed(err))
+        })
+    }
+}
+
 const actProductDetailRequest = () => {
     return {
         type: ActionTypes.PRODUCTDETAIL_REQUEST,
@@ -40,6 +60,13 @@ const actProductDetailFailed = (err) => {
         payload: err,
     };
 };
+
+const actUpdateListComment = (data) =>{
+    return {
+        type: ActionTypes.UPDATE_LIST_COMMENT,
+        payload: data
+    }
+}
 
 export const actChangeProductAvatar = (data) =>{
     return {

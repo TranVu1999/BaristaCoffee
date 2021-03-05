@@ -53,14 +53,13 @@ class ProductTab extends Component {
             <div className="product-tab__item">
                 <h2>{this.props.amountComment} Reviews For <span>Paper Bag</span> </h2>
                 <ListComment/>
-                <FormReview/>
+                <FormReview prodId = {this.props.prodInfo.productId}/>
             </div>
         )
     }
 
     render() {
         const {currentTab} = this.state;
-
         return (
             <div className="product-tabs">
                 <ul className="product-nav">

@@ -4,6 +4,7 @@ import Popup from '../Popup';
 import './style.scss';
 
 import {connect} from 'react-redux';
+import {actAddCommentlApi} from './../../../pages/ProductDetail/modules/actions'
 
 class FormReview extends Component {
     constructor(props){
@@ -62,12 +63,12 @@ class FormReview extends Component {
         this.setState({
             ...this.state,
             [name]: value
-        }, () => console.log("comment", this.state.comment))
+        })
     }
 
     handleSubmit = (event) =>{
         event.preventDefault();
-        const accountInfo = localStorage.getItem('accountInfo');
+        const accountInfo = JSON.parse(localStorage.getItem('accountInfo'));
         if(accountInfo){
             // Đã đăng nhập
             if(this.state.comment === ''){
@@ -76,9 +77,43 @@ class FormReview extends Component {
                     ...this.state,
                     error: 'Your comment cannot be left blank.'
                 })
+            }else if(this.state.rating === 0){
+                // Chưa đánh giá
+                this.setState({
+                    ...this.state,
+                    error: 'You have not rated the product yet.'
+                })
             }else{
                 // Được phép comment
 
+                let d = new Date();
+                let day = d.getDay();
+                day = day < 10 ? ('0' + day) : day;
+                let month = d.getMonth() + 1;
+                month = month  < 10 ? ('0' + month) : month;
+                let year = d.getFullYear();
+
+                const data = {
+                    productId: this.props.prodId,
+                    reviewInfo: {
+                        accountId: accountInfo.accountId,
+                        time: `${day}.${month}.${year}`,
+                        rating: 100 * (this.state.rating / 5),
+                        content: this.state.comment,
+                        username: accountInfo.username
+                    }
+                }
+
+                // reset
+                this.setState({
+                    rating: 0,
+                    indexHover: 0,
+                    comment: '',
+                    isOpenPopup: false,
+                    error: ''
+                })
+
+                this.props.onComment(data);
             }
         }else{
             // Chưa đăng nhập
@@ -155,4 +190,12 @@ class FormReview extends Component {
     }
 }
 
-export default connect()(FormReview)
+const mapDispatchToProps = dispatch =>{
+    return {
+        onComment: data =>{
+            dispatch(actAddCommentlApi(data))
+        }
+    }
+}
+
+export default connect(null, mapDispatchToProps)(FormReview)

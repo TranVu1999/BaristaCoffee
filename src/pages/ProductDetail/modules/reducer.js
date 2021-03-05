@@ -61,6 +61,22 @@ const productDetailReducer = (state = initialState, action) =>{
             state.errors = action.payload;
             return { ...state };
 
+        case ActionTypes.UPDATE_LIST_COMMENT:
+            const {reviewInfo} = action.payload;
+            const dataComment = {
+                accountId: reviewInfo.accountId,
+                time: reviewInfo.time,
+                rating: reviewInfo.rating,
+                content: reviewInfo.content,
+                userName: "Trần Lê Anh Vũ"
+            }
+            let lstComment = [...state.data.prodReview];
+            lstComment.push(dataComment);
+            state.data.prodReview = [...lstComment]
+            console.log("update", state.data.prodReview);
+
+            return { ...state };
+
         case ActionTypes.PRODUCTDETAIL_CHANGE_PRODUCTAVATAR:
             state.data = {
                 ...state.data,
