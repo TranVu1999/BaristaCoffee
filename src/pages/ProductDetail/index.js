@@ -7,13 +7,24 @@ import ProductThumb from './ProductThumb'
 import ProductSummary from './ProductSummary';
 
 import {connect} from 'react-redux';
-import {actProductDetailApi} from './modules/actions';
+import {actProductDetailApi, actDropBylApi} from './modules/actions';
 import {actUpdateUrl} from './../../commons/modules/Url/actions';
 import ProductTab from './ProductTab';
 
 class ProductDetailPage extends Component {
 
-    render() {        
+    render() {  
+        let productId = this.props.prodInfo.productId;
+        let accountId = JSON.parse(localStorage.getItem("accountInfo")).accountId;
+        accountId = accountId ? accountId : "none";
+        if(productId){
+            this.props.onDropByDetail({
+                productId: productId,
+                accountId: accountId
+            })
+        }
+        
+
         return (
             <>
                 <Banner bannerTitle = "Shop" bannerImg = "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851628/BaristaCoffee/other/shop-title-area_fjcbvl.jpg"/>
@@ -60,6 +71,9 @@ const mapDispatchToProps = dispatch =>{
         },
         onUpdateUrl: url =>{
             dispatch(actUpdateUrl(url))
+        },
+        onDropByDetail: data =>{
+            actDropBylApi(data);
         }
     }
 }

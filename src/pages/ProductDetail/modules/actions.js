@@ -41,6 +41,19 @@ export const actAddCommentlApi = (data) =>{
     }
 }
 
+export const actDropBylApi = (data) =>{
+    const reqDropby = api.post(`/product/dropby`, data);
+
+    axios.all([reqDropby])
+    .then(
+        axios.spread((...responses) =>{
+        })
+    )
+    .catch(err =>{
+        
+    })
+}
+
 const actProductDetailRequest = () => {
     return {
         type: ActionTypes.PRODUCTDETAIL_REQUEST,

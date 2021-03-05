@@ -108,8 +108,7 @@ class ProductSummary extends Component {
         }
     }
 
-    render() {  
-        console.log("product detail", this.props.prod);      
+    render() {      
         return (
             
             <div className="product-summary">
