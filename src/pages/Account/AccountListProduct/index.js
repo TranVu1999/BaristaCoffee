@@ -9,6 +9,16 @@ export default class AccountListProduct extends Component {
                 return "Sản phẩm đã xem (1)";
         }
     }
+
+    renderListProduct = () =>{
+        const {listProduct} = this.props;
+        return listProduct.map((item, index) => {
+            if(item.isNew){
+                return <ProductItem key = {index} prodContent = {item}/>
+            }
+            return null
+        })
+    }
     
     render() {
 
@@ -17,9 +27,7 @@ export default class AccountListProduct extends Component {
                 <span class="account__title">{this.showTitleList()}</span>
                 <div class="account__content">
                     <ul className = "lst-product lst-prod-favorite">
-                        <ProductItem/>
-                        <ProductItem/>
-                        <ProductItem/>
+                        {this.renderListProduct()}
                     </ul>
                 </div>
                 

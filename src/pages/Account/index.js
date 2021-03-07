@@ -23,8 +23,10 @@ class AccountPage extends Component {
         }
     }
 
-    showAccountContent = (tabTitle) =>{
+    showAccountContent = () =>{
+        const {tabTitle} = this.state;
         if(tabTitle){
+            const {accountProduct} = this.props.accountInfo;
             switch (tabTitle.accountTab) {
                 case 'invoice':
                     return ( <AccountListInvoice/> )
@@ -39,7 +41,10 @@ class AccountPage extends Component {
                 case 'commented':
                     return ( <AccountListProduct title = {tabTitle.accountTab}/> )
                 case 'readed':
-                    return ( <AccountListProduct title = {tabTitle.accountTab}/> )
+                    return ( <AccountListProduct 
+                        title = {tabTitle.accountTab} 
+                        listProduct = {accountProduct.readed}
+                    /> )
                 case 'save-for-later':
                     return ( <AccountListProduct title = {tabTitle.accountTab}/> )
                 default:
@@ -48,13 +53,10 @@ class AccountPage extends Component {
         }
 
         return null;
-        
     }
 
 
     render() {
-        const {tabTitle} = this.state;
-
         return (
             <MainPage>
                 <Breadcrumb mainTitle = "My Account"/>
@@ -63,7 +65,7 @@ class AccountPage extends Component {
                     <AccountSidebar/>
                     <div className="main-page__content account__container">
                         <div className="account__container--widget">
-                            {this.showAccountContent(tabTitle)}
+                            {this.showAccountContent()}
                             
                         </div>
                     </div>
@@ -106,7 +108,8 @@ class AccountPage extends Component {
 
 const mapStateToProps = state =>{
     return{
-        urlParams: state.urlReducer.urlInfo.params
+        urlParams: state.urlReducer.urlInfo.params,
+        accountInfo: state.accountInfoReducer.accountInfo
     }
 }
 

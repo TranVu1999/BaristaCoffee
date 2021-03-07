@@ -16,7 +16,7 @@ class App extends Component {
 
   render(){
     return (
-      <div className = "main-wrapper page">
+      <div className = "main-wrapper ">
         <Header />
 
         <Switch>
