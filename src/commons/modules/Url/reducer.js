@@ -2,7 +2,8 @@ import * as ActionTypes from './constants';
 
 let initialState = {
     urlInfo: {
-        path: ''
+        path: '',
+        accountTab: ''
     }
 };
 

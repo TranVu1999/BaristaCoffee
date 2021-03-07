@@ -57,6 +57,8 @@ class AboutPage extends Component {
             path: this.props.match.path
         })
     }
+
+    
 }
 
 const mapDispatchToProps = dispatch =>{

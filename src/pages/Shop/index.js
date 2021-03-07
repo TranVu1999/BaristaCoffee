@@ -152,7 +152,6 @@ class ShopPage extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        console.log("current", this.state);
         const {pastURL, currentURL} = this.state;
         if(pastURL === '/shop' && currentURL.indexOf("product-category") !== -1){
             if(this.state.prodCateAlias && this.state.prodCateAlias !== prevState.prodCateAlias){

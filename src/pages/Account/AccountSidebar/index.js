@@ -5,7 +5,6 @@ import {connect} from 'react-redux';
 
 class AccountSidebar extends Component {
     getAmountNewProduct = (lstProduct) =>{
-      console.log("account product", lstProduct);
         let amount = 0;
         for(let item of lstProduct){
             if(item.isNew){
@@ -18,7 +17,6 @@ class AccountSidebar extends Component {
     render() {
         const {accountInfo} = this.props;
         const {accountProduct} = accountInfo;
-        console.log("userEmail", accountInfo.userEmail)
         
 
         const amountReaded = this.getAmountNewProduct(accountProduct.readed);
@@ -289,7 +287,9 @@ class AccountSidebar extends Component {
 
 const mapStateToProps = state =>{
     return {
-        accountInfo: state.loginReducer.data.accountInfo
+        // accountInfo: state.loginReducer.data.accountInfo,
+        accountInfo: state.accountInfoReducer.accountInfo
     }
 }
+
 export default connect(mapStateToProps)(AccountSidebar)

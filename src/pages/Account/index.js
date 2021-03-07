@@ -11,33 +11,50 @@ import AccountListAddress from './AccountListAddress';
 import AccountAddress from './AccountAddress';
 import AccountListProduct from './AccountListProduct';
 
-export default class AccountPage extends Component {
+import {connect} from 'react-redux';
+import {actAccountInfoApi} from './../../commons/modules/AccountInfo/actions';
+import {actUpdateUrl} from './../../commons/modules/Url/actions';
 
-    showAccountContent = (alias) =>{
-        switch (alias) {
-            case 'invoice':
-                return ( <AccountListInvoice/> )
-            case 'address':
-                return ( <AccountListAddress/> )
-            case 'add-address':
-                return ( <AccountAddress isUpdate = {false}/>)
-            case 'update-address':
-                return ( <AccountAddress isUpdate = {true}/>)
-
-            case 'favorite':
-            case 'commented':
-            case 'readed':
-            case 'save-for-later':
-                return ( <AccountListProduct title = {alias}/> )
-            default:
-                return (  <AccountInfomation/> )
+class AccountPage extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            tabTitle: ''
         }
+    }
+
+    showAccountContent = (tabTitle) =>{
+        if(tabTitle){
+            switch (tabTitle.accountTab) {
+                case 'invoice':
+                    return ( <AccountListInvoice/> )
+                case 'address':
+                    return ( <AccountListAddress/> )
+                case 'add-address':
+                    return ( <AccountAddress isUpdate = {false}/>)
+                case 'update-address':
+                    return ( <AccountAddress isUpdate = {true}/>)
+                case 'favorite':
+                    return ( <AccountListProduct title = {tabTitle.accountTab}/> )
+                case 'commented':
+                    return ( <AccountListProduct title = {tabTitle.accountTab}/> )
+                case 'readed':
+                    return ( <AccountListProduct title = {tabTitle.accountTab}/> )
+                case 'save-for-later':
+                    return ( <AccountListProduct title = {tabTitle.accountTab}/> )
+                default:
+                    return (  <AccountInfomation/> )
+            }
+        }
+
+        return null;
+        
     }
 
 
     render() {
-        console.log("url", this.props);
-        
+        const {tabTitle} = this.state;
+
         return (
             <MainPage>
                 <Breadcrumb mainTitle = "My Account"/>
@@ -46,12 +63,8 @@ export default class AccountPage extends Component {
                     <AccountSidebar/>
                     <div className="main-page__content account__container">
                         <div className="account__container--widget">
-                            {/* <AccountInfomation/> */}
-                            {/* <AccountListInvoice/> */}
-                            {/* <AccountInvoiceDetail/> */}
-                            {/* <AccountListAddress/> */}
-                            {/* <AccountAddress/> */}
-                            {/* <AccountListProduct/> */}
+                            {this.showAccountContent(tabTitle)}
+                            
                         </div>
                     </div>
                 </div>
@@ -59,4 +72,53 @@ export default class AccountPage extends Component {
             </MainPage>
         )
     }
+
+    componentDidMount(){
+
+        this.props.onUpdateUrl({
+            params: this.props.match.params,
+            url: this.props.match.url,
+            path: this.props.match.path
+        });
+
+        const accountInfo = JSON.parse(localStorage.getItem("accountInfo"));
+        if(accountInfo){
+            
+            this.props.onGetData(accountInfo.accountId);
+        }else{
+            // Truy cập trái phép
+            // Chuyển về trang chủ
+        }
+
+        // this.props.onGetData()
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if(nextProps.match.url && nextProps.urlParams){
+            if(nextProps.urlParams !== nextProps.match.params.accountTab){
+                return {tabTitle: nextProps.match.params}
+            } 
+        }
+        return null;
+        
+    }
 }
+
+const mapStateToProps = state =>{
+    return{
+        urlParams: state.urlReducer.urlInfo.params
+    }
+}
+
+const mapDispatchToProps = dispatch =>{
+    return {
+        onGetData: accountId =>{
+            dispatch(actAccountInfoApi(accountId))
+        },
+        onUpdateUrl: url =>{
+            dispatch(actUpdateUrl(url))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AccountPage)

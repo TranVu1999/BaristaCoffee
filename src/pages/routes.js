@@ -14,7 +14,7 @@ import SignUpPage from './SignUp';
 
 const routes =  [
     {
-        path: "/my-account",
+        path: "/my-account/:accountTab?",
         exact: true,
         component: AccountPage
     },
