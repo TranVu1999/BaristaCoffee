@@ -28,11 +28,14 @@ class AccountPage extends Component {
         
         if(tabTitle){
             const {accountProduct} = this.props.accountInfo;
-            console.log("account pro", accountProduct);
 
             switch (tabTitle.accountTab) {
                 case 'invoice':
                     return ( <AccountListInvoice/> )
+                case 'invoice-detail':
+                    const {urlParams} = this.props;
+                    console.log("urlParams.invoiceId", urlParams.invoiceId)
+                    return ( <AccountInvoiceDetail invoiceId = {urlParams.invoiceId}/> )
                 case 'address':
                     return ( <AccountListAddress/> )
                 case 'add-address':

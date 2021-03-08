@@ -2,7 +2,22 @@ import React, { Component } from 'react';
 import './style.scss';
 import InvoiceItem from './InvoiceItem';
 
-export default class AccountListInvoice extends Component {
+import {connect} from 'react-redux';
+import {actGetListInvoiceApi} from './../../../commons/modules/AccountInfo/actions';
+
+class AccountListInvoice extends Component {
+    renderListInvoice = () =>{
+        const {listInvoice} = this.props;
+        if(listInvoice){
+            return listInvoice.map((item, index) =>{
+                return <InvoiceItem 
+                key = {index} 
+                invoiceContent = {item}
+                
+            />
+            })
+        }
+    }
     render() {
         return (
             <div className="account-content--box">
@@ -17,13 +32,7 @@ export default class AccountListInvoice extends Component {
                             <div className = "invoice-status">Trạng thái đơn hàng</div>
                         </div>
                         <div className = "lst-invoice--body">
-                            <InvoiceItem/>
-                            <InvoiceItem/>
-                            <InvoiceItem/>
-                            <InvoiceItem/>
-                            <InvoiceItem/>
-                            <InvoiceItem/>
-                            <InvoiceItem/>
+                            {this.renderListInvoice()}
                         </div>
                     </div>
                 </div>
@@ -31,4 +40,27 @@ export default class AccountListInvoice extends Component {
 
         )
     }
+
+    componentDidMount(){
+        const accountInfo = JSON.parse(localStorage.getItem("accountInfo"));
+        if(accountInfo){
+            this.props.onGetListInvoice(accountInfo.accountId);
+        }
+    }
 }
+
+const mapDispatchToProps = dispatch =>{
+    return {
+        onGetListInvoice: accountId =>{
+            dispatch(actGetListInvoiceApi(accountId))
+        }
+    }
+}
+
+const mapStateToProps = state =>{
+    return {
+        listInvoice : state.accountInfoReducer.accountInfo.listInvoice
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AccountListInvoice)

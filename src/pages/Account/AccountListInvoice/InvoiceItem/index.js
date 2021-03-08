@@ -3,17 +3,30 @@ import './style.scss';
 import {NavLink} from 'react-router-dom';
 
 export default class InvoiceItem extends Component {
+    renderInvoiceStatus = (status) =>{
+        switch(status){
+            default: 
+                return "Giao hàng thành công"
+        }
+    }
     render() {
+        const {invoiceContent} = this.props;
+
         return (
             <>
                 <div className = "d-table-row invoice--item">
                     <div className = "invoice-id">
-                        <NavLink to = "">351077915</NavLink>
+                        <NavLink 
+                            to = {`/my-account/invoice-detail/${invoiceContent.invoiceId}`}
+                            
+                        >{invoiceContent.invoiceId}</NavLink>
                     </div>
-                    <div className = "invoice-date">03/01/2021</div>
+                    <div className = "invoice-date">{invoiceContent.createdate}</div>
                     <div className = "invoice-prod">Chicken Soup For The Soul, Chicken Soup For The Soul, Chicken Soup For The SoulChicken Soup For The Soul Chicken Soup For The SoulChicken Soup For The Soul</div>
-                    <div className = "invoice-total">62.000 ₫</div>
-                    <div className = "invoice-status">Giao hàng thành công</div>
+                    <div className = "invoice-total">{invoiceContent.total} ₫</div>
+                    <div className = "invoice-status">
+                        {this.renderInvoiceStatus(invoiceContent.status)}
+                    </div>
                 </div>
 
                 <a href="/#" className="invoice--item box">

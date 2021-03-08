@@ -1,8 +1,75 @@
 import React, { Component } from 'react';
 import './style.scss';
+import axios from 'axios';
 
-export default class AccountInvoiceDetail extends Component {
+class AccountInvoiceDetail extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            invoiceDetail: {
+                invoiceId: "",
+                status: "finish",
+                createdate: "",
+                receivedName: "admin",
+                address: "",
+                phone: "",
+                chargeShip: "",
+                listProduct: []
+            }
+        }
+    }
+
+    renderInvoiceStatus = (status) =>{
+        switch(status){
+            default: 
+                return "Giao hàng thành công"
+        }
+    }
+
+    renderListProduct = (listProduct) =>{
+        return listProduct.map((item, index) =>{
+            return (
+                <div key = {index} className="d-flex-between product-item">
+                    <div className="widget widget-product">
+                        <div className="product-thumb">
+                            <img src={item.productAvatar} alt="product" />
+                        </div>
+                        <div className="product-text">
+                            <h5><a href="/#">{item.productTitle}</a></h5>
+
+                        <div className="product-rate">
+                        <div 
+                            className="product-rate--overlay" 
+                            style={{width: 100 - item.productRating + "%"}} 
+                        />
+                            <span className="icon icon-star-full" />
+                            <span className="icon icon-star-full" />
+                            <span className="icon icon-star-full" />
+                            <span className="icon icon-star-full" />
+                            <span className="icon icon-star-full" />
+                        </div>
+                        <div>
+                            <a href="/#" className="btn">Viết nhận xét</a>
+                            <a href="/#" className="btn">Mua lại</a>
+                        </div>
+                    </div>
+
+                    </div>
+                    <div className="widget widget-price">{item.productPrice} $</div>
+                    <div className="widget widget-amount">{item.amount}</div>
+                    <div className="widget widget-promo">0 $</div>
+                    <div className="widget widget-provisional">
+                        {item.productPrice * item.amount} .00$
+                    </div>
+                </div>
+            )
+        })
+    }
+
     render() {
+        const {invoiceDetail} = this.state;
+        console.log("invoice detail", invoiceDetail)
+
         return (
             <div className="account__container--widget">
                 <span className="account__title">Chi tiết đơn hàng</span>
@@ -11,26 +78,30 @@ export default class AccountInvoiceDetail extends Component {
                     <div className="invoice-detail">
                         <div className="d-flex-between invoice-detail--top">
                             <div>
-                                <span className="invoice-id">#351077915</span> - Giao hàng thành công
+                                <span className="invoice-id">
+                                    #{invoiceDetail.invoiceId}</span> - 
+                                    {this.renderInvoiceStatus(invoiceDetail.status)}
                             </div>
                             <div>
                                 <span className="invoice-date">Ngày đặt hàng: </span>
-                            00:41 03/01/2021
+                                {invoiceDetail.createdate}
                             </div>
                         </div>
 
                         <div className="d-flex-between align-start invoice-detail__info">
                             <div className="invoide-widget">
                                 <h5>Địa chỉ người nhận</h5>
-                                <p className="customer-name">Trần Lê Anh Vũ</p>
-                                <p>Địa chỉ: 156b, Lã Xuân Oai, Phường Tăng Nhơn Phú A, Quận 9, Hồ Chí Minh, Việt Nam</p>
-                                <p>Điện thoại: 0377670509</p>
+                                <p className="customer-name">
+                                    {invoiceDetail.receivedName}
+                                </p>
+                                <p>Địa chỉ: {invoiceDetail.address}</p>
+                                <p>Điện thoại: {invoiceDetail.phone}</p>
                             </div>
 
                             <div className="invoide-widget">
                                 <h5>Hình thức giao hàng</h5>
                                 <p>Giao vào Chủ nhật, 10/01</p>
-                                <p>Phí vận chuyển: 14.000đ</p>
+                                <p>Phí vận chuyển: {invoiceDetail.chargeShip}đ</p>
                             </div>
 
                             <div className="invoide-widget">
@@ -49,80 +120,10 @@ export default class AccountInvoiceDetail extends Component {
                             </div>
 
                             <div className="invoice-detail__body">
-                                <div className="d-flex-between product-item">
-                                    <div className="widget widget-product">
-                                    <div className="product-thumb">
-                                        <img src="https://res.cloudinary.com/doem0ysxl/image/upload/v1611851630/BaristaCoffee/shop/prod2_xocw36.jpg" alt="product" />
-                                    </div>
-                                    <div className="product-text">
-                                        <h5>
-                                        <a href="/#">Paper page</a>
-                                        </h5>
-                                        <div className="product-rate">
-                                        <div className="product-rate--overlay" style={{width: '12%'}} />
-                                        <span className="icon icon-star-full" />
-                                        <span className="icon icon-star-full" />
-                                        <span className="icon icon-star-full" />
-                                        <span className="icon icon-star-full" />
-                                        <span className="icon icon-star-full" />
-                                        </div>
-                                        <div>
-                                        <a href="/#" className="btn">Viết nhận xét</a>
-                                        <a href="/#" className="btn">Mua lại</a>
-                                        </div>
-                                    </div>
-                                    </div>
-                                    <div className="widget widget-price">
-                                    102.809 ₫
-                                    </div>
-                                    <div className="widget widget-amount">
-                                    1
-                                    </div>
-                                    <div className="widget widget-promo">
-                                    0 ₫
-                                    </div>
-                                    <div className="widget widget-provisional">
-                                    102.809 ₫
-                                    </div>
-                                </div>
-                                <div className="d-flex-between product-item">
-                                    <div className="widget widget-product">
-                                    <div className="product-thumb">
-                                        <img src="./images/prod1.jpg" alt="product" />
-                                    </div>
-                                    <div className="product-text">
-                                        <h5>
-                                        <a href="/#">Paper page</a>
-                                        </h5>
-                                        <div className="product-rate">
-                                        <div className="product-rate--overlay" style={{width: '12%'}} />
-                                        <span className="icon icon-star-full" />
-                                        <span className="icon icon-star-full" />
-                                        <span className="icon icon-star-full" />
-                                        <span className="icon icon-star-full" />
-                                        <span className="icon icon-star-full" />
-                                        </div>
-                                        <div>
-                                        <a href="/#" className="btn">Viết nhận xét</a>
-                                        <a href="/#" className="btn">Mua lại</a>
-                                        </div>
-                                    </div>
-                                    </div>
-                                    <div className="widget widget-price">
-                                    102.809 ₫
-                                    </div>
-                                    <div className="widget widget-amount">
-                                    1
-                                    </div>
-                                    <div className="widget widget-promo">
-                                    0 ₫
-                                    </div>
-                                    <div className="widget widget-provisional">
-                                    102.809 ₫
-                                    </div>
-                                </div>
-                                </div>
-                                <div className="invoide-detail__footer">
+                                {this.renderListProduct(invoiceDetail.listProduct)}
+                            </div>
+
+                            <div className="invoide-detail__footer">
                                 <div className="d-flex-between">
                                     <div className="widget-space" />
                                     <div className="widget-label">
@@ -157,4 +158,25 @@ export default class AccountInvoiceDetail extends Component {
             </div>
         )
     }
+
+    componentDidMount(){
+        const {invoiceId} = this.props;
+        const accountInfo = JSON.parse(localStorage.getItem("accountInfo"))
+        if(accountInfo && invoiceId){
+            axios.get(
+                `http://localhost:9000/invoice/${accountInfo.accountId}/${invoiceId}`
+            )
+            .then(res =>{
+                this.setState({
+                    invoiceDetail: {...res.data}
+                })
+            })
+            .catch(err =>{
+                console.log("err", err)
+            })
+        }
+        
+    }
 }
+
+export default AccountInvoiceDetail

@@ -3,6 +3,7 @@ import * as ActionTypes from './constants';
 let initialState = {
     accountInfo: {
         userEmail: "admin@gmail.com",
+        listInvoice: [],
         accountProduct: {
             readed: [],
             favorite: [],
@@ -14,16 +15,20 @@ let initialState = {
 };
 
 const accountInfoReducer = (state = initialState, action) =>{
-    
+    let temp = {};
     switch (action.type){
         case ActionTypes.ACCOUNT_SUCCESS:
-            let temp = {
-                accountInfo: {}
+            temp = {
+                accountInfo: {...state.accountInfo}
             };
             for(let key in action.payload){
                 temp.accountInfo[key] = action.payload[key];
             };
             state = {...temp};
+            return { ...state};
+            
+        case ActionTypes.ACCOUNT_GET_LIST_INVOICE:
+            state.accountInfo.listInvoice = action.payload.listInvoice;
             return { ...state};
         
         case ActionTypes.ACCOUNT_FAILED:

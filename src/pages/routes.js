@@ -14,7 +14,7 @@ import SignUpPage from './SignUp';
 
 const routes =  [
     {
-        path: "/my-account/:accountTab?",
+        path: "/my-account/:accountTab?/:invoiceId?",
         exact: true,
         component: AccountPage
     },
