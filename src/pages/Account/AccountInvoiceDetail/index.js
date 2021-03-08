@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import './style.scss';
 import axios from 'axios';
 
+import {NavLink} from 'react-router-dom';
+
 class AccountInvoiceDetail extends Component {
     constructor(props){
         super(props);
@@ -17,6 +19,15 @@ class AccountInvoiceDetail extends Component {
                 listProduct: []
             }
         }
+    }
+
+    renderTotalInvoice = (listProduct) =>{
+        let total = 0;
+        for(let prodItem of listProduct){
+            total += prodItem.amount * prodItem.productPrice
+        }
+
+        return total;
     }
 
     renderInvoiceStatus = (status) =>{
@@ -35,7 +46,9 @@ class AccountInvoiceDetail extends Component {
                             <img src={item.productAvatar} alt="product" />
                         </div>
                         <div className="product-text">
-                            <h5><a href="/#">{item.productTitle}</a></h5>
+                            <h5><NavLink 
+                                to={`/product-detail/${item.productAlias}`}
+                            >{item.productTitle}</NavLink></h5>
 
                         <div className="product-rate">
                         <div 
@@ -68,7 +81,6 @@ class AccountInvoiceDetail extends Component {
 
     render() {
         const {invoiceDetail} = this.state;
-        console.log("invoice detail", invoiceDetail)
 
         return (
             <div className="account__container--widget">
@@ -101,7 +113,7 @@ class AccountInvoiceDetail extends Component {
                             <div className="invoide-widget">
                                 <h5>Hình thức giao hàng</h5>
                                 <p>Giao vào Chủ nhật, 10/01</p>
-                                <p>Phí vận chuyển: {invoiceDetail.chargeShip}đ</p>
+                                <p>Phí vận chuyển: {invoiceDetail.chargeShip} $</p>
                             </div>
 
                             <div className="invoide-widget">
@@ -130,7 +142,7 @@ class AccountInvoiceDetail extends Component {
                                     Tạm tính
                                     </div>
                                     <div className="widget-total">
-                                    199.659 ₫
+                                    {this.renderTotalInvoice(invoiceDetail.listProduct)}.00 $
                                     </div>
                                 </div>
                                 <div className="d-flex-between">
@@ -139,7 +151,7 @@ class AccountInvoiceDetail extends Component {
                                     Phí vận chuyển
                                     </div>
                                     <div className="widget-total">
-                                    0 ₫
+                                    {invoiceDetail.chargeShip} $
                                     </div>
                                 </div>
                                 <div className="d-flex-between">
@@ -148,7 +160,8 @@ class AccountInvoiceDetail extends Component {
                                     Tổng cộng
                                     </div>
                                     <div className="widget-total">
-                                    <span className="total-price">199.659 ₫</span>
+                                    <span className="total-price">
+                                        {this.renderTotalInvoice(invoiceDetail.listProduct) - invoiceDetail.chargeShip}.00 $</span>
                                     </div>
                                 </div>
                             </div>

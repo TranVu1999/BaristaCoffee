@@ -23,7 +23,6 @@ class ProductDetailPage extends Component {
                 accountId: accountId
             })
         }
-        
 
         return (
             <>

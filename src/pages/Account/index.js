@@ -19,7 +19,8 @@ class AccountPage extends Component {
     constructor(props){
         super(props);
         this.state = {
-            tabTitle: ''
+            tabTitle: '', 
+            invoiceId: ''
         }
     }
 
@@ -33,9 +34,9 @@ class AccountPage extends Component {
                 case 'invoice':
                     return ( <AccountListInvoice/> )
                 case 'invoice-detail':
-                    const {urlParams} = this.props;
-                    console.log("urlParams.invoiceId", urlParams.invoiceId)
-                    return ( <AccountInvoiceDetail invoiceId = {urlParams.invoiceId}/> )
+                    const {invoiceId} = this.state;
+                    console.log("invoiceId", invoiceId)
+                    return ( <AccountInvoiceDetail invoiceId = {invoiceId}/> )
                 case 'address':
                     return ( <AccountListAddress/> )
                 case 'add-address':
@@ -111,10 +112,24 @@ class AccountPage extends Component {
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
+        
         if(nextProps.match.url && nextProps.urlParams){
             if(nextProps.urlParams !== nextProps.match.params.accountTab){
-                return {tabTitle: nextProps.match.params}
+                
+                if(nextProps.match.params.invoiceId){
+                    return {
+                        tabTitle: nextProps.match.params,
+                        invoiceId: nextProps.match.params.invoiceId
+                    }
+                }
+
+                return {
+                    tabTitle: nextProps.match.params,
+                    invoiceId: ''
+                }
             } 
+
+
         }
         return null;
         

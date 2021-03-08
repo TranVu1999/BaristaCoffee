@@ -3,9 +3,7 @@ import api from '../../../api';
 import axios from 'axios';
 
 export const actProductDetailApi = (prodAlias) =>{
-    return dispatch =>{
-        dispatch(actProductDetailRequest());
-        
+    return dispatch =>{        
         const reqProductDetail = api.get(`/product/${prodAlias}`);
 
         axios.all([reqProductDetail])

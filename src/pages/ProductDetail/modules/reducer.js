@@ -1,7 +1,6 @@
 import * as ActionTypes from './constants';
 
 let initialState = {
-    loading: false,
     data: {
         productId: '',
         productTitle: '',
@@ -26,31 +25,8 @@ let initialState = {
 
 const productDetailReducer = (state = initialState, action) =>{
     switch (action.type){
-        case ActionTypes.PRODUCTDETAIL_REQUEST:
-            state.loading = true;
-            state.data = {
-                productId: '',
-                productTitle: '',
-                productAlias: '',
-                productDetail: '',
-                productPrice: 0,
-                productPromo: 0,
-                productRating: 0,
-                productShortDesc: '',
-                prodReview: [],
-                prodCateTitle: '',
-                productSLU: '',
-                prodInfomation: {},
-                productImage: {
-                    productAvatar: '',
-                    productMoreImage: []
-                }
-            };
-            state.errors = null;
-            return { ...state };
 
         case ActionTypes.PRODUCTDETAIL_SUCCESS:
-            state.loading = false;
             state.data = action.payload;
             state.errors = null;
             return { ...state };
