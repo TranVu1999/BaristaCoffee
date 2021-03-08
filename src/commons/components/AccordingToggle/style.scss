@@ -43,4 +43,18 @@
     .accordition--right{
         color: $primary-color;
     }
+
+    .accordition-toggle--box.empty-icon{
+        max-height: 500px;
+        text-align: center;
+        img{
+            margin-top: 50px;
+            width: 150px;
+        }
+
+        .barista-btn{
+            font-style: initial;
+        }
+        
+    }
 }

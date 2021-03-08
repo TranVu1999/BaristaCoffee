@@ -25,8 +25,11 @@ class AccountPage extends Component {
 
     showAccountContent = () =>{
         const {tabTitle} = this.state;
+        
         if(tabTitle){
             const {accountProduct} = this.props.accountInfo;
+            console.log("account pro", accountProduct);
+
             switch (tabTitle.accountTab) {
                 case 'invoice':
                     return ( <AccountListInvoice/> )
@@ -37,16 +40,25 @@ class AccountPage extends Component {
                 case 'update-address':
                     return ( <AccountAddress isUpdate = {true}/>)
                 case 'favorite':
-                    return ( <AccountListProduct title = {tabTitle.accountTab}/> )
+                    return ( <AccountListProduct 
+                        title = {tabTitle.accountTab}
+                        listProduct = {accountProduct.favorite}
+                    /> )
                 case 'commented':
-                    return ( <AccountListProduct title = {tabTitle.accountTab}/> )
+                    return ( <AccountListProduct 
+                        title = {tabTitle.accountTab}
+                        listProduct = {accountProduct.commented}
+                    /> )
                 case 'readed':
                     return ( <AccountListProduct 
                         title = {tabTitle.accountTab} 
                         listProduct = {accountProduct.readed}
                     /> )
                 case 'save-for-later':
-                    return ( <AccountListProduct title = {tabTitle.accountTab}/> )
+                    return ( <AccountListProduct 
+                        title = {tabTitle.accountTab}
+                        listProduct = {accountProduct.saveForLater}
+                    /> )
                 default:
                     return (  <AccountInfomation/> )
             }
@@ -57,6 +69,7 @@ class AccountPage extends Component {
 
 
     render() {
+        
         return (
             <MainPage>
                 <Breadcrumb mainTitle = "My Account"/>
@@ -85,7 +98,6 @@ class AccountPage extends Component {
 
         const accountInfo = JSON.parse(localStorage.getItem("accountInfo"));
         if(accountInfo){
-            
             this.props.onGetData(accountInfo.accountId);
         }else{
             // Truy cập trái phép

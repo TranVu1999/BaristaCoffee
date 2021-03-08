@@ -14,6 +14,30 @@ export const actAccountInfoApi = (data) =>{
     }
 }
 
+export const actUpdateStatusProductApi = (data) =>{
+    return dispatch =>{
+        api.post(`/${ApiUrl.ACCOUNT}/update-product`, data)
+        .then(res =>{
+            
+        })
+        .catch(err =>{
+            dispatch(actAccountInfoFailed(err));
+        })
+    }
+}
+
+export const actRemoveProductApi = (data) =>{
+    return dispatch =>{
+        api.post(`/${ApiUrl.ACCOUNT}/remove-product`, data)
+        .then(res =>{
+            
+        })
+        .catch(err =>{
+            dispatch(actAccountInfoFailed(err));
+        })
+    }
+}
+
 
 const actAccountInfoSuccess = (data) => {
     return {
