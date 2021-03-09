@@ -1,16 +1,7 @@
 import React, { Component } from 'react';
 import './style.scss';
-import {connect} from 'react-redux';
 
 class ConfirmInvoice extends Component {
-    getSubTotalCart = () =>{
-        const {dataCart} = this.props;
-        let cost = 0;
-        for(let item of dataCart){
-            cost += item.prodPrice * item.amount;
-        }
-        return cost;
-    }
     
     renderInvoiceItem = () =>{
         const {dataCart} = this.props;
@@ -32,7 +23,7 @@ class ConfirmInvoice extends Component {
     }
 
     render() {
-        const subTotal = this.getSubTotalCart();
+        const {subTotalCart, discountCost} = this.props;
         return (
            <div className="confirm-invoice">
                 <h3>Your Order</h3>
@@ -51,7 +42,7 @@ class ConfirmInvoice extends Component {
                     <div className="detail-invoice__footer">
                         <div className="row">
                             <div className="left">Subtotal</div>
-                            <div className="right">${subTotal}.00</div>
+                            <div className="right">${subTotalCart}.00</div>
                         </div>
                         <div className="row">
                             <div className="left">Shipping</div>
@@ -59,7 +50,7 @@ class ConfirmInvoice extends Component {
                         </div>
                         <div className="row">
                             <div className="left">Total</div>
-                            <div className="right">${subTotal}.00</div>
+                            <div className="right">${subTotalCart - discountCost}.00</div>
                         </div>
                     </div>
                 </div>
@@ -69,10 +60,4 @@ class ConfirmInvoice extends Component {
     }
 }
 
-const mapStateToProps = state =>{
-    return {
-        dataCart: state.cartReducer.data
-    }
-}
-
-export default connect(mapStateToProps)(ConfirmInvoice)
+export default ConfirmInvoice

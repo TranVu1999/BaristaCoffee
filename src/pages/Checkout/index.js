@@ -9,37 +9,48 @@ import {connect} from 'react-redux';
 import {actUpdateUrl} from './../../commons/modules/Url/actions';
 
 class CheckoutPage extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            discountCost: 0
+        }
+    }
+
+    onHandleGetDiscount = (cost) =>{
+        this.setState({
+            discountCost: cost
+        })
+    }
+
+    getSubTotalCart = () =>{
+        const {dataCart} = this.props;
+        let cost = 0;
+        for(let item of dataCart){
+            cost += item.prodPrice * item.amount;
+        }
+        return cost;
+    }
+
     render() {
+        const {dataCart} = this.props;
+        const subTotalCart = this.getSubTotalCart();
+        const {discountCost} = this.state;
+
         return (
             <MainPage>
                 <Breadcrumb mainTitle = "Checkout"/>
                 
                 <div class="cf-container checkout-page">
-                    <AccordingToggle>
-                        <div class="accordition-toggle">
-                            <input type="checkbox" id="1"/>
-                            <div class="accordition-toggle--box">
-                                <div class="accordition-span">
-                                    Have a coupon? 
-                                    <label for="1"> Click here to enter your code</label>
-                                </div>
-                                <div class="accordition-detail">
-                                    <span>If you have a coupon code, please apply it below.</span>
-                                    <form>
-                                        <div class="form-group">
-                                            <input type="text" class="input-control" placeholder="Coupon Code"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <button class="coffee-btn">Apply Coupon</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </AccordingToggle>
 
-                    <ConfirmInfo/>
-                    <ConfirmInvoice/>
+                    <ConfirmInfo 
+                        subTotalCart = {subTotalCart}
+                        onHandleGetDiscount = {this.onHandleGetDiscount}
+                    />
+                    <ConfirmInvoice 
+                        dataCart= {dataCart}
+                        subTotalCart = {subTotalCart}
+                        discountCost = {discountCost}
+                    />
                     <div class="confirm-action">
                         <button class="coffee-btn">Place Order</button>
                     </div>
@@ -59,6 +70,12 @@ class CheckoutPage extends Component {
     }
 }
 
+const mapStateToProps = state =>{
+    return {
+        dataCart: state.cartReducer.data
+    }
+}
+
 const mapDispatchToProps = dispatch =>{
     return {
         onUpdateUrl: url =>{
@@ -67,4 +84,4 @@ const mapDispatchToProps = dispatch =>{
     }
 }
 
-export default connect(null, mapDispatchToProps)(CheckoutPage)
+export default connect(mapStateToProps, mapDispatchToProps)(CheckoutPage)
