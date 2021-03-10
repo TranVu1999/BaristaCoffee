@@ -1,70 +1,38 @@
-# Getting Started with Create React App
+<img src="https://res.cloudinary.com/doem0ysxl/image/upload/v1611851624/BaristaCoffee/logo/logo-1_pkd9hg.png" style="height: 32px"/>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# CoffeeShop Website
 
-## Available Scripts
+#### <i class="fa fa-gear fa-spin fa-1x" style="color: firebrick"></i> Mô tả:
+Cả cấu trúc giao diện được chia làm 3 khu vực hoạt động chính: 
+1. Khu vực giao dịch: bao gồm các trang
+   
+   - Trang chủ 
+   - Trang danh sách sản phẩm
+   - Trang chi tiết sản phẩm
+   - Trang giỏ hàng
+   - Trang checkout
+   - Và những trang thông tin khác...
+   
+2. Khu vực user quản lý tài khoản: 1 trang bao gồm các tab chức năng: (lấy ý tưởng quản lý tài khoản của trang thương mại [TiKi](https://tiki.vn/))
+    
+    - Tab thông tin cá nhân
+    - Tab danh sách địa chỉ
+    - Tab danh sách hóa đơn
+    - Tab chi tiết hóa đơn
+    - Tab danh sách sản phẩm yêu thích
+    - Tab danh sách sản phẩm đã xem
+    - Tab danh sách sản phẩm đã nhận xét
+    - Tab danh sách sản phẩm mua sau
+    - Và những tab chức năng khác
+    
+3. Khu vực quản lý của quản trị viên: hiện tại chưa có
 
-In the project directory, you can run:
+#### <i class="fa fa-gear fa-spin fa-1x" style="color: firebrick"></i> Chức năng hiện tại
 
-### `yarn start`
+1. Khu vực giao dịch
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+    - 
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+#### <i class="fa fa-gear fa-spin fa-1x" style="color: firebrick"></i> Hạn chế
 
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+#### <i class="fa fa-gear fa-spin fa-1x" style="color: firebrick"></i> Ý tưởng cải thiện
