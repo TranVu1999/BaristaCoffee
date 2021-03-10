@@ -70,6 +70,7 @@ class Header extends Component {
       urlPath.indexOf("blog-list") !== -1 ||
       urlPath.indexOf("shop") !== -1 ||
       urlPath.indexOf("product-detail") !== -1 ||
+      urlPath.indexOf("signup") !== -1 ||
       urlPath.indexOf("contact") !== -1
     ){
       return true;
