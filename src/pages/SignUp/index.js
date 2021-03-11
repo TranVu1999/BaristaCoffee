@@ -4,6 +4,8 @@ import './style.scss';
 
 import {connect} from 'react-redux';
 import {actUpdateUrl} from './../../commons/modules/Url/actions';
+import * as Validate from "./../../commons/js/validate-input";
+import * as Notify from "./../../commons/constant/Notify";
 
 class SignUpPage extends Component {
     constructor(props){
@@ -12,7 +14,13 @@ class SignUpPage extends Component {
             fullname: "",
             username: "",
             password: "",
-            confirmPassword: ""
+            confirmPassword: "",
+            error: {
+                fullname: "",
+                username: "",
+                password: "",
+                confirmPassword: ""
+            }
         }
     }
 
@@ -20,12 +28,85 @@ class SignUpPage extends Component {
         const {name, value} = event.target;
         this.setState({
             ...this.state,
-            [name]: value
+            [name]: value,
+            error: {
+                ...this.state.error,
+                [name]: ""
+            }
         })
+    }
+
+    onHandleBlur = event =>{
+        const {name, value} = event.target;
+        let isError = false;
+        let error = {
+            [name]: value
+        }
+
+        // Bước 1: Kiểm tra fullname có hợp lệ
+        if(name === "fullname" && !Validate.isFullname(value)){
+            isError = true
+            error[name] = Notify.IS_NOT_FULLNAME
+        }
+
+        // Bước 2: Kiểm tra username có hợp lệ
+        if(name === "username" && 
+            (!Validate.isEmail(value) || Validate.isPhonenumber(value))
+        ){
+            isError = true
+            error[name] = Notify.IS_NOT_USERNAME
+        }
+
+        // Bước 3: Kiểm tra password có hợp lệ
+        if(name === "password" && !Validate.isPassword(value)){
+            isError = true
+            error[name] = Notify.IS_NOT_PASSWORD
+        }
+
+        // Bước 4: Kiểm tra confirm password có hợp lệ
+        if(name === "confirmPassword" && value === this.state.password){
+            isError = true
+            error[name] = Notify.IS_NOT_CONFIRMPASSWORD
+        }
+
+        // Bước 5: Kiểm tra dữ liệu rỗng
+        if(Validate.isEmpty(value)){
+            isError = true;
+            error[name] = Notify.IS_EMPTY
+        }
+
+        if(isError){
+            this.setState({
+                ...this.state,
+                error: {
+                    ...this.state.error,
+                    ...error
+                }
+            })
+        }
     }
 
     onHanldeSubmit = (event) =>{
         event.preventDefault();
+        const accountInfo = this.state;
+
+        const error = {
+            fullname: !accountInfo.fullname ? Notify.IS_EMPTY : "",
+            username: !accountInfo.username ? Notify.IS_EMPTY : "",
+            password: !accountInfo.password ? Notify.IS_EMPTY : "",
+            confirmPassword: !accountInfo.fullname ? Notify.IS_EMPTY : ""
+        }
+
+        if(error.fullname || error.username || error.password || error.confirmPassword){
+            this.setState({
+                ...this.state,
+                error
+            })
+        }
+
+
+
+        
     }
 
     render() {
@@ -53,7 +134,9 @@ class SignUpPage extends Component {
                                         name = "fullname"
                                         value = {accountInfo.fullname}
                                         onChange = {this.onHandlechange}
+                                        onBlur = {this.onHandleBlur}
                                     />
+                                    <p class="notify warning">{accountInfo.error.fullname}</p>
                                 </div>
                                 <div className="form-group">
                                     <input 
@@ -63,7 +146,9 @@ class SignUpPage extends Component {
                                         name = "username"
                                         value = {accountInfo.email}
                                         onChange = {this.onHandlechange}
+                                        onBlur = {this.onHandleBlur}
                                     />
+                                    <p class="notify warning">{accountInfo.error.username}</p>
                                 </div>
                                 <div className="form-group">
                                     <input 
@@ -73,7 +158,9 @@ class SignUpPage extends Component {
                                         name = "password"
                                         value = {accountInfo.password}
                                         onChange = {this.onHandlechange}
+                                        onBlur = {this.onHandleBlur}
                                     />
+                                    <p class="notify warning">{accountInfo.error.password}</p>
                                 </div>
                                 <div className="form-group">
                                     <input 
@@ -83,7 +170,9 @@ class SignUpPage extends Component {
                                         name = "confirmPassword"
                                         value = {accountInfo.confirmPassword}
                                         onChange = {this.onHandlechange} 
+                                        onBlur = {this.onHandleBlur}
                                     />
+                                    <p class="notify warning">{accountInfo.error.confirmPassword}</p>
                                 </div>
                                 <div className="form-group">
                                     <button className="barista-btn">Submit</button>
