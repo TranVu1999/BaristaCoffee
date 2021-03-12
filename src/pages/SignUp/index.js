@@ -1,21 +1,34 @@
 import React, { Component } from 'react';
 import Banner from './../../commons/components/Banner';
+import Popup from './../../commons/components/Popup';
+import AccordingToggle from './../../commons/components/AccordingToggle';
+
 import './style.scss';
+
 
 import {connect} from 'react-redux';
 import {actUpdateUrl} from './../../commons/modules/Url/actions';
+import axios from './../../api'
 import * as Validate from "./../../commons/js/validate-input";
 import * as Notify from "./../../commons/constant/Notify";
+import { Redirect } from 'react-router';
 
 class SignUpPage extends Component {
     constructor(props){
         super(props);
         this.state = {
+            code: {
+                time: "",
+                isOpenPopup : false,
+                code: '',
+                confirmCode: 'none'
+            },
             fullname: "",
             username: "",
             password: "",
             confirmPassword: "",
             error: {
+                confirmCode: "",
                 fullname: "",
                 username: "",
                 password: "",
@@ -26,14 +39,29 @@ class SignUpPage extends Component {
 
     onHandlechange = (event) =>{
         const {name, value} = event.target;
-        this.setState({
-            ...this.state,
-            [name]: value,
-            error: {
-                ...this.state.error,
-                [name]: ""
-            }
-        })
+        if(name === "confirmCode"){
+            this.setState({
+                ...this.state,
+                code: {
+                    ...this.state.code,
+                    [name]: value
+                },
+                error: {
+                    ...this.state.error,
+                    [name]: ""
+                }
+            })
+        }else{
+            this.setState({
+                ...this.state,
+                [name]: value,
+                error: {
+                    ...this.state.error,
+                    [name]: ""
+                }
+            })
+        }
+        
     }
 
     onHandleBlur = event =>{
@@ -50,11 +78,31 @@ class SignUpPage extends Component {
         }
 
         // Bước 2: Kiểm tra username có hợp lệ
-        if(name === "username" && 
-            (!Validate.isEmail(value) || Validate.isPhonenumber(value))
-        ){
-            isError = true
-            error[name] = Notify.IS_NOT_USERNAME
+        if(name === "username"){
+            if(!Validate.isEmail(value)){
+                isError = true
+                error[name] = Notify.IS_NOT_USERNAME
+            }else{
+                axios.get(`account/register/${value}/false`)
+                .then(res =>{
+                    if(res.data){
+                        isError = true
+                        error[name] = Notify.IS_USERNAME_EXISTS;
+
+                        this.setState({
+                            ...this.state,
+                            error: {
+                                ...this.state.error,
+                                ...error
+                            }
+                        }, () =>{
+                            isError = true
+                            error[name] = Notify.IS_USERNAME_EXISTS;
+                        })
+                    }
+                })
+                .catch(err =>{})
+            }
         }
 
         // Bước 3: Kiểm tra password có hợp lệ
@@ -102,11 +150,60 @@ class SignUpPage extends Component {
                 ...this.state,
                 error
             })
+        }else{
+            axios.get(`account/register/${accountInfo.username}/true`)
+            .then(res =>{
+                const d = new Date();
+                
+                this.setState({
+                    ...this.state,
+                    code: {
+                        ...this.state.code,
+                        code: res.data,
+                        isOpenPopup: true,
+                        time: d.getTime()
+                    }
+                })
+            })
+            .catch(err =>{})
         }
+    }
 
+    onHandleOpenLoginForm = () =>{
+        this.setState({
+            ...this.state,
+            code: {
+               ...this.state.code,
+                isOpenPopup: false
+            }
+        })
+    }
 
+    onHandleSubmitCode = (event) =>{
+        event.preventDefault();
+        const d = new Date();
+        const time = d.getTime();
+        const accountInfo = this.state;
 
-        
+        if(time - accountInfo.code.time > 180000){
+            this.setState({
+                ...this.state,
+                error: {
+                    ...this.state.error,
+                    code: "Your confirmation code has expired. Please re-register"
+                }
+            })
+        }else if(accountInfo.code.code !== accountInfo.code.confirmCode){
+            this.setState({
+                ...this.state,
+                error: {
+                    ...this.state.error,
+                    code: "Your confirmation code is incorrect. Please check again"
+                }
+            })
+        }else{
+            this.props.history.push("/")
+        }
     }
 
     render() {
@@ -185,6 +282,34 @@ class SignUpPage extends Component {
                         </div>
                     </div>
                 </section>
+
+                <Popup 
+                    popupTitle="Confirm Code" isOpen = {accountInfo.code.isOpenPopup}
+                    onHandleOpenLoginForm = {this.onHandleOpenLoginForm}
+                >
+                    <AccordingToggle>
+                        <div className="accordition-toggle--box">
+                            <p>We just sent a confirmation code to your email. Please check your email and re-enter this confirmation code. This confirmation code is valid for 3 minutes only</p>
+                            <form 
+                                className = "form"
+                                onSubmit = {this.onHandleSubmitCode}
+                            >
+                                <div className = "form-group">
+                                    <input 
+                                        type="text" 
+                                        placeholder="Your code ..." 
+                                        className = "input-control mb-25"
+                                        name ="confirmCode"
+                                        onChange = {this.onHandlechange}
+                                        value = {accountInfo.code.confirmCode}
+                                    />
+                                    <p class="notify warning">{accountInfo.error.code}</p>
+                                    <button className="barista-btn ">Apply</button>
+                                </div>
+                            </form>
+                        </div>
+                    </AccordingToggle>
+                </Popup>
 
             </>
         )
