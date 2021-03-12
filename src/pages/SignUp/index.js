@@ -208,8 +208,6 @@ class SignUpPage extends Component {
                 password: accountInfo.password
             }
 
-
-
             axios.post(`account/register`, data)
             .then(res =>{
                 this.props.history.push("/")

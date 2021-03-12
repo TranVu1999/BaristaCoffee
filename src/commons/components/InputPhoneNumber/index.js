@@ -18,8 +18,7 @@ export default class InputPhoneNumberComponent extends Component {
                             defaultValue = {value ? value : ""}
                             placeholder = "Nhập số điện thoại"
                             onChange = {this.handleOnChange}
-                        />
-                    <button>Gởi mã xác thực</button> 
+                        /> 
                 </div>
             </div>
         )

@@ -8,7 +8,9 @@ import SelectFieldComponent from './../../../commons/components/SelectField';
 import CheckboxFieldComponent from './../../../commons/components/CheckboxField';
 import InputUpdatePasswordComponent from './../../../commons/components/InputUpdatePassword';
 
-export default class AccountInfomation extends Component {
+import {connect} from 'react-redux';
+
+class AccountInfomation extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -35,6 +37,8 @@ export default class AccountInfomation extends Component {
 
     render() {
         const {isUpdatePassword} = this.state;
+        const {accountInfo} = this.props;
+        console.log("accountInfo", accountInfo)
 
         return (
             <div className="account-content--box form">
@@ -56,13 +60,8 @@ export default class AccountInfomation extends Component {
                         </div>
 
                         <InputPhoneNumberComponent 
-                            value = { null} 
+                            value = {null} 
                         />
-
-                        <div className="form-group">
-                            <div className="input-label">Mã xác thực</div>
-                            <InputFieldComponent placeholder = "Nhập mã xác thực"/>
-                        </div>
                         
                         <div className="form-group">
                             <div className="input-label">Email </div>
@@ -143,3 +142,11 @@ export default class AccountInfomation extends Component {
         )
     }
 }
+
+const mapStateToProps = state =>{
+    return {
+        accountInfo : state.accountInfoReducer.accountInfo
+    }
+}
+
+export default connect(mapStateToProps)(AccountInfomation)
