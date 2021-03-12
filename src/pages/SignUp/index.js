@@ -21,7 +21,7 @@ class SignUpPage extends Component {
                 time: "",
                 isOpenPopup : false,
                 code: '',
-                confirmCode: 'none'
+                confirmCode: ''
             },
             fullname: "",
             username: "",
@@ -112,7 +112,7 @@ class SignUpPage extends Component {
         }
 
         // Bước 4: Kiểm tra confirm password có hợp lệ
-        if(name === "confirmPassword" && value === this.state.password){
+        if(name === "confirmPassword" && value !== this.state.password){
             isError = true
             error[name] = Notify.IS_NOT_CONFIRMPASSWORD
         }
@@ -193,7 +193,7 @@ class SignUpPage extends Component {
                     code: "Your confirmation code has expired. Please re-register"
                 }
             })
-        }else if(accountInfo.code.code !== accountInfo.code.confirmCode){
+        }else if(accountInfo.code.code !== accountInfo.code.confirmCode || !accountInfo.code.confirmCode){
             this.setState({
                 ...this.state,
                 error: {
@@ -202,7 +202,20 @@ class SignUpPage extends Component {
                 }
             })
         }else{
-            this.props.history.push("/")
+            const data = {
+                username: accountInfo.username,
+                fullname: accountInfo.fullname,
+                password: accountInfo.password
+            }
+
+
+
+            axios.post(`account/register`, data)
+            .then(res =>{
+                this.props.history.push("/")
+            })
+            .catch(err =>{})
+            
         }
     }
 
