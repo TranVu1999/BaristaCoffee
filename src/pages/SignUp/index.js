@@ -11,7 +11,6 @@ import {actUpdateUrl} from './../../commons/modules/Url/actions';
 import axios from './../../api'
 import * as Validate from "./../../commons/js/validate-input";
 import * as Notify from "./../../commons/constant/Notify";
-import { Redirect } from 'react-router';
 
 class SignUpPage extends Component {
     constructor(props){

@@ -1,5 +1,11 @@
 @import './../../../assets/Sass/variable.scss';
 
+.input-group{
+    input.error{
+        border-color: $primary-color;
+    }
+}
+
 .input-group.relative-notify{
     position: relative;
 
@@ -30,6 +36,8 @@
             padding: 2px 20px;
 
             z-index: 10;
+            min-width: 180px;
+            white-space: nowrap;
 
             &::after{
                 content: '';
