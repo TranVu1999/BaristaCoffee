@@ -52,6 +52,53 @@ export const actGetListInvoiceApi = (accountId) => {
   };
 };
 
+export const actUpdateAccountApi = (data) => {
+  return (dispatch) => {
+    api
+      .post(`/account/update`, data)
+      .then((res) => {
+        if(res.data !== 'null'){
+          // console.log("res.data", res.data)
+          dispatch(actUpdateAccount(res.data))
+        }
+        
+      })
+      .catch((err) => {
+        dispatch(actAccountInfoFailed(err));
+      });
+  };
+};
+
+export const actDetCodeOnEmailApi = (email) => {
+  return (dispatch) => {
+    api
+      .get(`/account/get-code/${email}`)
+      .then((res) => {
+        if(res.data !== 'null'){
+          dispatch(actGetCode(res.data))
+        }
+        
+      })
+      .catch((err) => {
+        dispatch(actAccountInfoFailed(err));
+      });
+  };
+};
+
+const actUpdateAccount = data =>{
+  return{
+    type: ActionTypes.ACCOUNT_UPDATE_INFO,
+    payload: data
+  }
+}
+
+const actGetCode = data =>{
+  return{
+    type: ActionTypes.ACCOUNT_GET_CODE,
+    payload: data
+  }
+}
+
 const actAccountInfoSuccess = (data) => {
   return {
     type: ActionTypes.ACCOUNT_SUCCESS,

@@ -46,7 +46,9 @@ const loginReducer = (state = initialState, action) =>{
             return { ...state };
 
         case ActionTypes.LOGIN_SUCCESS:
-            state.isLoginForm = false;
+            if(action.payload.flag === 1){
+                state.isLoginForm = false;
+            }
             state.data = action.payload;
             state.errors = null;
             return { ...state};

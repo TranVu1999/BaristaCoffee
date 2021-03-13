@@ -5,9 +5,12 @@ import InputFieldComponent from './../../../commons/components/InputField';
 import RadioFieldComponent from './../../../commons/components/RadioField';
 import SelectFieldComponent from './../../../commons/components/SelectField';
 import CheckboxFieldComponent from './../../../commons/components/CheckboxField';
+import Popup from './../../../commons/components/Popup';
+import AccordingToggle from './../../../commons/components/AccordingToggle';
 
 import * as Validate from "./../../../commons/js/validate-input";
 import * as Notify from "./../../../commons/constant/Notify";
+import {actUpdateAccountApi, actDetCodeOnEmailApi} from './../../../commons/modules/AccountInfo/actions';
 
 import {connect} from 'react-redux';
 
@@ -15,6 +18,12 @@ class AccountInfomation extends Component {
     constructor(props){
         super(props);
         this.state = {
+            code: {
+                time: "",
+                code: '',
+                confirmCode: ''
+            },
+            typePopup: "",
             placeConfirm: 'email',
             isUpdatePassword: false,
             fullname: '',
@@ -36,14 +45,14 @@ class AccountInfomation extends Component {
                 email: '',
                 oldPassword: '',
                 newPassword: '',
-                confirmPassword: ''
+                confirmPassword: '',
+                confirmCode: ''
             }
         }
     }
 
     onHandleChange = (event) =>{
         let {name, value, id} = event.target;
-
         let data = {
             ...this.state, 
             [name]: value,
@@ -69,7 +78,7 @@ class AccountInfomation extends Component {
 
     onHandleBlur = event =>{
         const {value, name} = event.target;
-        let error ={}
+        let error ={...this.state.error}
 
         switch (name){
             case 'fullname':
@@ -122,7 +131,6 @@ class AccountInfomation extends Component {
                 }
                 break;
             default:
-                error ={...this.state.error}
         }
 
         this.setState({
@@ -143,14 +151,71 @@ class AccountInfomation extends Component {
         const accountInfo = this.state;
 
         // Bước 1: Kiểm tra form update mật khẩu có đang được mở hay không
-        if(accountInfo.isUpdatePassword){
+        if(accountInfo.isUpdatePassword && accountInfo.newPassword){
             // Hiện tại, form update mật khẩu đang được mở đang được mở
+            // Bước 3: kiểm tra xem các thông tin cần update có đang bị trống hay đang bị lỗi gì hay không
+            let error = {...accountInfo.error};
+            let flag = false;
+
+            if(!accountInfo.fullname){
+                error.fullname = Notify.IS_EMPTY;
+                flag = true;
+            }
+
+            if(!accountInfo.phoneNumber){
+                error.phoneNumber = Notify.IS_EMPTY;
+                flag = true;
+            }else if(accountInfo.error.phoneNumber){
+                flag = true;
+            }
+
+            if(!accountInfo.oldPassword){
+                error.oldPassword = Notify.IS_EMPTY;
+                flag = true;
+            }else if(accountInfo.error.oldPassword){
+                flag = true;
+            }
+
+            if(accountInfo.error.newPassword){
+                flag = true;
+            }
+
+            if(!accountInfo.confirmPassword){
+                error.confirmPassword = Notify.IS_EMPTY;
+                flag = true;
+            }else if(accountInfo.error.confirmPassword){
+                flag = true;
+            }
+
+            // Bước 4: Kiểm tra nếu xảy ra lỗi thì thông báo
+            if(flag){
+                this.setState({
+                    ...this.state,
+                    error
+                })
+            }else{
+                this.setState({
+                    ...this.state,
+                    typePopup: 'confirm-code'
+                }, () =>{
+                    if(accountInfo.placeConfirm === 'email'){
+                        this.props.onGetCodeOnEmail(accountInfo.email)
+                    }else{
+                        // Gởi mã xác nhận về điện thoại
+                    }
+                    
+                })
+                
+            }
+
+            
         }else{
             // Hiện tại, form update mật khẩu được được đóng
             // Bước 2: kiểm tra người dùng có lỡ tay đóng form hay không thông qua việc kiểm tra oldPasswrod nếu có giá trị thì xác định là có
 
             if(accountInfo.newPassword){
                 // Trường hợp người dùng muốn update mật khẩu
+
             }else{
                 // Trường hợp người dùng chỉ muốn update thông tin
                 // Bước 3: kiểm tra xem các thông tin cần update có đang bị trống hay không
@@ -164,6 +229,9 @@ class AccountInfomation extends Component {
                 if(!accountInfo.phoneNumber){
                     error.phoneNumber = Notify.IS_EMPTY;
                     flag = true;
+                }else if(accountInfo.error.phoneNumber){
+                    error.phoneNumber = Notify.IS_NOT_PHONE_NUMBER;
+                    flag = true;
                 }
 
                 // Bước 4: Kiểm tra nếu xảy ra lỗi thì thông báo
@@ -174,202 +242,329 @@ class AccountInfomation extends Component {
                     })
                 }else{
                     // Bước 5: Gởi API về server cập nhật thông tin
+                    const data = {
+                        accountId: accountInfo.accountId,
+                        username: accountInfo.email,
+                        fullname: accountInfo.fullname,
+                        phoneNumber: accountInfo.phoneNumber,
+                        email:  accountInfo.email,
+                        gender:  accountInfo.gender,
+                        birthday: {
+                            ...accountInfo.birthday
+                        },
+                        password: accountInfo.password
+                    }
+
+                    this.setState({
+                        ...this.state,
+                        typePopup: 'submitted'
+                    }, () =>{
+                        this.props.onUpdateAccount(data)
+                    })
                     
                 }
-
-                
             }
             
         }
     }
 
+    onHandleOpenLoginForm = ()=>{
+        this.setState({
+            ...this.state,
+            typePopup: ""
+        })
+    }
+
+    onHandlechangeCode = (event) =>{
+        const {value} = event.target;
+        this.setState({
+            ...this.state, 
+            code: {
+                ...this.state.code, 
+                confirmCode: value
+            }
+        })
+    }
+
+    onHandleSubmitCode = event =>{
+        event.preventDefault();
+        const code = this.props.accountInfo.code;
+
+        const d = new Date();
+        const time = d.getTime();
+        const accountInfo = this.state;
+
+        if(time - code.time > 180000){
+            this.setState({
+                ...this.state,
+                typePopup: 'confirm-code',
+                error: {
+                    ...this.state.error,
+                    confirmCode: "Your confirmation code has expired. Please re-register"
+                }
+            })
+        }else if(code.code !== accountInfo.code.confirmCode || !accountInfo.code.confirmCode){
+            this.setState({
+                ...this.state,
+                typePopup: 'confirm-code',
+                error: {
+                    ...this.state.error,
+                    confirmCode: "Your confirmation code is incorrect. Please check again"
+                }
+            })
+        }else{
+            const data = {
+                accountId: accountInfo.accountId,
+                username: accountInfo.email,
+                fullname: accountInfo.fullname,
+                phoneNumber: accountInfo.phoneNumber,
+                email:  accountInfo.email,
+                gender:  accountInfo.gender,
+                birthday: {
+                    ...accountInfo.birthday
+                },
+                password: accountInfo.newPassword
+            }
+
+            this.setState({
+                ...this.state,
+                typePopup: 'submitted'
+            }, () =>{
+                this.props.onUpdateAccount(data)
+            })
+        }
+    }
+
     render() {
         const accountInfo = this.state;
-        console.log("account", accountInfo)
 
         return (
-            <div className="account-content--box form">
-                <span className="account__title">Thông tin tài khoản</span>
-                <div className="bg-white account__content">
-                    <form 
-                        className="account__info"
-                        onSubmit = {this.onHandleUpdateAccountInfo}
-                    >
+            <>
+                <div className="account-content--box form">
+                    <span className="account__title">Thông tin tài khoản</span>
+                    <div className="bg-white account__content">
+                        <form 
+                            className="account__info"
+                            onSubmit = {this.onHandleUpdateAccountInfo}
+                        >
 
-                        <div className="form-group">
-                            <div className="input-label">Họ tên</div>
-                            <InputFieldComponent 
-                                value = {accountInfo.fullname}
-                                placeholder ="Nhập tên"
-                                onHandleChange = {this.onHandleChange}
-                                name = 'fullname'
-                                onHandleBlur = {this.onHandleBlur}
-                                error = {accountInfo.error.fullname}
-                            />
+                            <div className="form-group">
+                                <div className="input-label">Họ tên</div>
+                                <InputFieldComponent 
+                                    value = {accountInfo.fullname}
+                                    placeholder ="Nhập tên"
+                                    onHandleChange = {this.onHandleChange}
+                                    name = 'fullname'
+                                    onHandleBlur = {this.onHandleBlur}
+                                    error = {accountInfo.error.fullname}
+                                />
+                                
+                            </div>
+
+                            <div className="form-group">
+                                <div className="input-label">Số điện thoại</div>
+                                <InputFieldComponent 
+                                    value = {accountInfo.phoneNumber} 
+                                    placeholder ="Nhập số điện thoại"
+                                    onHandleChange = {this.onHandleChange}
+                                    name = 'phoneNumber'
+                                    onHandleBlur = {this.onHandleBlur}
+                                    error = {accountInfo.error.phoneNumber}
+                                />
+                            </div>
                             
-                        </div>
-
-                        <div className="form-group">
-                            <div className="input-label">Số điện thoại</div>
-                            <InputFieldComponent 
-                                value = {accountInfo.phoneNumber} 
-                                placeholder ="Nhập số điện thoại"
-                                onHandleChange = {this.onHandleChange}
-                                name = 'phoneNumber'
-                                onHandleBlur = {this.onHandleBlur}
-                                error = {accountInfo.error.phoneNumber}
-                            />
-                        </div>
-                        
-                        <div className="form-group">
-                            <div className="input-label">Email </div>
-                            <InputFieldComponent 
-                                value = {accountInfo.email} 
-                                placeholder ="Nhập email"
-                                onHandleChange = {this.onHandleChange}
-                                name = 'email'
-                                onHandleBlur = {this.onHandleBlur}
-                                error = {accountInfo.error.email}
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <div className="input-label gender-label">Giới tính</div>
-                            <div className="input-group">
-                                <RadioFieldComponent 
-                                    id = "male"
-                                    name ="gender"
-                                    label = "Nam"
-                                    isChecked = {accountInfo.gender === "male"}
+                            <div className="form-group">
+                                <div className="input-label">Email </div>
+                                <InputFieldComponent 
+                                    value = {accountInfo.email} 
+                                    placeholder ="Nhập email"
                                     onHandleChange = {this.onHandleChange}
-                                />
-                                <RadioFieldComponent 
-                                    id = "female"
-                                    name ="gender"
-                                    label = "Nữ"
-                                    isChecked = {accountInfo.gender === "female"}
-                                    onHandleChange = {this.onHandleChange}
+                                    name = 'email'
+                                    onHandleBlur = {this.onHandleBlur}
+                                    error = {accountInfo.error.email}
                                 />
                             </div>
-                        </div>
 
-                        <div className="form-group form-group--date">
-                            <div className="input-label">Ngày sinh<p>(không bắt buộc)</p></div>
-                            <div className="select-group">
-                                <SelectFieldComponent 
-                                    name = "date"
-                                    year = {accountInfo.birthday.year}
-                                    month = {accountInfo.birthday.month}
-                                    value = {accountInfo.birthday.date}
-                                    onSelectChange={this.onHandleChange}
-                                />
-                                <SelectFieldComponent 
-                                    name = "month"
-                                    value = {accountInfo.birthday.month}
-                                    onSelectChange={this.onHandleChange}
-                                    
-                                />
-                                <SelectFieldComponent 
-                                    name = "year"
-                                    value = {accountInfo.birthday.year}
-                                    onSelectChange={this.onHandleChange}
-                                />
+                            <div className="form-group">
+                                <div className="input-label gender-label">Giới tính</div>
+                                <div className="input-group">
+                                    <RadioFieldComponent 
+                                        id = "male"
+                                        name ="gender"
+                                        label = "Nam"
+                                        isChecked = {accountInfo.gender === "male"}
+                                        onHandleChange = {this.onHandleChange}
+                                    />
+                                    <RadioFieldComponent 
+                                        id = "female"
+                                        name ="gender"
+                                        label = "Nữ"
+                                        isChecked = {accountInfo.gender === "female"}
+                                        onHandleChange = {this.onHandleChange}
+                                    />
+                                </div>
                             </div>
-                        </div>
 
-                        <div className="form-group">
-                            <div className="input-label"></div>
-                            <div className="input-group">
-                                <CheckboxFieldComponent
-                                    onOpenUpdatePassword = {this.handleOpenUpdatePasswordForm}
-                                    value = {accountInfo.isUpdatePassword}
-                                    id = "update-password"
-                                />
+                            <div className="form-group form-group--date">
+                                <div className="input-label">Ngày sinh<p>(không bắt buộc)</p></div>
+                                <div className="select-group">
+                                    <SelectFieldComponent 
+                                        name = "date"
+                                        year = {accountInfo.birthday.year}
+                                        month = {accountInfo.birthday.month}
+                                        value = {accountInfo.birthday.date}
+                                        onSelectChange={this.onHandleChange}
+                                    />
+                                    <SelectFieldComponent 
+                                        name = "month"
+                                        value = {accountInfo.birthday.month}
+                                        onSelectChange={this.onHandleChange}
+                                        
+                                    />
+                                    <SelectFieldComponent 
+                                        name = "year"
+                                        value = {accountInfo.birthday.year}
+                                        onSelectChange={this.onHandleChange}
+                                    />
+                                </div>
                             </div>
-                        </div>
 
-                        {
-                            accountInfo.isUpdatePassword ? (
-                                <div className="update-password-group">
-                                    <div className="form-group">
-                                        <div className="input-label"><label>Mật khẩu cũ</label> </div>
-                                        <InputFieldComponent 
-                                            placeholder="Nhập mật khẩu cũ"
-                                            value = {''} 
-                                            onHandleChange = {this.onHandleChange}
-                                            name = 'oldPassword'
-                                            onHandleBlur = {this.onHandleBlur}
-                                            error = {accountInfo.error.oldPassword}
-                                        />
-                                    </div>
-                                    
-                                    <div className="form-group">
-                                        <div className="input-label"><label>Mật khẩu mới</label></div>
-                                        <InputFieldComponent 
-                                            placeholder="Nhập mật khẩu mới"
-                                            value = {accountInfo.newPassword} 
-                                            onHandleChange = {this.onHandleChange}
-                                            name = 'newPassword'
-                                            onHandleBlur = {this.onHandleBlur}
-                                            error = {accountInfo.error.newPassword}
-                                        />
-                                    </div>
+                            <div className="form-group">
+                                <div className="input-label"></div>
+                                <div className="input-group">
+                                    <CheckboxFieldComponent
+                                        onOpenUpdatePassword = {this.handleOpenUpdatePasswordForm}
+                                        value = {accountInfo.isUpdatePassword}
+                                        id = "update-password"
+                                    />
+                                </div>
+                            </div>
 
-                                    <div className="form-group">
-                                        <div className="input-label"><label>Nhập lại</label></div>
-                                        <InputFieldComponent 
-                                            placeholder="Nhập mật lại khẩu mới"
-                                            value = {accountInfo.confirmPassword} 
-                                            onHandleChange = {this.onHandleChange}
-                                            name = 'confirmPassword'
-                                            onHandleBlur = {this.onHandleBlur}
-                                            error = {accountInfo.error.confirmPassword}
-                                        />
-                                    </div>
-
-                                    <div className="form-group">
-                                        <div className="input-label gender-label">Nhận mã xác nhận</div>
-                                        <div className="input-group">
-                                            <RadioFieldComponent 
-                                                id = "email"
-                                                name ="place-confirm"
-                                                label = "Email"
-                                                isChecked = {accountInfo.placeConfirm === 'email'}
+                            {
+                                accountInfo.isUpdatePassword ? (
+                                    <div className="update-password-group">
+                                        <div className="form-group">
+                                            <div className="input-label"><label>Mật khẩu cũ</label> </div>
+                                            <InputFieldComponent 
+                                                placeholder="Nhập mật khẩu cũ"
+                                                value = {''} 
                                                 onHandleChange = {this.onHandleChange}
-                                            />
-                                            <RadioFieldComponent 
-                                                id = "phone"
-                                                name ="place-confirm"
-                                                label = "Số điện thoại"
-                                                isChecked = {accountInfo.placeConfirm !== 'email'}
-                                                onHandleChange = {this.onHandleChange}
+                                                name = 'oldPassword'
+                                                onHandleBlur = {this.onHandleBlur}
+                                                error = {accountInfo.error.oldPassword}
                                             />
                                         </div>
+                                        
+                                        <div className="form-group">
+                                            <div className="input-label"><label>Mật khẩu mới</label></div>
+                                            <InputFieldComponent 
+                                                placeholder="Nhập mật khẩu mới"
+                                                value = {accountInfo.newPassword} 
+                                                onHandleChange = {this.onHandleChange}
+                                                name = 'newPassword'
+                                                onHandleBlur = {this.onHandleBlur}
+                                                error = {accountInfo.error.newPassword}
+                                            />
+                                        </div>
+
+                                        <div className="form-group">
+                                            <div className="input-label"><label>Nhập lại</label></div>
+                                            <InputFieldComponent 
+                                                placeholder="Nhập mật lại khẩu mới"
+                                                value = {accountInfo.confirmPassword} 
+                                                onHandleChange = {this.onHandleChange}
+                                                name = 'confirmPassword'
+                                                onHandleBlur = {this.onHandleBlur}
+                                                error = {accountInfo.error.confirmPassword}
+                                            />
+                                        </div>
+
+                                        <div className="form-group">
+                                            <div className="input-label gender-label">Nhận mã xác nhận</div>
+                                            <div className="input-group">
+                                                <RadioFieldComponent 
+                                                    id = "email"
+                                                    name ="place-confirm"
+                                                    label = "Email"
+                                                    isChecked = {accountInfo.placeConfirm === 'email'}
+                                                    onHandleChange = {this.onHandleChange}
+                                                />
+                                                <RadioFieldComponent 
+                                                    id = "phone"
+                                                    name ="place-confirm"
+                                                    label = "Số điện thoại"
+                                                    isChecked = {accountInfo.placeConfirm !== 'email'}
+                                                    onHandleChange = {this.onHandleChange}
+                                                />
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            ) : null
-                        }
+                                ) : null
+                            }
 
-                        
+                            
 
-                        <div className="form-group">
-                            <div className="input-label" />
-                            <button 
-                                // disabled = {true}
-                            >Cập nhật</button>
-                        </div>
-                    </form>
+                            <div className="form-group">
+                                <div className="input-label" />
+                                <button 
+                                    // disabled = {true}
+                                >Cập nhật</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </div>
+
+                <Popup 
+                    popupTitle="Confirm Code" isOpen = {accountInfo.typePopup === 'submitted'}
+                    onHandleOpenLoginForm = {this.onHandleOpenLoginForm}
+                >
+                    <AccordingToggle>
+                        <div className="accordition-toggle--box">
+                            <div className = "accordition-span">Submitted!!!</div>
+                            
+                        </div>
+                    </AccordingToggle>
+                </Popup>
+
+                <Popup 
+                    popupTitle="Confirm Code" isOpen = {accountInfo.typePopup === 'confirm-code'}
+                    onHandleOpenLoginForm = {this.onHandleOpenLoginForm}
+                >
+                    <AccordingToggle>
+                        <div className="accordition-toggle--box">
+                            <p>We just sent a confirmation code to your email. Please check your email and re-enter this confirmation code. This confirmation code is valid for 3 minutes only</p>
+                            <form 
+                                className = "form"
+                                onSubmit = {this.onHandleSubmitCode}
+                            >
+                                <div className = "form-group">
+                                    <input 
+                                        type="text" 
+                                        placeholder="Your code ..." 
+                                        className = "input-control mb-25"
+                                        name ="confirmCode"
+                                        onChange = {this.onHandlechangeCode}
+                                        defaultValue = {accountInfo.code.confirmCode}
+                                    />
+                                    <p class="notify warning">{accountInfo.error.confirmCode}</p>
+                                    <button className="barista-btn ">Apply</button>
+                                </div>
+                            </form>
+                        </div>
+                    </AccordingToggle>
+                </Popup>
+                
+            </>
         )
     }
 
     static getDerivedStateFromProps(nextProps, prevState){
-        if(nextProps.accountInfo.fullname && (nextProps.accountInfo.fullname !== prevState.fullname)){
+        if(!prevState.fullname){
             const {accountInfo} = nextProps;
             
             return { 
                 ...prevState,
+                accountId: accountInfo.accountId,
                 fullname: accountInfo.fullname,
                 phoneNumber: accountInfo.phoneNumber,
                 email: accountInfo.email,
@@ -387,10 +582,21 @@ class AccountInfomation extends Component {
     }
 }
 
+const mapDispatchToProps = dispatch =>{
+    return {
+        onUpdateAccount: data =>{
+            dispatch(actUpdateAccountApi(data))
+        }, onGetCodeOnEmail: email =>{
+            dispatch(actDetCodeOnEmailApi(email))
+        }
+    }
+    
+}
+
 const mapStateToProps = state =>{
     return {
         accountInfo : state.accountInfoReducer.accountInfo
     }
 }
 
-export default connect(mapStateToProps)(AccountInfomation)
+export default connect(mapStateToProps, mapDispatchToProps)(AccountInfomation)
