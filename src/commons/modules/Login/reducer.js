@@ -4,6 +4,7 @@ let initialState = {
     isLoginForm: false,
     data: {
         accountInfo: {
+            fullname: '',
             accountId: "none",
             userEmail: "admin@gmail.com",
             accountProduct: {

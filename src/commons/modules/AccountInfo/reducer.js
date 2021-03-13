@@ -2,6 +2,11 @@ import * as ActionTypes from './constants';
 
 let initialState = {
     accountInfo: {
+        birthday: {
+            date: 1,
+            month: 1,
+            year: 1990
+        },
         userEmail: "admin@gmail.com",
         listInvoice: [],
         accountProduct: {
