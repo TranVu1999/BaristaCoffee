@@ -110,22 +110,22 @@ export default class MainSlider extends Component {
 
     componentDidMount(){
         // done
-        // setInterval(() => {
-        //     let {currentSlide} = this.state;
+        setInterval(() => {
+            let {currentSlide} = this.state;
 
-        //     currentSlide += 1;
-        //     if(currentSlide < 3){
-        //         this.setState({
-        //             pos: currentSlide * 100,
-        //             currentSlide                
-        //         })
-        //     }else{
-        //         this.setState({
-        //             pos: 0,
-        //             currentSlide: 0              
-        //         })
-        //     }
-        // }, 5000);
+            currentSlide += 1;
+            if(currentSlide < 3){
+                this.setState({
+                    pos: currentSlide * 100,
+                    currentSlide                
+                })
+            }else{
+                this.setState({
+                    pos: 0,
+                    currentSlide: 0              
+                })
+            }
+        }, 5000);
     }
 
     componentWillUnmount(){

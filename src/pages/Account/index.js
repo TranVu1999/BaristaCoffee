@@ -10,6 +10,7 @@ import AccountInvoiceDetail from './AccountInvoiceDetail';
 import AccountListAddress from './AccountListAddress';
 import AccountAddress from './AccountAddress';
 import AccountListProduct from './AccountListProduct';
+import AccountNotify from './AccountNotify';
 
 import {connect} from 'react-redux';
 import {actAccountInfoApi} from './../../commons/modules/AccountInfo/actions';
@@ -33,6 +34,8 @@ class AccountPage extends Component {
             switch (tabTitle.accountTab) {
                 case 'invoice':
                     return ( <AccountListInvoice/> )
+                case 'notify':
+                    return ( <AccountNotify/> )
                 case 'invoice-detail':
                     const {invoiceId} = this.state;
                     console.log("invoiceId", invoiceId)
