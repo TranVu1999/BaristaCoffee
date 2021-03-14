@@ -7,7 +7,7 @@ export const actLoginApi = (data) =>{
     return dispatch =>{
         dispatch(actLoginRequest());
 
-        api.post(`/${ApiUrl.ACCOUNT}/login`, data)
+        api.get(`/${ApiUrl.ACCOUNT}/login/${data.userEmail}/${data.password}`)
         .then(res =>{
 
             let resultLogin = res.data;
