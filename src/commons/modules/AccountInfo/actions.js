@@ -85,6 +85,21 @@ export const actDetCodeOnEmailApi = (email) => {
   };
 };
 
+export const actRemoveNotifyApi = (data) => {
+  return (dispatch) => {
+    api
+      .post(`/account/remove-notify`, data)
+      .then((res) => {
+        dispatch(actRemoveNotify(res.data))
+        
+      })
+      .catch((err) => {
+        dispatch(actAccountInfoFailed(err));
+      });
+  };
+};
+
+
 const actUpdateAccount = data =>{
   return{
     type: ActionTypes.ACCOUNT_UPDATE_INFO,
@@ -116,6 +131,13 @@ const actAccountInfoFailed = (err) => {
 const actGetListInvoice = (data) => {
   return {
     type: ActionTypes.ACCOUNT_GET_LIST_INVOICE,
+    payload: data,
+  };
+};
+
+const actRemoveNotify = (data) => {
+  return {
+    type: ActionTypes.ACCOUNT_REMOVE_NOTIFY,
     payload: data,
   };
 };

@@ -18,7 +18,8 @@ let initialState = {
             favorite: [],
             commented: [],
             saveForLate: []
-        }
+        },
+        notify: []
     },
     errors: null
 };
