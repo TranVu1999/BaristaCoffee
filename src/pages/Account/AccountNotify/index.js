@@ -5,6 +5,11 @@ import AccordingToggle from './../../../commons/components/AccordingToggle';
 import {NavLink} from 'react-router-dom';
 import {connect} from 'react-redux';
 
+import {
+    actRemoveNotifyApi, 
+    actUpdateNotifyApi
+} from './../../../commons/modules/AccountInfo/actions';
+
 class AccountNotify extends Component {
     constructor(props){
         super(props);
@@ -27,7 +32,11 @@ class AccountNotify extends Component {
     }
 
     onHandleReadNotify = (notifyId) =>{
-
+        const accountInfo = JSON.parse(localStorage.getItem('accountInfo'));
+        this.props.onHandleUpdateNotify({
+            accountId: accountInfo.accountId,
+            notifyId
+        })
     }
 
     onGetAttention = (notify) =>{
@@ -49,7 +58,12 @@ class AccountNotify extends Component {
     }
 
     onHandleRemoveNotify = notifyId =>{
-        
+        const accountInfo = JSON.parse(localStorage.getItem('accountInfo'));
+
+        this.props.onHandleRemoveNotify({
+            accountId: accountInfo.accountId,
+            notifyId
+        })
     }
 
     onGetTitleTab = (index) =>{
@@ -198,21 +212,31 @@ class AccountNotify extends Component {
             invoice: false,
             system: false
         }
-        let arrSystem = notify.filter(item => item.type === 'system');
+        let arrSystem = notify.filter(item => item.type === 'system' && item.isNew);
         attention.system = arrSystem.length > 0;
 
-        let arrPromotion = notify.filter(item => item.type === 'promotion');
+        let arrPromotion = notify.filter(item => item.type === 'promotion' && item.isNew);
         attention.promotion = arrPromotion.length > 0;
 
-        let arrInovice = notify.filter(item => item.type === 'invoice');
+        let arrInovice = notify.filter(item => item.type === 'invoice' && item.isNew);
         attention.invoice = arrInovice.length > 0
 
-        if(attention.promotion || attention.invoice || attention.system){
+        if(
+            prevState.attention.promotion !== attention.promotion || 
+            prevState.attention.invoice !== attention.invoice || 
+            prevState.attention.system !== attention.system
+        ){
             return {
                 ...prevState,
                 attention
             }
         }
+        // if(attention.promotion || attention.invoice || attention.system){
+        //     return {
+        //         ...prevState,
+        //         attention
+        //     }
+        // }
         return null;
         
     }
@@ -228,7 +252,10 @@ const mapStateToProps = state =>{
 const mapDispatchToProps = dispatch =>{
     return {
         onHandleRemoveNotify: data =>{
-            dispatch()
+            dispatch(actRemoveNotifyApi(data))
+        }, 
+        onHandleUpdateNotify: data =>{
+            dispatch(actUpdateNotifyApi(data))
         }
     }
 }

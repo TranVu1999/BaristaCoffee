@@ -26,6 +26,8 @@ let initialState = {
 
 const accountInfoReducer = (state = initialState, action) =>{
     let temp = {};
+    let listNotify = [];
+
     switch (action.type){
         case ActionTypes.ACCOUNT_SUCCESS:
             temp = {
@@ -63,10 +65,41 @@ const accountInfoReducer = (state = initialState, action) =>{
                 }
             };
             state = {...temp};
-            console.log("state", state.accountInfo.code)
             return { ...state};
+            
         
         case ActionTypes.ACCOUNT_FAILED:
+            return { ...state };
+
+        case ActionTypes.ACCOUNT_REMOVE_NOTIFY:
+            listNotify = [...state.accountInfo.notify].filter(item => item.notifyId !== action.payload);
+            state = {
+                ...state,
+                accountInfo: {
+                    ...state.accountInfo,
+                    notify: listNotify
+                }
+            }
+            return { ...state };
+
+        case ActionTypes.ACCOUNT_UPDATE_NOTIFY:
+            listNotify = [...state.accountInfo.notify];
+            let length = listNotify.length;
+            for(let i = 0; i < length; i++){
+                if(listNotify[i].notifyId === action.payload){
+                    listNotify[i].isNew = false;
+                    break;
+                }
+            }
+            
+            state = {
+                ...state,
+                accountInfo: {
+                    ...state.accountInfo,
+                    notify: listNotify
+                }
+            }
+
             return { ...state };
 
         default: 

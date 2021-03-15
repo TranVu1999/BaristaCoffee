@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import './style.scss';
 import InvoiceItem from './InvoiceItem';
+import AccordingToggle from './../../../commons/components/AccordingToggle';
 
+import {NavLink} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {actGetListInvoiceApi} from './../../../commons/modules/AccountInfo/actions';
 
@@ -17,6 +19,18 @@ class AccountListInvoice extends Component {
             />
             })
         }
+
+        return (
+            <AccordingToggle>
+                <div className="accordition-toggle--box empty-icon">
+                    <div className = "accordition-span">
+                        <img src="https://salt.tikicdn.com/desktop/img/account/tiki-not-found-pgae.png" alt="icon"/>
+                        <p>Bạn chưa có thông báo</p>
+                        <NavLink to="/shop" className="barista-btn">Tiếp tục mua sắm</NavLink>
+                    </div>
+                </div>
+            </AccordingToggle>
+        )
     }
     render() {
         return (

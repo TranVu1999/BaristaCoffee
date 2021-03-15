@@ -14,15 +14,25 @@ class AccountSidebar extends Component {
         return amount;
     }
 
+    getAmountNewNotify = (lstNotify) =>{
+        let amount = 0;
+        for(let item of lstNotify){
+            if(item.isNew){
+              amount++
+            }
+        }
+        return amount;
+    }
+
     render() {
         const {accountInfo} = this.props;
-        const {accountProduct} = accountInfo;
-        
+        const {accountProduct, notify} = accountInfo;
 
         const amountReaded = this.getAmountNewProduct(accountProduct.readed);
         const amountCommented = this.getAmountNewProduct(accountProduct.commented);
         const amountFavorite = this.getAmountNewProduct(accountProduct.favorite);
         const amountSaveForLater = this.getAmountNewProduct(accountProduct.saveForLate);
+        const amountNotify = this.getAmountNewNotify(notify);
 
         return (
             <div className="main-page__sidebar account__sidebar">
@@ -82,7 +92,8 @@ class AccountSidebar extends Component {
                     </svg>
                   </div>
                   <div className="nav--item__text">
-                    Thông báo của tôi <span>6</span>
+                    Thông báo của tôi
+                    {amountNotify > 0 ? (<span>{amountNotify}</span>) : ""}
                   </div>
                   <span
                     aria-hidden="true"
@@ -287,7 +298,6 @@ class AccountSidebar extends Component {
 
 const mapStateToProps = state =>{
     return {
-        // accountInfo: state.loginReducer.data.accountInfo,
         accountInfo: state.accountInfoReducer.accountInfo
     }
 }

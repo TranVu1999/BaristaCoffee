@@ -90,7 +90,25 @@ export const actRemoveNotifyApi = (data) => {
     api
       .post(`/account/remove-notify`, data)
       .then((res) => {
-        dispatch(actRemoveNotify(res.data))
+        if(res.data === 'ok'){
+          dispatch(actRemoveNotify(data.notifyId))
+        }
+        
+      })
+      .catch((err) => {
+        dispatch(actAccountInfoFailed(err));
+      });
+  };
+};
+
+export const actUpdateNotifyApi = (data) => {
+  return (dispatch) => {
+    api
+      .post(`/account/update-notify`, data)
+      .then((res) => {
+        if(res.data === 'ok'){
+          dispatch(actUpdateNotify(data.notifyId))
+        }
         
       })
       .catch((err) => {
@@ -138,6 +156,13 @@ const actGetListInvoice = (data) => {
 const actRemoveNotify = (data) => {
   return {
     type: ActionTypes.ACCOUNT_REMOVE_NOTIFY,
+    payload: data,
+  };
+};
+
+const actUpdateNotify = (data) => {
+  return {
+    type: ActionTypes.ACCOUNT_UPDATE_NOTIFY,
     payload: data,
   };
 };
