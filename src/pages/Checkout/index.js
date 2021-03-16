@@ -166,14 +166,21 @@ class CheckoutPage extends Component {
                 }
             })
 
+            const d = new Date();
             const data = {
+                email: accountInfo.userEmail,
                 discount: discount.code ? discount.code : "none",
                 accountId: accountInfo.accountId,
                 total: total - discount.cost,
-                address: `${userInfo.address.houseNumber}, ${userInfo.address.wards}, ${userInfo.address.district}, ${userInfo.address.province}`,
+                address: {...userInfo.address},
                 receivedName: userInfo.fullname, 
                 phone: userInfo.address.phoneNumber,
-                listProduct
+                listProduct,
+                createDate: {
+                    date: d.getDate(),
+                    month: d.getMonth() + 1,
+                    year: d.getFullYear()
+                }
             }
 
             api.post(`http://localhost:9000/invoice/submit`, data)
