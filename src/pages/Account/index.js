@@ -11,6 +11,7 @@ import AccountListAddress from './AccountListAddress';
 import AccountAddress from './AccountAddress';
 import AccountListProduct from './AccountListProduct';
 import AccountNotify from './AccountNotify';
+import AccountCoin from './AccountCoin';
 
 import {connect} from 'react-redux';
 import {actAccountInfoApi} from './../../commons/modules/AccountInfo/actions';
@@ -32,6 +33,8 @@ class AccountPage extends Component {
             const {accountProduct} = this.props.accountInfo;
 
             switch (tabTitle.accountTab) {
+                case 'coin':
+                    return ( <AccountCoin/> )
                 case 'invoice':
                     return ( <AccountListInvoice/> )
                 case 'notify':

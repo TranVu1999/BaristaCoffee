@@ -101,7 +101,15 @@ class AccountNotify extends Component {
                 return (
                     <div className="notify-item" key = {index}>
                         <div className="time">
-                            {item.createDate}
+                            {
+                                item.createDate.date < 10 ? "0" + item.createDate.date : item.createDate.date
+                            }.
+                            {
+                                item.createDate.month < 10 ? "0" + item.createDate.month : item.createDate.month
+                            }.
+                            {
+                                item.createDate.year
+                            }
                         </div>
                         <div 
                             className= {`icon ${item.type}`}
