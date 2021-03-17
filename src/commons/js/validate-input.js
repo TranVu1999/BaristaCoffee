@@ -13,6 +13,7 @@ export const isEmpty = (str) =>{
     return str === '';
 }
 
+
 export const isFullname= (str) =>{
     const pattern = /[a-zA-Z]/;
     return pattern.test(str);
@@ -22,3 +23,5 @@ export const isPhoneNumber= (str) =>{
     const pattern = /((09|03|07|08|05)+([0-9]{8})\b)/;
     return pattern.test(str);
 }
+
+

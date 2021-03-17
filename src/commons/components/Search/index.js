@@ -35,7 +35,21 @@ class Search extends Component {
         }, this.throttleHandleChange());
     }
 
-    renderSearchItem = (keyItem, contentItem, contentSearch) =>{
+    onChooseKey = (key) =>{
+        this.setState({
+            ...this.state,
+            searchStr: key
+        }, () =>{
+            this.props.onGetDataByKeyword({
+                page: this.props.pageActive,
+                sortBy: this.props.sortBy,
+                prodCateAlias: this.props.prodCateAlias,
+                keyword: key,
+            });
+        });   
+    }
+
+    renderSearchItem = (contentItem, contentSearch) =>{
         const indexSearch = contentItem.toLowerCase().indexOf(contentSearch);
 
         if(contentSearch && indexSearch !== -1){
@@ -46,12 +60,9 @@ class Search extends Component {
             let middleStr = temp.slice(0, lengthContentSearch);
             let endStr = contentItem.slice(indexSearch + lengthContentSearch);
 
-            return <div key = {keyItem} className = "search-result--item">
-                {startStr}
-                <span>{middleStr}</span>
-                {endStr}
-            </div>
+            return (<>{startStr}<span>{middleStr}</span>{endStr}</>)
         }
+        
 
         return null;
 
@@ -64,7 +75,12 @@ class Search extends Component {
 
         if(listKeyword){
             return listKeyword.map((item, index) =>{
-                return this.renderSearchItem(index, item.key, searchStr);
+                const str = this.renderSearchItem(item.key, searchStr)
+                return <div 
+                        key = {index} 
+                        className = "search-result--item"
+                        onClick = {() => this.onChooseKey(item.key)}
+                    >{str}</div>
             })
         }
 
@@ -101,7 +117,7 @@ class Search extends Component {
 
                 <div 
                     className ="search-result"
-                    style = {{display: isOpenListKey ? "block" : "none"}}
+                    // style = {{display: isOpenListKey ? "block" : "none"}}
                 >
                     {this.renderListSearch()}
                 </div>

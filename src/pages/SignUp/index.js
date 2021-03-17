@@ -8,8 +8,11 @@ import './style.scss';
 
 import {connect} from 'react-redux';
 import {actUpdateUrl} from './../../commons/modules/Url/actions';
+
 import axios from './../../api'
+
 import * as Validate from "./../../commons/js/validate-input";
+
 import * as Notify from "./../../commons/constant/Notify";
 
 class SignUpPage extends Component {
@@ -243,6 +246,7 @@ class SignUpPage extends Component {
                                         onChange = {this.onHandlechange}
                                         onBlur = {this.onHandleBlur}
                                     />
+
                                     <p class="notify warning">{accountInfo.error.fullname}</p>
                                 </div>
                                 <div className="form-group">
@@ -336,6 +340,12 @@ class SignUpPage extends Component {
     
 }
 
+const mapStateToProps = state =>{
+    return{
+        accountInfo: state.accountInfoReducer.accountInfo
+    }
+}
+
 const mapDispatchToProps = dispatch =>{
     return {
         onUpdateUrl: url =>{
@@ -344,4 +354,4 @@ const mapDispatchToProps = dispatch =>{
     }
 }
 
-export default connect(null, mapDispatchToProps)(SignUpPage)
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpPage)

@@ -65,8 +65,7 @@ const accountInfoReducer = (state = initialState, action) =>{
                 }
             };
             state = {...temp};
-            return { ...state};
-            
+            return { ...state};            
         
         case ActionTypes.ACCOUNT_FAILED:
             return { ...state };

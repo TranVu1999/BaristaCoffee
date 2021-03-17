@@ -12,6 +12,7 @@ import {
 
 
 class AccountListProduct extends Component {
+    
 
     onHandleRemoveProduct = productId =>{
         const {title} = this.props;
