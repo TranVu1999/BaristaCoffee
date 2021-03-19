@@ -75,11 +75,11 @@ class Search extends Component {
 
         if(listKeyword){
             return listKeyword.map((item, index) =>{
-                const str = this.renderSearchItem(item.key, searchStr)
+                const str = this.renderSearchItem(item, searchStr)
                 return <div 
                         key = {index} 
                         className = "search-result--item"
-                        onClick = {() => this.onChooseKey(item.key)}
+                        onClick = {() => this.onChooseKey(item)}
                     >{str}</div>
             })
         }
