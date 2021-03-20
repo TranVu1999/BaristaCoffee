@@ -2,11 +2,15 @@
 
 .invoice--item{
     line-height: 1.5;
+    box-shadow: 0px 1px 0px #d5d5d5;
     div[class|=invoice]{
         display: table-cell;
         padding: 0px 15px;
         margin-bottom: 24px;
+        margin-top: 24px;
     }
+
+    
 
     .invoice-prod{
         overflow: hidden!important;

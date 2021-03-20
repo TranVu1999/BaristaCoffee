@@ -1,4 +1,4 @@
-<img src="https://res.cloudinary.com/doem0ysxl/image/upload/v1611851624/BaristaCoffee/logo/logo-1_pkd9hg.png" style="height: 32px"/>
+to<img src="https://res.cloudinary.com/doem0ysxl/image/upload/v1611851624/BaristaCoffee/logo/logo-1_pkd9hg.png" style="height: 32px"/>
 
 # CoffeeShop Website
 
@@ -21,10 +21,20 @@ Hệ thống website được chia làm 4 đối tượng chính: user, member, 
         + Thay đổi mật khẩu
         + Quản lý danh sách hóa đơn - xem hóa đơn
         + Xem và xóa danh sách các sản phẩm đã ghé xem
-        + Xem và xóa danh sách các sản phẩm đã thích
+ i        + Xem và xóa danh sách các sản phẩm đã thích
         + Xem và xóa danh sách các sản phẩm đã bình luận
         + Xem và xóa danh sách các sản phẩm đã mua
         
 3. Đối với owner: người này được xác định là một chủ cửa hàng đăng ký hoạt động trên hệ thống. Người này được phép đăng các sản phẩm của cửa hàng mình lên hệ thống. Được tham gia các chức năng như:
 
 4. Đối với admin: người này được xác định là toàn quyền sử dụng hệ thống.
+
+
+# Danh sách các video demo
+1. [Demo chức năng đăng ký thành viên](https://www.youtube.com/watch?v=tuJqNVoJTqk)
+2. [Demo chức năng đăng nhập hệ thống](https://youtu.be/oW0liXGpUDU)
+3. [Demo chức năng xem danh sách sản phẩm](https://youtu.be/UWdjgK7phlY)
+4. [Demo chức năng đánh giá sản phẩm](https://youtu.be/uGLruJMCzzc)
+5. [Demo chức năng thêm sản phẩm vào giỏ hàng và tiến hành đặt hàng](https://youtu.be/u5jLxQTTWOI)
+6. [Demo chức năng quản lý tài khoản](https://youtu.be/hzNtLZE31JM)
+7. [Demo chức năng search sản phẩm](https://youtu.be/QrsxrT10z2Q)

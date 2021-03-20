@@ -9,6 +9,7 @@ export default class ProductItem extends Component {
     }
     render() {
         const {productContent, isExistCart} = this.props;
+        console.log("product content", productContent)
 
         return (
             <div className="product-item">
@@ -46,7 +47,7 @@ export default class ProductItem extends Component {
                     </div>
                     <p className="product-price">
                         {
-                            productContent.productPromo !== '0' ? 
+                            productContent.productPromo ? 
                             <del> <span class="price-symboy">$</span>{productContent.productPromo}</del> : 
                             ""
                         }

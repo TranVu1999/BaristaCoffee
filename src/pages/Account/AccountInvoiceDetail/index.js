@@ -11,7 +11,11 @@ class AccountInvoiceDetail extends Component {
             invoiceDetail: {
                 invoiceId: "",
                 status: "finish",
-                createdate: "",
+                createDate: {
+                    date: 1,
+                    month: 1,
+                    year: 1990
+                },
                 receivedName: "admin",
                 address: "",
                 phone: "",
@@ -20,6 +24,8 @@ class AccountInvoiceDetail extends Component {
             }
         }
     }
+
+    
 
     renderTotalInvoice = (listProduct) =>{
         let total = 0;
@@ -35,6 +41,13 @@ class AccountInvoiceDetail extends Component {
             default: 
                 return "Giao hàng thành công"
         }
+    }
+
+    renderDate = createDate =>{
+        let date = createDate.date < 10 ? "0" + createDate.date : createDate.date;
+        let month = createDate.month < 10 ? "0" + createDate.month : createDate.month;
+
+        return date + '.' + month + '.' + createDate.year;
     }
 
     renderListProduct = (listProduct) =>{
@@ -81,6 +94,7 @@ class AccountInvoiceDetail extends Component {
 
     render() {
         const {invoiceDetail} = this.state;
+        console.log("invoiceDetail", invoiceDetail)
 
         return (
             <div className="account__container--widget">
@@ -96,7 +110,7 @@ class AccountInvoiceDetail extends Component {
                             </div>
                             <div>
                                 <span className="invoice-date">Ngày đặt hàng: </span>
-                                {invoiceDetail.createdate}
+                                {this.renderDate(invoiceDetail.createDate)}
                             </div>
                         </div>
 
@@ -106,7 +120,12 @@ class AccountInvoiceDetail extends Component {
                                 <p className="customer-name">
                                     {invoiceDetail.receivedName}
                                 </p>
-                                <p>Địa chỉ: {invoiceDetail.address}</p>
+                                <p>Địa chỉ: {
+                                    invoiceDetail.address.houseNumber + ', ' +
+                                    invoiceDetail.address.wards + ', ' +
+                                    invoiceDetail.address.district + ', ' +
+                                    invoiceDetail.address.province + ' Việt Nam' 
+                                }</p>
                                 <p>Điện thoại: {invoiceDetail.phone}</p>
                             </div>
 
@@ -161,7 +180,7 @@ class AccountInvoiceDetail extends Component {
                                     </div>
                                     <div className="widget-total">
                                     <span className="total-price">
-                                        {this.renderTotalInvoice(invoiceDetail.listProduct) - invoiceDetail.chargeShip}.00 $</span>
+                                        {this.renderTotalInvoice(invoiceDetail.listProduct) + parseInt(invoiceDetail.chargeShip)}.00 $</span>
                                     </div>
                                 </div>
                             </div>
