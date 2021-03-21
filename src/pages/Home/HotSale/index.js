@@ -10,16 +10,15 @@ export default class HotSale extends Component {
                 {
                     productId: "prd01",
                     productTitle: "paper pouch",
-                    productImg: "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851630/BaristaCoffee/shop/prod2_xocw36.jpg",
+                    productAvatar: "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851630/BaristaCoffee/shop/prod2_xocw36.jpg",
                     productPrice: "46.00",
-                    productPromo: "0",
                     rating: 90,
                     isSale: false
                 },
                 {
                     productId: "prd02",
                     productTitle: "paper bag",
-                    productImg: "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851630/BaristaCoffee/shop/prod12_mc7rpz.jpg",
+                    productAvatar: "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851630/BaristaCoffee/shop/prod12_mc7rpz.jpg",
                     productPrice: "79.00",
                     productPromo: "98.00",
                     rating: 85,
@@ -28,18 +27,16 @@ export default class HotSale extends Component {
                 {
                     productId: "prd03",
                     productTitle: "plastic pouch",
-                    productImg: "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851631/BaristaCoffee/shop/prod3_nwf7du.jpg",
+                    productAvatar: "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851631/BaristaCoffee/shop/prod3_nwf7du.jpg",
                     productPrice: "27.00",
-                    productPromo: "0",
                     rating: 80,
                     isSale: false
                 },
                 {
                     productId: "prd04",
                     productTitle: "paper pouch",
-                    productImg: "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851631/BaristaCoffee/shop/prod7_a8r7zg.jpg",
+                    productAvatar: "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851631/BaristaCoffee/shop/prod7_a8r7zg.jpg",
                     productPrice: "71.00",
-                    productPromo: "0",
                     rating: 95,
                     isSale: false
                 }
@@ -51,7 +48,7 @@ export default class HotSale extends Component {
             <section className="section-padding lst-product">
                 <TitleBox smallTitle = "What Happens Here" mainTitle = "Merchandise - Sale"/>
                 <div className = "cf-container">
-                    <ListProduct listProduct = {this.state.listProduct}/>
+                    <ListProduct lstProduct = {this.state.listProduct}/>
                 </div>
             </section>
 

@@ -10,6 +10,7 @@ import {connect} from 'react-redux';
 import {actInitAccountInfo} from './commons/modules/Login/actions';
 import routes from './pages/routes';
 import Login from "./containers/Login";
+import Cart from "./commons/components/Cart";
 
 
 class App extends Component {
@@ -28,6 +29,7 @@ class App extends Component {
         <Footer/>
 
         <Login/>
+        <Cart/>
       </div>
     );
   }

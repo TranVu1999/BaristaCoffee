@@ -40,7 +40,7 @@ class ProductDetailPage extends Component {
                             </div>
 
                             <h3>related products</h3>
-                            <ListProduct lstProduct = {this.state.listProduct} dataCart = {[]} rowShow = {3}/>
+                            <ListProduct lstProduct = {this.state.listProduct}/>
                         </div>
                     </div>
                 </MainPage>
