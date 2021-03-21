@@ -9,7 +9,6 @@ export default class ProductItem extends Component {
     }
     render() {
         const {productContent, isExistCart} = this.props;
-        console.log("product content", productContent)
 
         return (
             <div className="product-item">

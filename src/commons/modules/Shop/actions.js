@@ -89,13 +89,14 @@ export const actGetDataShopByKeyApi = (data) =>{
     return dispatch =>{
         dispatch(actShopRequest());
         const requestShop = api.get(
-            `/product/search/${data.keyword}&${data.sortBy}&${data.page}&${data.prodCateAlias}`
+            `/product/search/${data.keyword}`
         );
         
         axios.all([requestShop])
         .then(
             axios.spread((...responses) =>{
                 const resShop = responses[0].data;
+                console.log("data", resShop)
                 dispatch(actShopSuccess({
                     listProduct : resShop
                 }));

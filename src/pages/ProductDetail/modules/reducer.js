@@ -2,7 +2,7 @@ import * as ActionTypes from './constants';
 
 let initialState = {
     data: {
-        productId: '',
+        productId: 'prod01',
         productTitle: '',
         productAlias: '',
         productDetail: '',

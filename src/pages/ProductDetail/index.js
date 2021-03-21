@@ -5,25 +5,24 @@ import Banner from '../../commons/components/Banner'
 import MainPage from '../../commons/components/MainPage'
 import ProductThumb from './ProductThumb'
 import ProductSummary from './ProductSummary';
+import ListProduct from './../../commons/components/ListProduct'
 
 import {connect} from 'react-redux';
 import {actProductDetailApi, actDropBylApi} from './modules/actions';
 import {actUpdateUrl} from './../../commons/modules/Url/actions';
 import ProductTab from './ProductTab';
 
+import api from './../../api';
+
 class ProductDetailPage extends Component {
-
-    render() {  
-        let productId = this.props.prodInfo.productId;
-        let accountId = JSON.parse(localStorage.getItem("accountInfo")).accountId;
-        accountId = accountId ? accountId : "none";
-        if(productId){
-            this.props.onDropByDetail({
-                productId: productId,
-                accountId: accountId
-            })
+    constructor(props){
+        super(props);
+        this.state = {
+            listProduct: []
         }
+    }
 
+    render() {
         return (
             <>
                 <Banner bannerTitle = "Shop" bannerImg = "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851628/BaristaCoffee/other/shop-title-area_fjcbvl.jpg"/>
@@ -39,6 +38,9 @@ class ProductDetailPage extends Component {
                                 
                                 <ProductTab/>
                             </div>
+
+                            <h3>related products</h3>
+                            <ListProduct lstProduct = {this.state.listProduct} dataCart = {[]} rowShow = {3}/>
                         </div>
                     </div>
                 </MainPage>
@@ -54,17 +56,47 @@ class ProductDetailPage extends Component {
             url: this.props.match.url,
             path: this.props.match.path
         })
+
+        let productId = this.props.prodInfo.productId;
+        let accountInfo = JSON.parse(localStorage.getItem("accountInfo"));
+        
+        if(accountInfo){
+            this.props.onDropByDetail({
+                productId: productId,
+                accountId: accountInfo.accountId
+            })
+        }
         
         const {keyInfo, prodInfo} = this.props;
         if(keyInfo.key.length > 0){
             const data = {
-                keySearch: keyInfo.key,
+                key: keyInfo.key,
                 accountId: keyInfo.accountId,
                 productId: prodInfo.productId
             }
-
-            console.log("data", data)
+            
+            api.post(`/key-map/add-key`, data)
+            .then(res =>{
+                console.log("res", res.data)
+            })
+            .catch(err =>{
+                
+            })
         }
+
+        console.log("productId", prodInfo)
+
+        api.get(`/product/get-relative/${productId}`)
+        .then(res =>{
+            console.log("res", res.data)
+            this.setState({
+                
+                listProduct: res.data
+            })
+        })
+        .catch(err => console.log(err))
+
+
     }
 }
 

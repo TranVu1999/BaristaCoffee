@@ -42,10 +42,7 @@ class Search extends Component {
             searchStr: key
         }, () =>{
             this.props.onGetDataByKeyword({
-                page: this.props.pageActive,
-                sortBy: this.props.sortBy,
-                prodCateAlias: this.props.prodCateAlias,
-                keyword: key,
+                keyword: key.replace(' ', '-'),
             });
         });   
     }
