@@ -4,6 +4,7 @@ import './style.scss';
 
 import {actGetListKeywordApi} from './../../modules/Keyword/actions';
 import {actGetDataShopByKeyApi} from './../../modules/Shop/actions';
+import {actAddKey} from './../../modules/KeySearch/actions';
 
 import {connect} from 'react-redux';
 
@@ -95,10 +96,23 @@ class Search extends Component {
             prodCateAlias: this.props.prodCateAlias,
             keyword: this.state.searchStr,
         });
+
+        const data = {
+            keySearch: this.state.searchStr,
+            accountId: 'none'
+        }
+
+        const accountInfo = JSON.parse(localStorage.getItem('accountInfo'));
+        if(accountInfo){
+            data.accountId = accountInfo.accountId
+        }
+
+        this.props.onAddKey(data)
     }
 
     render() {
         const {searchStr, isOpenListKey} = this.state;
+
         return (
            <form 
             className="search-box"
@@ -135,7 +149,8 @@ const mapStateToProps = state =>{
 
         pageActive: shopInfo.data.pageActive,
         sortBy: shopInfo.data.sortBy,
-        prodCateAlias: shopInfo.data.prodCateAlias
+        prodCateAlias: shopInfo.data.prodCateAlias,
+        keySearch: state.keySearchReducer
     }
 }
 
@@ -146,6 +161,9 @@ const mapDispatchToProps = dispatch =>{
         },
         onGetDataByKeyword: (keyword) =>{
             dispatch(actGetDataShopByKeyApi(keyword))
+        },
+        onAddKey: data => {
+            dispatch(actAddKey(data))
         }
     }
 }

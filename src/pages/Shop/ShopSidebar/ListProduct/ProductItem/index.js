@@ -26,9 +26,14 @@ export default class index extends Component {
                         <span className="icon icon-star-full" />
                     </div>
                     <p className="product-price">
-                        <del> 
-                            <span className="price-symboy">$</span>{productContent.productPromo}
-                        </del>
+                        {
+                            productContent.productPromo ? (
+                                <del> 
+                                    <span className="price-symboy">$</span>{productContent.productPromo}
+                                </del>
+                            ): ""
+                        }
+                        
                         <span> <span className="price-symboy">$</span>{productContent.productPrice}</span> 
                     </p>
                 </div>

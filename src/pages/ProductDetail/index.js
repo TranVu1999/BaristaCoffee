@@ -54,12 +54,24 @@ class ProductDetailPage extends Component {
             url: this.props.match.url,
             path: this.props.match.path
         })
+        
+        const {keyInfo, prodInfo} = this.props;
+        if(keyInfo.key.length > 0){
+            const data = {
+                keySearch: keyInfo.key,
+                accountId: keyInfo.accountId,
+                productId: prodInfo.productId
+            }
+
+            console.log("data", data)
+        }
     }
 }
 
 const mapStateToProps = state =>{
     return {
-        prodInfo: state.productDetailReducer.data
+        prodInfo: state.productDetailReducer.data,
+        keyInfo: state.keySearchReducer
     }
 } 
 

@@ -9,6 +9,7 @@ import keywordReducer from './../../commons/modules/Keyword/reducer';
 import shopReducer from './../../commons/modules/Shop/reducer';
 import urlReducer from './../../commons/modules/Url/reducer';
 import accountInfoReducer from './../../commons/modules/AccountInfo/reducer';
+import keySearchReducer from './../../commons/modules/KeySearch/reducer';
 
 const rootReducer = combineReducers({
     formLoginReducer,
@@ -20,7 +21,8 @@ const rootReducer = combineReducers({
     keywordReducer,
     shopReducer,
     urlReducer,
-    accountInfoReducer
+    accountInfoReducer,
+    keySearchReducer
 });
 
 export default rootReducer;
