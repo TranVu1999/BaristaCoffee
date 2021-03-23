@@ -1,84 +1,134 @@
-import React, { Component } from 'react';
-import './style.scss';
+import React, { Component } from "react";
+import "./style.scss";
+import { connect } from "react-redux";
+import {
+  actCloseCart,
+  actRemoveItem,
+  actUpdateItem,
+} from "./../../modules/Cart/actions";
 
-export default class Cart extends Component {
+class Cart extends Component {
+  onHandleCloseCart = () => {
+    this.props.onCloseCart(false);
+  };
 
-    render() {
+  onUpdateCartItem = (prodId, number) => {
+    const prodInfo = {
+      prodId,
+      number,
+    };
+
+    this.props.onUpdateCartItem(prodInfo);
+  };
+
+  onRenderCart = () => {
+    const { cartInfo } = this.props;
+
+    if (cartInfo.length > 0) {
+      return cartInfo.map((item, index) => {
         return (
-            <div className="cart open">
-                <div className="cart-container">
-                    <div className = "cart--title">
-                        <h2>You are purchasing</h2>
-                        <button><span aria-hidden="true" className="icon_close"></span></button>
-                    </div>
-                    <div className = "cart--body">
-                        <div className = "cart--item">
-                            <div className = "product-thumb">
-                                <img src ="https://res.cloudinary.com/doem0ysxl/image/upload/v1611851631/BaristaCoffee/shop/prod6_epuaqx.jpg" alt="product"/>
-                            </div>
-                            <div className = "product-text">
-                                <button className = "btn-close"><span aria-hidden="true" className="icon_close"></span></button>
-                                <h4>Coffee Pot</h4>
-                                <p className = "product-price">$29.00</p>
-                                <div className = "update-cart">
-                                    <button className="btn-increase">
-                                        <span aria-hidden="true" className="icon_minus-06" />
-                                    </button>
-                                    <input type="text" defaultValue="1"/>
-                                    <button className="btn-decrease"><span aria-hidden="true" className="icon_plus"/></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div className = "cart--item">
-                            <div className = "product-thumb">
-                                <img src ="https://res.cloudinary.com/doem0ysxl/image/upload/v1611851631/BaristaCoffee/shop/prod6_epuaqx.jpg" alt="product"/>
-                            </div>
-                            <div className = "product-text">
-                                <button className = "btn-close"><span aria-hidden="true" className="icon_close"></span></button>
-                                <h4>Coffee Pot</h4>
-                                <p className = "product-price">$29.00</p>
-                                <div className = "update-cart">
-                                    <button className="btn-increase">
-                                        <span aria-hidden="true" className="icon_minus-06" />
-                                    </button>
-                                    <input type="text" defaultValue="1"/>
-                                    <button className="btn-decrease"><span aria-hidden="true" className="icon_plus"/></button>
-                                </div>
-                            </div>
-                        </div>
-                        <div className = "cart--item">
-                            <div className = "product-thumb">
-                                <img src ="https://res.cloudinary.com/doem0ysxl/image/upload/v1611851631/BaristaCoffee/shop/prod6_epuaqx.jpg" alt="product"/>
-                            </div>
-                            <div className = "product-text">
-                                <button className = "btn-close"><span aria-hidden="true" className="icon_close"></span></button>
-                                <h4>Coffee Pot</h4>
-                                <p className = "product-price">
-                                    <del><span class="price-symboy">$</span>25.00</del>
-                                    $29.00
-                                </p>
-                                <div className = "update-cart">
-                                    <button className="btn-increase">
-                                        <span aria-hidden="true" className="icon_minus-06" />
-                                    </button>
-                                    <input type="text" defaultValue="5"/>
-                                    <button className="btn-decrease"><span aria-hidden="true" className="icon_plus"/></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className = "cart--footer">
-                        <div className = "d-flex-between sub-total">
-                            <span>Subtotal</span>
-                            <b>$50.00</b>
-                        </div>
-                        <p>Taxes and shipping calculated at checkout</p>
-                        <a href="/#" className = "barista-btn btn-viewcart">View Cart</a>
-                        <a href="/#" className = "barista-btn btn-checkout">Check out</a>
-                    </div>
-                </div>
+          <div className="cart--item" key={index}>
+            <div className="product-thumb">
+              <img src={item.prodAvatar} alt="product" />
             </div>
-        )
+            <div className="product-text">
+              <button
+                className="btn-close"
+                onClick={() => this.onRemoveItemCart(item.prodId)}
+              >
+                <span aria-hidden="true" className="icon_close"></span>
+              </button>
+              <h4>{item.prodTitle}</h4>
+              <p className="product-price">
+                {item.prodPromo ? (
+                  <del>
+                    <span class="price-symboy">$</span>
+                    {item.prodPromo}
+                  </del>
+                ) : (
+                  ""
+                )}
+                ${item.prodPrice}
+              </p>
+              <div className="update-cart">
+                <button
+                  className="btn-increase"
+                  onClick={() => this.onUpdateCartItem(item.prodId, -1)}
+                >
+                  <span aria-hidden="true" className="icon_minus-06" />
+                </button>
+                <input type="text" value={item.amount} />
+                <button
+                  className="btn-decrease"
+                  onClick={() => this.onUpdateCartItem(item.prodId, 1)}
+                >
+                  <span aria-hidden="true" className="icon_plus" />
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      });
     }
+    return null;
+  };
+
+  onRemoveItemCart = (prodId) => {
+    this.props.onRemoveItemCart(prodId);
+  };
+
+  render() {
+    const { isOpen } = this.props;
+
+    return (
+      <div className={isOpen ? "cart open" : "cart"}>
+        <div className="cart-container">
+          <div className="cart--title">
+            <h2>You are purchasing</h2>
+            <button onClick={this.onHandleCloseCart}>
+              <span aria-hidden="true" className="icon_close"></span>
+            </button>
+          </div>
+          <div className="cart--body">{this.onRenderCart()}</div>
+
+          <div className="cart--footer">
+            <div className="d-flex-between sub-total">
+              <span>Subtotal</span>
+              <b>$50.00</b>
+            </div>
+            <p>Taxes and shipping calculated at checkout</p>
+            <a href="/#" className="barista-btn btn-viewcart">
+              View Cart
+            </a>
+            <a href="/#" className="barista-btn btn-checkout">
+              Check out
+            </a>
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    isOpen: state.cartReducer.isOpen,
+    cartInfo: state.cartReducer.data,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onCloseCart: (isOpen) => {
+      dispatch(actCloseCart(isOpen));
+    },
+    onRemoveItemCart: (prodId) => {
+      dispatch(actRemoveItem(prodId));
+    },
+    onUpdateCartItem: (prodInfo) => {
+      dispatch(actUpdateItem(prodInfo));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);

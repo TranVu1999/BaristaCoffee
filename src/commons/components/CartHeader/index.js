@@ -1,57 +1,73 @@
-import React, { Component } from 'react';
-import './style.scss';
-import {connect} from 'react-redux';
-import CartItem from './CartItem';
-import {NavLink} from 'react-router-dom';
+import React, { Component } from "react";
+import "./style.scss";
+import { connect } from "react-redux";
+import CartItem from "./CartItem";
+import { NavLink } from "react-router-dom";
 
 class CartHeader extends Component {
-    renderCartData = () =>{
-        const {dataCart} = this.props;
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: [],
+    };
+  }
 
-        if(dataCart.length > 0){
+  renderCartData = () => {
+    // const { dataCart } = this.props;
+    const { data } = this.state;
+
+    if (data.length > 0) {
+      return (
+        <>
+          {data.map((item, index) => {
+            console.log("item", item);
+            // return <CartItem key={`cart-${index}`} prodContent={item} />;
+
             return (
-                <>
-                    {
-                        dataCart.map((item, index) => {
-                            return (
-                                <CartItem key = {index} prodContent = {item}/>
-                            )
-                        })
-                    }
-                    
-
-                    <div className="d-flex-between cart__control">
-                        <NavLink to="/view-cart" className="barista-btn">View Cart</NavLink>
-                        <NavLink to="checkout" className="barista-btn">Check Out</NavLink>
-                    </div>
-                </>
+              <>
+                <CartItem key={`cart-${index}`} prodContent={{...item}} />
                 
-            )
-        }
+              </>
+            );
+          })}
 
-        return (
-            <div className="cart-notify">
-                No products in the cart
-            </div>
-        )
+          <div className="d-flex-between cart__control">
+            <NavLink to="/view-cart" className="barista-btn">
+              View Cart
+            </NavLink>
+            <NavLink to="checkout" className="barista-btn">
+              Check Out
+            </NavLink>
+          </div>
+        </>
+      );
     }
 
-    render() {
-        return (
-            <div className="toggle-box cart--header">
-                
-                {this.renderCartData()}
-                
-            </div>
+    return <div className="cart-notify">No products in the cart</div>;
+  };
 
-        )
+  render() {
+    return (
+      <div className="toggle-box cart--header">{this.renderCartData()}</div>
+    );
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.data !== prevState.data) {
+      return {
+        data: [...nextProps.data],
+      };
     }
-}
-
-const mapStateToProps = state =>{
     return {
-        dataCart: state.cartReducer.data
-    }
+      data: [],
+    };
+  }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    data: state.cartReducer.data,
+  };
+};
 
 export default connect(mapStateToProps)(CartHeader);

@@ -29,3 +29,9 @@ export const actUpdateItem = (data) =>{
         payload: data
     }
 }
+export const actCloseCart = (data) =>{
+    return {
+        type: ActionTypes.CLOSE_CART,
+        payload: data
+    }
+}
