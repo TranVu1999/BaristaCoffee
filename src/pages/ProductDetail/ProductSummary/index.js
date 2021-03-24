@@ -32,6 +32,7 @@ class ProductSummary extends Component {
         const {prodInfo} = this.props;
 
         if(prodInfo){
+            console.log("prodInfo.prodPromo", prodInfo.prodPromo)
             return (
                 <>
                     <h3 className="product-title">{prodInfo.prodTitle}</h3>
@@ -56,7 +57,10 @@ class ProductSummary extends Component {
                     <p className="product-price">
                         {   prodInfo.prodPromo 
                             ? (
-                                <del> <span className="price-symboy">$</span>{prodInfo.productPromo}</del>
+                                <del> 
+                                    <span className="price-symboy">$</span>
+                                    {prodInfo.prodPromo}
+                                </del>
                             )
                             : ""
                         }

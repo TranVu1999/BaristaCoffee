@@ -11,7 +11,7 @@ export default class UpdateCart extends Component {
     }
 
     render() {
-        const {defaultValue, prodId} = this.props;
+        const {value, prodId} = this.props;
 
         return (
             <form 
@@ -23,7 +23,7 @@ export default class UpdateCart extends Component {
                         className="btn-increase"
                         onClick = {() => this.onHandleUpdateCart(-1, prodId)}
                     ><span aria-hidden="true" className="icon_minus-06" /></button>
-                        <input type="text" defaultValue={defaultValue} />
+                        <input type="text" value={value} />
                     <button 
                         className="btn-decrease"
                         onClick = {() => this.onHandleUpdateCart(1, prodId)}

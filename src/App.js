@@ -11,6 +11,7 @@ import {actInitAccountInfo} from './commons/modules/Login/actions';
 import routes from './pages/routes';
 import Login from "./containers/Login";
 import Cart from "./commons/components/Cart";
+import Notification from "./commons/components/Notification";
 
 
 class App extends Component {
@@ -30,6 +31,7 @@ class App extends Component {
 
         <Login/>
         <Cart/>
+        <Notification/>
       </div>
     );
   }

@@ -52,7 +52,7 @@ class CartList extends Component {
 
                     <div className="product-quanity">
                         <UpdateCart 
-                            defaultValue = {item.amount} 
+                            value = {item.amount} 
                             prodId = {item.prodId}
                             onHandleUpdateCart = {this.onHandleUpdateCart}
                         />
