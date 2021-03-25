@@ -153,13 +153,13 @@ class SignUpPage extends Component {
             axios.get(`account/register/${accountInfo.username}/true`)
             .then(res =>{
                 const d = new Date();
-                this.props.onChangeNotify(1);
+                
                 this.setState({
                     ...this.state,
+                    isOpenSumitCode: true,
                     code: {
                         ...this.state.code,
                         code: res.data,
-                        isOpenSumitCode: true,
                         time: d.getTime()
                     }
                 })
