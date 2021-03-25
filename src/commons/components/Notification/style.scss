@@ -6,6 +6,9 @@
     padding: 8px 25px;
     border-radius: 4px;
 
+    display: none;
+    transition: opacity .5s ease-in-out .5s;
+
     span{
         margin-right: 12px;
         display: inline-block;
@@ -33,6 +36,11 @@
             animation: animateSnake 1s linear infinite;
         }
     }
+
+    &.open{
+        display: block;
+        opacity: 1;
+    }
 }
 
 @keyframes animateSnake{
@@ -55,3 +63,4 @@
         transform: scale(1) rotateZ(0deg);
     }
 }
+

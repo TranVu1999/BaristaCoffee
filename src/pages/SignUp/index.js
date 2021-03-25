@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import Banner from './../../commons/components/Banner';
-import Popup from './../../commons/components/Popup';
-import AccordingToggle from './../../commons/components/AccordingToggle';
-
 import './style.scss';
-
 
 import {connect} from 'react-redux';
 import {actUpdateUrl} from './../../commons/modules/Url/actions';
+import {actChangeNotify} from './../../commons/modules/Notify/actions';
 
 import axios from './../../api'
 
@@ -19,9 +16,9 @@ class SignUpPage extends Component {
     constructor(props){
         super(props);
         this.state = {
+            isOpenSumitCode: false,
             code: {
                 time: "",
-                isOpenPopup : false,
                 code: '',
                 confirmCode: ''
             },
@@ -156,13 +153,13 @@ class SignUpPage extends Component {
             axios.get(`account/register/${accountInfo.username}/true`)
             .then(res =>{
                 const d = new Date();
-                
+                this.props.onChangeNotify(1);
                 this.setState({
                     ...this.state,
                     code: {
                         ...this.state.code,
                         code: res.data,
-                        isOpenPopup: true,
+                        isOpenSumitCode: true,
                         time: d.getTime()
                     }
                 })
@@ -232,63 +229,91 @@ class SignUpPage extends Component {
                         <div className="signup--left">
                             <h2>Sign up here</h2>
                             <p>Alienum phaedrum torquatos nec eu, vis detraxit periculis ex, nihil expetendis in mei. Mei an pericula euripidis,  hinc partem ei est. Eos ei nisl graecis, vix aperiri nsequat an. Eius lorem tincidunt vix at, vel pertinax sensibus id.error epicurei mea.</p>
-                            <form 
-                                className="form form-signup"
-                                onSubmit = {this.onHanldeSubmit}
+                            
+                            <div 
+                                className = {
+                                    accountInfo.isOpenSumitCode ? "slide-form open-submit-code" : "slide-form"
+                                }
                             >
-                                <div className="form-group">
-                                    <input 
-                                        type="text" 
-                                        className="input-control" 
-                                        placeholder="Full name ..." 
-                                        name = "fullname"
-                                        value = {accountInfo.fullname}
-                                        onChange = {this.onHandlechange}
-                                        onBlur = {this.onHandleBlur}
-                                    />
+                                <form 
+                                    className="form form-signup"
+                                    onSubmit = {this.onHanldeSubmit}
+                                >
+                                    <div className="form-group">
+                                        <input 
+                                            type="text" 
+                                            className="input-control" 
+                                            placeholder="Full name ..." 
+                                            name = "fullname"
+                                            value = {accountInfo.fullname}
+                                            onChange = {this.onHandlechange}
+                                            onBlur = {this.onHandleBlur}
+                                        />
 
-                                    <p class="notify warning">{accountInfo.error.fullname}</p>
-                                </div>
-                                <div className="form-group">
-                                    <input 
-                                        type="text" 
-                                        className="input-control" 
-                                        placeholder="Your email or phone number ..." 
-                                        name = "username"
-                                        value = {accountInfo.email}
-                                        onChange = {this.onHandlechange}
-                                        onBlur = {this.onHandleBlur}
-                                    />
-                                    <p class="notify warning">{accountInfo.error.username}</p>
-                                </div>
-                                <div className="form-group">
-                                    <input 
-                                        type="text" 
-                                        className="input-control" 
-                                        placeholder="Password ..." 
-                                        name = "password"
-                                        value = {accountInfo.password}
-                                        onChange = {this.onHandlechange}
-                                        onBlur = {this.onHandleBlur}
-                                    />
-                                    <p class="notify warning">{accountInfo.error.password}</p>
-                                </div>
-                                <div className="form-group">
-                                    <input 
-                                        type="text" 
-                                        className="input-control" 
-                                        placeholder="Confirm password ..."
-                                        name = "confirmPassword"
-                                        value = {accountInfo.confirmPassword}
-                                        onChange = {this.onHandlechange} 
-                                        onBlur = {this.onHandleBlur}
-                                    />
-                                    <p class="notify warning">{accountInfo.error.confirmPassword}</p>
-                                </div>
-                                <div className="form-group">
-                                    <button className="barista-btn">Submit</button>
-                                </div>
-                            </form>
+                                        <p class="notify warning">{accountInfo.error.fullname}</p>
+                                    </div>
+                                    <div className="form-group">
+                                        <input 
+                                            type="text" 
+                                            className="input-control" 
+                                            placeholder="Your email or phone number ..." 
+                                            name = "username"
+                                            value = {accountInfo.email}
+                                            onChange = {this.onHandlechange}
+                                            onBlur = {this.onHandleBlur}
+                                        />
+                                        <p class="notify warning">{accountInfo.error.username}</p>
+                                    </div>
+                                    <div className="form-group">
+                                        <input 
+                                            type="text" 
+                                            className="input-control" 
+                                            placeholder="Password ..." 
+                                            name = "password"
+                                            value = {accountInfo.password}
+                                            onChange = {this.onHandlechange}
+                                            onBlur = {this.onHandleBlur}
+                                        />
+                                        <p class="notify warning">{accountInfo.error.password}</p>
+                                    </div>
+                                    <div className="form-group">
+                                        <input 
+                                            type="text" 
+                                            className="input-control" 
+                                            placeholder="Confirm password ..."
+                                            name = "confirmPassword"
+                                            value = {accountInfo.confirmPassword}
+                                            onChange = {this.onHandlechange} 
+                                            onBlur = {this.onHandleBlur}
+                                        />
+                                        <p class="notify warning">{accountInfo.error.confirmPassword}</p>
+                                    </div>
+                                    <div className="form-group">
+                                        <button className="barista-btn">Submit</button>
+                                    </div>
+                                </form>
+
+                                <form 
+                                    className = "form"
+                                    onSubmit = {this.onHandleSubmitCode}
+                                >
+                                    <div className = "form-group">
+                                        <input 
+                                            type="text" 
+                                            placeholder="Your code ..." 
+                                            className = "input-control mb-25"
+                                            name ="confirmCode"
+                                            onChange = {this.onHandlechange}
+                                            value = {accountInfo.code.confirmCode}
+                                        />
+                                        <p class="notify warning">{accountInfo.error.code}</p>
+                                        <button className="barista-btn ">Apply</button>
+                                    </div>
+                                    <p>We just sent a confirmation code to your email. Please check your email and re-enter this confirmation code. This confirmation code is valid for 3 minutes only</p>
+                                    <a href="/#" class="barista-read-more before"><span aria-hidden="true" class="arrow_left"></span> Return</a>
+                                </form>
+                            </div>
+                            
                         </div>
                         <div className="signup--right">
                             <img src="https://barista.qodeinteractive.com/wp-content/uploads/2017/02/Reservation-N-4.jpg" alt="" />
@@ -296,35 +321,6 @@ class SignUpPage extends Component {
                         </div>
                     </div>
                 </section>
-
-                <Popup 
-                    popupTitle="Confirm Code" isOpen = {accountInfo.code.isOpenPopup}
-                    onHandleOpenLoginForm = {this.onHandleOpenLoginForm}
-                >
-                    <AccordingToggle>
-                        <div className="accordition-toggle--box">
-                            <p>We just sent a confirmation code to your email. Please check your email and re-enter this confirmation code. This confirmation code is valid for 3 minutes only</p>
-                            <form 
-                                className = "form"
-                                onSubmit = {this.onHandleSubmitCode}
-                            >
-                                <div className = "form-group">
-                                    <input 
-                                        type="text" 
-                                        placeholder="Your code ..." 
-                                        className = "input-control mb-25"
-                                        name ="confirmCode"
-                                        onChange = {this.onHandlechange}
-                                        value = {accountInfo.code.confirmCode}
-                                    />
-                                    <p class="notify warning">{accountInfo.error.code}</p>
-                                    <button className="barista-btn ">Apply</button>
-                                </div>
-                            </form>
-                        </div>
-                    </AccordingToggle>
-                </Popup>
-
             </>
         )
     }
@@ -336,8 +332,6 @@ class SignUpPage extends Component {
             path: this.props.match.path
         })
     }
-
-    
 }
 
 const mapStateToProps = state =>{
@@ -350,6 +344,9 @@ const mapDispatchToProps = dispatch =>{
     return {
         onUpdateUrl: url =>{
             dispatch(actUpdateUrl(url))
+        },
+        onChangeNotify: typeNotify =>{
+            dispatch(actChangeNotify(typeNotify))
         }
     }
 }
