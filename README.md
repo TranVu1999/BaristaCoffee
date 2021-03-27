@@ -31,7 +31,7 @@ Hệ thống website được chia làm 4 đối tượng chính: user, member, 
 
 
 # Danh sách các video demo
-1. [Demo chức năng đăng ký thành viên](https://www.youtube.com/watch?v=tuJqNVoJTqk)
+1. [Demo chức năng đăng ký thành viên](https://youtu.be/wv_m0_lZKrE)
 2. [Demo chức năng đăng nhập hệ thống](https://youtu.be/oW0liXGpUDU)
 3. [Demo chức năng xem danh sách sản phẩm](https://youtu.be/UWdjgK7phlY)
 4. [Demo chức năng đánh giá sản phẩm](https://youtu.be/uGLruJMCzzc)

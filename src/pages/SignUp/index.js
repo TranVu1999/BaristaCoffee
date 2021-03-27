@@ -206,16 +206,21 @@ class SignUpPage extends Component {
                 fullname: accountInfo.fullname,
                 password: accountInfo.password
             }
-            this.props.onChangeNotify({
-                typeNotify: 1,
-                notifyContent: `Welcome ${accountInfo.fullname} to BaristaCoffee`
-            });
 
             axios.post(`account/register`, data)
             .then(res =>{
+                this.props.onChangeNotify({
+                    typeNotify: 1,
+                    notifyContent: `Welcome ${accountInfo.fullname} to BaristaCoffee.`
+                });
                 this.props.history.push("/")
             })
-            .catch(err =>{})
+            .catch(err =>{
+                this.props.onChangeNotify({
+                    typeNotify: -1,
+                    notifyContent: `Hey ${accountInfo.fullname} ! An error occurred during registration. Please perform the operation again`
+                });
+            })
             
         }
     }
