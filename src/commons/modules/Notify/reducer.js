@@ -9,15 +9,17 @@ let initialState = {
 const notifyReducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionTypes.CHANGE_NOTIFY: {
-      state.typeNotify = action.payload;
+      state.typeNotify = action.payload.typeNotify;
 
-      if(action.payload === 1){
-        state.notify = Notify.SUCCESS_NOTIFY;
-      }else if(action.payload === -1){
+      if(action.payload.typeNotify === 1){
+        state.notify = action.payload.notifyContent;
+      }else if(action.payload.typeNotify === -1){
         state.notify = Notify.FAIL_NOTIFY;
       }else{
         state.notify = "";
       }
+
+      console.log("state", state);
 
       return { ...state };
     }

@@ -13,8 +13,7 @@
         .slide-form{
             display: block;
             white-space: nowrap;
-            
-            form{
+            .form-box{
                 display: inline-block;
                 width: 100%;
                 transition: all .5s ease-in-out;
@@ -22,7 +21,7 @@
             }
 
             &.open-submit-code{
-                form:first-child{
+                .form-box:first-child{
                     margin-left: -100%;
                 }
             }

@@ -15,14 +15,14 @@ class Notification extends Component {
             return notifyInfo.typeNotify === 1 ? (
                 <div className = "notify-content">
                     <span aria-hidden="true" className="icon_check_alt2"></span>
-                    <strong>Well done!</strong>
-                    You successfullyread this important.
+                    <strong>Well done! </strong>
+                    {notifyInfo.notify}
                 </div>
             ) : (
                 <div className = "notify-content">
                     <span aria-hidden="true" class="icon_close_alt2"></span>
                     <strong>Oh snap!</strong>
-                    Change a few things up and try submitting again.
+                    {notifyInfo.notify}
                 </div>
             )
         }

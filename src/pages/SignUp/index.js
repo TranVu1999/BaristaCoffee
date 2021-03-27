@@ -206,6 +206,10 @@ class SignUpPage extends Component {
                 fullname: accountInfo.fullname,
                 password: accountInfo.password
             }
+            this.props.onChangeNotify({
+                typeNotify: 1,
+                notifyContent: `Welcome ${accountInfo.fullname} to BaristaCoffee`
+            });
 
             axios.post(`account/register`, data)
             .then(res =>{
@@ -214,6 +218,13 @@ class SignUpPage extends Component {
             .catch(err =>{})
             
         }
+    }
+
+    onCloseSubmitCode = () =>{
+        this.setState({
+            ...this.state,
+            isOpenSumitCode: false,
+        })
     }
 
     render() {
@@ -235,83 +246,92 @@ class SignUpPage extends Component {
                                     accountInfo.isOpenSumitCode ? "slide-form open-submit-code" : "slide-form"
                                 }
                             >
-                                <form 
-                                    className="form form-signup"
-                                    onSubmit = {this.onHanldeSubmit}
-                                >
-                                    <div className="form-group">
-                                        <input 
-                                            type="text" 
-                                            className="input-control" 
-                                            placeholder="Full name ..." 
-                                            name = "fullname"
-                                            value = {accountInfo.fullname}
-                                            onChange = {this.onHandlechange}
-                                            onBlur = {this.onHandleBlur}
-                                        />
+                                <div className = "form-box">
+                                    <form 
+                                        className="form form-signup"
+                                        onSubmit = {this.onHanldeSubmit}
+                                    >
+                                        <div className="form-group">
+                                            <input 
+                                                type="text" 
+                                                className="input-control" 
+                                                placeholder="Full name ..." 
+                                                name = "fullname"
+                                                value = {accountInfo.fullname}
+                                                onChange = {this.onHandlechange}
+                                                onBlur = {this.onHandleBlur}
+                                            />
 
-                                        <p class="notify warning">{accountInfo.error.fullname}</p>
-                                    </div>
-                                    <div className="form-group">
-                                        <input 
-                                            type="text" 
-                                            className="input-control" 
-                                            placeholder="Your email or phone number ..." 
-                                            name = "username"
-                                            value = {accountInfo.email}
-                                            onChange = {this.onHandlechange}
-                                            onBlur = {this.onHandleBlur}
-                                        />
-                                        <p class="notify warning">{accountInfo.error.username}</p>
-                                    </div>
-                                    <div className="form-group">
-                                        <input 
-                                            type="text" 
-                                            className="input-control" 
-                                            placeholder="Password ..." 
-                                            name = "password"
-                                            value = {accountInfo.password}
-                                            onChange = {this.onHandlechange}
-                                            onBlur = {this.onHandleBlur}
-                                        />
-                                        <p class="notify warning">{accountInfo.error.password}</p>
-                                    </div>
-                                    <div className="form-group">
-                                        <input 
-                                            type="text" 
-                                            className="input-control" 
-                                            placeholder="Confirm password ..."
-                                            name = "confirmPassword"
-                                            value = {accountInfo.confirmPassword}
-                                            onChange = {this.onHandlechange} 
-                                            onBlur = {this.onHandleBlur}
-                                        />
-                                        <p class="notify warning">{accountInfo.error.confirmPassword}</p>
-                                    </div>
-                                    <div className="form-group">
-                                        <button className="barista-btn">Submit</button>
-                                    </div>
-                                </form>
+                                            <p class="notify warning">{accountInfo.error.fullname}</p>
+                                        </div>
+                                        <div className="form-group">
+                                            <input 
+                                                type="text" 
+                                                className="input-control" 
+                                                placeholder="Your email or phone number ..." 
+                                                name = "username"
+                                                value = {accountInfo.email}
+                                                onChange = {this.onHandlechange}
+                                                onBlur = {this.onHandleBlur}
+                                            />
+                                            <p class="notify warning">{accountInfo.error.username}</p>
+                                        </div>
+                                        <div className="form-group">
+                                            <input 
+                                                type="text" 
+                                                className="input-control" 
+                                                placeholder="Password ..." 
+                                                name = "password"
+                                                value = {accountInfo.password}
+                                                onChange = {this.onHandlechange}
+                                                onBlur = {this.onHandleBlur}
+                                            />
+                                            <p class="notify warning">{accountInfo.error.password}</p>
+                                        </div>
+                                        <div className="form-group">
+                                            <input 
+                                                type="text" 
+                                                className="input-control" 
+                                                placeholder="Confirm password ..."
+                                                name = "confirmPassword"
+                                                value = {accountInfo.confirmPassword}
+                                                onChange = {this.onHandlechange} 
+                                                onBlur = {this.onHandleBlur}
+                                            />
+                                            <p class="notify warning">{accountInfo.error.confirmPassword}</p>
+                                        </div>
+                                        <div className="form-group">
+                                            <button className="barista-btn">Submit</button>
+                                        </div>
+                                    </form>
 
-                                <form 
-                                    className = "form"
-                                    onSubmit = {this.onHandleSubmitCode}
-                                >
-                                    <div className = "form-group">
-                                        <input 
-                                            type="text" 
-                                            placeholder="Your code ..." 
-                                            className = "input-control mb-25"
-                                            name ="confirmCode"
-                                            onChange = {this.onHandlechange}
-                                            value = {accountInfo.code.confirmCode}
-                                        />
-                                        <p class="notify warning">{accountInfo.error.code}</p>
-                                        <button className="barista-btn ">Apply</button>
-                                    </div>
-                                    <p>We just sent a confirmation code to your email. Please check your email and re-enter this confirmation code. This confirmation code is valid for 3 minutes only</p>
-                                    <a href="/#" class="barista-read-more before"><span aria-hidden="true" class="arrow_left"></span> Return</a>
-                                </form>
+                                </div>
+                                
+                                <div className = "form-box">
+                                    <form 
+                                        className = "form"
+                                        onSubmit = {this.onHandleSubmitCode}
+                                    >
+                                        <div className = "form-group">
+                                            <input 
+                                                type="text" 
+                                                placeholder="Your code ..." 
+                                                className = "input-control mb-25"
+                                                name ="confirmCode"
+                                                onChange = {this.onHandlechange}
+                                                value = {accountInfo.code.confirmCode}
+                                            />
+                                            <p class="notify warning">{accountInfo.error.code}</p>
+                                            <button className="barista-btn ">Apply</button>
+                                        </div>
+                                        <p>We just sent a confirmation code to your email. Please check your email and re-enter this confirmation code. This confirmation code is valid for 3 minutes only</p>
+                                    </form>
+                                    <button 
+                                        class="barista-read-more before"
+                                        onClick = {this.onCloseSubmitCode}
+                                    ><span aria-hidden="true" class="arrow_left"></span> Return</button>
+                                </div>
+                                
                             </div>
                             
                         </div>
