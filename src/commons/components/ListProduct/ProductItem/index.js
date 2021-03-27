@@ -1,21 +1,33 @@
 import React, { Component } from 'react';
 import './style.scss';
 import {NavLink} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {actOpenQuickView} from './../../../modules/QuickView/actions'
 
-export default class ProductItem extends Component {
+class ProductItem extends Component {
+
     onHandleAddCart = () =>{
         const {productContent} = this.props;
         this.props.onHandleAddCart(productContent);
     }
+
+    onOpenQuickView = prodInfo =>{
+        this.props.onOpenQuickView(prodInfo)
+    }
+
     render() {
         const {productContent, isExistCart} = this.props;
 
         return (
             <div className="product-item">
                 <div className="product-item__thumb">
-                    <NavLink to={`/product-detail/${productContent.productAlias}`} >
+                    <button 
+                        className = "quickview-btn"
+                        onClick = {() => this.onOpenQuickView(productContent)}
+                    ><span class="icon icon-eye"></span></button>
+                    <div>
                         <img src= {productContent.productAvatar} alt="product" />
-                    </NavLink>
+                    </div>
                     {
                         !isExistCart ?
                         (
@@ -58,3 +70,13 @@ export default class ProductItem extends Component {
         )
     }
 }
+
+const mapDispatchToProps = dispatch =>{
+    return {
+        onOpenQuickView: prodInfo =>{
+            dispatch(actOpenQuickView(prodInfo))
+        }
+    }
+}
+
+export default connect(null, mapDispatchToProps)(ProductItem)

@@ -12,6 +12,7 @@ import routes from './pages/routes';
 import Login from "./containers/Login";
 import Cart from "./commons/components/Cart";
 import Notification from "./commons/components/Notification";
+import QuickView from "./commons/components/QuickView";
 
 
 class App extends Component {
@@ -32,6 +33,7 @@ class App extends Component {
         <Login/>
         <Cart/>
         <Notification/>
+        <QuickView/>
       </div>
     );
   }

@@ -11,6 +11,7 @@ import urlReducer from './../../commons/modules/Url/reducer';
 import accountInfoReducer from './../../commons/modules/AccountInfo/reducer';
 import keySearchReducer from './../../commons/modules/KeySearch/reducer';
 import notifyReducer from './../../commons/modules/Notify/reducer';
+import quickViewReducer from './../../commons/modules/QuickView/reducer';
 
 const rootReducer = combineReducers({
     formLoginReducer,
@@ -24,7 +25,8 @@ const rootReducer = combineReducers({
     urlReducer,
     accountInfoReducer,
     keySearchReducer, 
-    notifyReducer
+    notifyReducer,
+    quickViewReducer
 });
 
 export default rootReducer;

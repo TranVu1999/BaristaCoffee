@@ -32,7 +32,6 @@ class ProductSummary extends Component {
         const {prodInfo} = this.props;
 
         if(prodInfo){
-            console.log("prodInfo.prodPromo", prodInfo.prodPromo)
             return (
                 <>
                     <h3 className="product-title">{prodInfo.prodTitle}</h3>

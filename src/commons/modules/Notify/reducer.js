@@ -19,8 +19,6 @@ const notifyReducer = (state = initialState, action) => {
         state.notify = "";
       }
 
-      console.log("state", state);
-
       return { ...state };
     }
     
