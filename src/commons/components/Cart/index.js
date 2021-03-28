@@ -73,6 +73,19 @@ class Cart extends Component {
     return null;
   };
 
+  renderTotalCart = () =>{
+    const { cartInfo } = this.props;
+    if(cartInfo.length > 0){
+      let total = 0;
+      for(let itemCart of cartInfo){
+        total += itemCart.prodPrice * itemCart.amount
+      }
+
+      return total;
+    }
+    return 0;
+  }
+
   onRemoveItemCart = (prodId) => {
     this.props.onRemoveItemCart(prodId);
   };
@@ -94,7 +107,7 @@ class Cart extends Component {
           <div className="cart--footer">
             <div className="d-flex-between sub-total">
               <span>Subtotal</span>
-              <b>$50.00</b>
+              <b>${this.renderTotalCart()}.00</b>
             </div>
             <p>Taxes and shipping calculated at checkout</p>
             <a href="/#" className="barista-btn btn-viewcart">
