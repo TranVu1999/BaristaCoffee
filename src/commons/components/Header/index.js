@@ -79,111 +79,223 @@ class Header extends Component {
     return false;
   }
 
+  renderClassHeader = () =>{
+    const {isFixedHeader} = this.props;
+    let classHeader = '';
+    classHeader = this.isDarkHearder() ? "header dark" : "header";
+
+    classHeader += isFixedHeader ? " fixed" : "";
+    return classHeader;
+  }
+
   render() {
-    let {amountCart} = this.props;
+    let {amountCart, isFixedHeader} = this.props;
     const {isOpenResMenu, isOpenSearchPage} = this.state;
 
     return (
-      <header 
-        className= {this.isDarkHearder() ? "header dark" : "header"}
-      >
-        <SearchPage 
-          isOpenSearchPage = {isOpenSearchPage}
-          onHandleOpenSearchPage = {this.onHandleOpenSearchPage}
-        />
+      <>
+        <header 
+          className= {this.renderClassHeader()}
+        >
+          <SearchPage 
+            isOpenSearchPage = {isOpenSearchPage}
+            onHandleOpenSearchPage = {this.onHandleOpenSearchPage}
+          />
 
-        <div className="d-flex-between px-25 header__content">
-          <div className="header--nav-toggle">
-            <input 
-              type="checkbox" 
-              id="toggle-menu" 
-              onChange = {this.handleToggleMenu}
-            />
-            <label htmlFor="toggle-menu" className="toggle">
-              <span />
-              <span />
-              <span />
-              <span />
-            </label>
-          </div>
-
-          <div className="header__logo">
-            <NavLink to="/">
-              <img src={!this.isDarkHearder() ? logo : "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851625/BaristaCoffee/logo/logo-2_x72h08.png"} alt="logo" />
-              
-            </NavLink>
-          </div>
-
-          <nav 
-            className = {isOpenResMenu ? "header__nav header--responsive" : "header__nav"}
-          >
-            <ul>
-              <li>
-                <NavLink to = "/" className="nav-span">Home</NavLink>
-              </li>
-              <li className="toggle-sub-menu">
-                <div className="nav-span">
-                  <span >About</span>
-                  <span aria-hidden="true" className="arrow_carrot-right"></span>
-                  <span aria-hidden="true" class="arrow_triangle-down"></span>
-                </div>
-                <ul className="sub-menu">
-                  <li>
-                    <NavLink to="about">About Me</NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="contact">Contact Us</NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="what-we-offer">What We Offer</NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="booking">Booking</NavLink>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <NavLink to = "/shop" className="nav-span">Shop</NavLink>
-              </li>
-              <li>
-              <NavLink to = "/blog-list" className="nav-span">Blog</NavLink>
-              </li>
-              <li className="toggle-sub-menu">
-                <div className="nav-span">
-                  <span id="toggleLoginForm">My Account</span>
-                  <span aria-hidden="true" className="arrow_carrot-right"></span>
-                  <span aria-hidden="true" class="arrow_triangle-down"></span>
-                </div>
-                {this.handleGuestAction()}
-                
-                
-              </li>
-
-              <li className="bulkhead">
+          <div className="d-flex-between px-25 header__content">
+            <div className="header--nav-toggle">
+              <input 
+                type="checkbox" 
+                id="toggle-menu" 
+                onChange = {this.handleToggleMenu}
+              />
+              <label htmlFor="toggle-menu" className="toggle">
                 <span />
-              </li>
-              <li class="toggle-span">
-                <div className="header__cart">
-                  <div>
-                    <span class="nav-span icon icon-cart" ></span>
-                    <span class="number">{amountCart}</span>
-                  </div>
+                <span />
+                <span />
+                <span />
+              </label>
+            </div>
 
-                  <CartHeader/>
-                </div>
-              </li>
-              <li>
-                <button 
-                  className="header__search"
-                  onClick = {this.onHandleOpenSearchPage}
-                >
-                  <span className="nav-span icon icon-search" />
-                </button>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </header>
+            <div className="header__logo">
+              <NavLink to="/">
+                <img src={!this.isDarkHearder() ? logo : "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851625/BaristaCoffee/logo/logo-2_x72h08.png"} alt="logo" />
+                
+              </NavLink>
+            </div>
+
+            <nav 
+              className = {isOpenResMenu ? "header__nav header--responsive" : "header__nav"}
+            >
+              <ul>
+                <li>
+                  <NavLink to = "/" className="nav-span">Home</NavLink>
+                </li>
+                <li className="toggle-sub-menu">
+                  <div className="nav-span">
+                    <span >About</span>
+                    <span aria-hidden="true" className="arrow_carrot-right"></span>
+                    <span aria-hidden="true" class="arrow_triangle-down"></span>
+                  </div>
+                  <ul className="sub-menu">
+                    <li>
+                      <NavLink to="about">About Me</NavLink>
+                    </li>
+                    <li>
+                      <NavLink to="contact">Contact Us</NavLink>
+                    </li>
+                    <li>
+                      <NavLink to="what-we-offer">What We Offer</NavLink>
+                    </li>
+                    <li>
+                      <NavLink to="booking">Booking</NavLink>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <NavLink to = "/shop" className="nav-span">Shop</NavLink>
+                </li>
+                <li>
+                <NavLink to = "/blog-list" className="nav-span">Blog</NavLink>
+                </li>
+                <li className="toggle-sub-menu">
+                  <div className="nav-span">
+                    <span id="toggleLoginForm">My Account</span>
+                    <span aria-hidden="true" className="arrow_carrot-right"></span>
+                    <span aria-hidden="true" class="arrow_triangle-down"></span>
+                  </div>
+                  {this.handleGuestAction()}
+                  
+                  
+                </li>
+
+                <li className="bulkhead">
+                  <span />
+                </li>
+                <li class="toggle-span">
+                  <div className="header__cart">
+                    <div>
+                      <span class="nav-span icon icon-cart" ></span>
+                      <span class="number">{amountCart}</span>
+                    </div>
+
+                    <CartHeader/>
+                  </div>
+                </li>
+                <li>
+                  <button 
+                    className="header__search"
+                    onClick = {this.onHandleOpenSearchPage}
+                  >
+                    <span className="nav-span icon icon-search" />
+                  </button>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </header>
+        
+        <header 
+          className= {isFixedHeader ? "header fixed-header open" : "header fixed-header close"}
+        >
+          <SearchPage 
+            isOpenSearchPage = {isOpenSearchPage}
+            onHandleOpenSearchPage = {this.onHandleOpenSearchPage}
+          />
+
+          <div className="d-flex-between px-25 header__content">
+            <div className="header--nav-toggle">
+              <input 
+                type="checkbox" 
+                id="toggle-menu" 
+                onChange = {this.handleToggleMenu}
+              />
+              <label htmlFor="toggle-menu" className="toggle">
+                <span />
+                <span />
+                <span />
+                <span />
+              </label>
+            </div>
+
+            <div className="header__logo">
+              <NavLink to="/">
+                <img src={!this.isDarkHearder() ? logo : "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851625/BaristaCoffee/logo/logo-2_x72h08.png"} alt="logo" />
+                
+              </NavLink>
+            </div>
+
+            <nav 
+              className = {isOpenResMenu ? "header__nav header--responsive" : "header__nav"}
+            >
+              <ul>
+                <li>
+                  <NavLink to = "/" className="nav-span">Home</NavLink>
+                </li>
+                <li className="toggle-sub-menu">
+                  <div className="nav-span">
+                    <span >About</span>
+                    <span aria-hidden="true" className="arrow_carrot-right"></span>
+                    <span aria-hidden="true" class="arrow_triangle-down"></span>
+                  </div>
+                  <ul className="sub-menu">
+                    <li>
+                      <NavLink to="about">About Me</NavLink>
+                    </li>
+                    <li>
+                      <NavLink to="contact">Contact Us</NavLink>
+                    </li>
+                    <li>
+                      <NavLink to="what-we-offer">What We Offer</NavLink>
+                    </li>
+                    <li>
+                      <NavLink to="booking">Booking</NavLink>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <NavLink to = "/shop" className="nav-span">Shop</NavLink>
+                </li>
+                <li>
+                <NavLink to = "/blog-list" className="nav-span">Blog</NavLink>
+                </li>
+                <li className="toggle-sub-menu">
+                  <div className="nav-span">
+                    <span id="toggleLoginForm">My Account</span>
+                    <span aria-hidden="true" className="arrow_carrot-right"></span>
+                    <span aria-hidden="true" class="arrow_triangle-down"></span>
+                  </div>
+                  {this.handleGuestAction()}
+                  
+                  
+                </li>
+
+                <li className="bulkhead">
+                  <span />
+                </li>
+                <li class="toggle-span">
+                  <div className="header__cart">
+                    <div>
+                      <span class="nav-span icon icon-cart" ></span>
+                      <span class="number">{amountCart}</span>
+                    </div>
+
+                    <CartHeader/>
+                  </div>
+                </li>
+                <li>
+                  <button 
+                    className="header__search"
+                    onClick = {this.onHandleOpenSearchPage}
+                  >
+                    <span className="nav-span icon icon-search" />
+                  </button>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </header>
+      </>
     );
   }
 }

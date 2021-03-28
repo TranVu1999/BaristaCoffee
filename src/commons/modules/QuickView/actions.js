@@ -12,3 +12,10 @@ export const actCloseQuickView = (data) =>{
         payload: data
     }
 }
+
+export const actChangeImage = (data) =>{
+    return {
+        type: ActionTypes.CHANGE_IMAGE,
+        payload: data
+    }
+}

@@ -16,11 +16,45 @@ import QuickView from "./commons/components/QuickView";
 
 
 class App extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      oldPos: 0,
+      isFixedHeader: false
+    }
+  }
+
+  listenToScroll = () => {
+    const {oldPos} = this.state;
+    const currentPos =
+      document.body.scrollTop || document.documentElement.scrollTop;
+
+    if(currentPos === 0){
+      this.setState({
+        oldPos: 0,
+        isFixedHeader: false
+      })
+    }else if(currentPos < oldPos){
+      this.setState({
+        oldPos: currentPos,
+        isFixedHeader: true
+      })
+    }else{
+      this.setState({
+        oldPos: currentPos,
+        isFixedHeader: false
+      })
+    }
+  }
+
 
   render(){
+    const{isFixedHeader} = this.state;
     return (
-      <div className = "main-wrapper page">
-        <Header />
+      <div 
+        className = "main-wrapper page"
+      >
+        <Header isFixedHeader = {isFixedHeader}/>
 
         <Switch>
           {routes.map((item, index) =>{
@@ -39,8 +73,14 @@ class App extends Component {
   }
 
   componentDidMount(){
+    window.addEventListener('scroll', this.listenToScroll)
     this.props.onInitAccountInfo();
   }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.listenToScroll)
+  }
+  
   
 }
 

@@ -1,27 +1,46 @@
 import React, { Component } from 'react';
 import FormAddCart from './../FormAddCart';
 import {connect} from 'react-redux';
-import {actCloseQuickView} from './../../modules/QuickView/actions';
+import {actCloseQuickView, actChangeImage} from './../../modules/QuickView/actions';
 import './style.scss';
 
 class QuickView extends Component {
     onHandleAddCart = () =>{
     }
 
-    onChooseShowImage = (indexActiveimage) =>{
-        this.setState({
-            indexActiveimage
-        })
+    onChooseShowImage = (indexActiveImage) =>{
+        this.props.onChangeImage(indexActiveImage)
     }
 
     onCloseQuickView = () =>{
         this.props.onCloseQuickView(false)
     }
 
+    renderMoreImage = () =>{
+        const {productContent} = this.props.quickViewInfo;
+        const {indexActiveImage} = this.props.quickViewInfo;
+
+        if(productContent.moreImage){
+            const lstImage = productContent.moreImage.slice(0, 4);
+            return lstImage.map((item, index) =>{
+                return (
+                    <div 
+                        key = {index}
+                        className = {indexActiveImage === index ? "image--item active" : "image--item"}
+                        onClick = {() => this.onChooseShowImage(index)}
+                    >
+                        <img src = {item} alt = "thumbnail"/>
+                    </div>
+                )
+            })
+        }
+        return null;
+        
+    }
+
     render() {
         const {quickViewInfo} = this.props;
         const {productContent} = quickViewInfo;
-        console.log("quickViewInfo", quickViewInfo.productContent)
 
         return (
             <div 
@@ -36,33 +55,12 @@ class QuickView extends Component {
                     </button>
                     <div className = "quickview--left">
                         <div className = "quickview__thumb">
-                            <img src = {productContent.productAvatar} alt = "thumbnail"/>
+                            <img src = {
+                                productContent.moreImage ? 
+                                productContent.moreImage[quickViewInfo.indexActiveImage] : ""} alt = "thumbnail"/>
                         </div>
                         <div className = "quickview__image">
-                            <div 
-                                className = {quickViewInfo.indexActiveImage === 0 ? "image--item active" : "image--item"}
-                                onClick = {() => this.onChooseShowImage(0)}
-                            >
-                                <img src = "https://barista.qodeinteractive.com/wp-content/uploads/2016/03/product-image-6-gallery-1.jpg" alt = "thumbnail"/>
-                            </div>
-                            <div 
-                                className = {quickViewInfo.indexActiveImage === 1 ? "image--item active" : "image--item"}
-                                onClick = {() => this.onChooseShowImage(1)}
-                            >
-                                <img src = "https://barista.qodeinteractive.com/wp-content/uploads/2016/03/product-image-6-gallery-2.jpg" alt = "thumbnail"/>
-                            </div>
-                            <div 
-                                className = {quickViewInfo.indexActiveImage === 2 ? "image--item active" : "image--item"}
-                                onClick = {() => this.onChooseShowImage(2)}
-                            >
-                                <img src = "https://barista.qodeinteractive.com/wp-content/uploads/2016/03/product-image-6-gallery-4-2.jpg" alt = "thumbnail"/>
-                            </div>
-                            <div 
-                                className = {quickViewInfo.indexActiveImage === 3 ? "image--item active" : "image--item"}
-                                onClick = {() => this.onChooseShowImage(3)}
-                            >
-                                <img src = "https://barista.qodeinteractive.com/wp-content/uploads/2016/03/product-image-6-gallery-3-100x100.jpg" alt = "thumbnail"/>
-                            </div>
+                            {this.renderMoreImage()}
                         </div>
                     </div>
 
@@ -122,6 +120,9 @@ const mapDispatchToProps = dispatch =>{
     return {
         onCloseQuickView: isClose =>{
             dispatch(actCloseQuickView(isClose))
+        },
+        onChangeImage: indexActiveImage =>{
+            dispatch(actChangeImage(indexActiveImage))
         }
     }
 }

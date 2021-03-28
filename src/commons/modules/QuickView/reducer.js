@@ -18,6 +18,10 @@ const quickViewReducer = (state = initialState, action) => {
       state.isOpenQuickView = false;
       return { ...state };
     }
+    case ActionTypes.CHANGE_IMAGE: {
+      state.indexActiveImage = action.payload;
+      return { ...state };
+    }
     
     default:
       return { ...state };

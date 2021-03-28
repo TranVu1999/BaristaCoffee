@@ -39,7 +39,7 @@ class ProductDetailPage extends Component {
                                 <ProductTab/>
                             </div>
 
-                            <h3>related products</h3>
+                            <h3 className = "mb-30">related products</h3>
                             <ListProduct lstProduct = {this.state.listProduct}/>
                         </div>
                     </div>

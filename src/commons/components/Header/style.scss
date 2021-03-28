@@ -72,6 +72,20 @@
     }
 }
 
+.fixed-header{
+    position: fixed;
+    background-color: #fff;
+    transform: translateY(-150%);
+    box-shadow: 0 1px 20px #d5d5d5;
+
+    &.open{
+        animation: openHeader .4s linear 1 forwards;
+    }
+    &.close{
+        animation: closeHeader .4s linear 1 forwards;
+    }
+}
+
 
 .header__logo{
     a{
@@ -296,6 +310,23 @@
 
 .header--nav-toggle{
     display: none;
+}
+
+@keyframes openHeader{
+    0%{
+        transform: translateY(-150%);
+    }
+    100%{
+        transform: translateY(0%);
+    }
+}
+@keyframes closeHeader{
+    0%{
+        transform: translateY(0%);
+    }
+    100%{
+        transform: translateY(-150%);
+    }
 }
 
 
