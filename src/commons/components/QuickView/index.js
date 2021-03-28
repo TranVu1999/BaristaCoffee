@@ -20,6 +20,8 @@ class QuickView extends Component {
 
     render() {
         const {quickViewInfo} = this.props;
+        const {productContent} = quickViewInfo;
+        console.log("quickViewInfo", quickViewInfo.productContent)
 
         return (
             <div 
@@ -34,7 +36,7 @@ class QuickView extends Component {
                     </button>
                     <div className = "quickview--left">
                         <div className = "quickview__thumb">
-                            <img src = "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851631/BaristaCoffee/shop/prod6_epuaqx.jpg" alt = "thumbnail"/>
+                            <img src = {productContent.productAvatar} alt = "thumbnail"/>
                         </div>
                         <div className = "quickview__image">
                             <div 
@@ -65,11 +67,11 @@ class QuickView extends Component {
                     </div>
 
                     <div className = "quickview--right">
-                        <h2 className="product-title">Coffee Bags</h2>
+                        <h2 className="product-title">{productContent.productTitle}</h2>
 
                         <div className="d-flex-start product-rate__box">
                             <div className="product-rate">
-                                <div className="product-rate--overlay" style={{width: 80 + '%'}}/>
+                                <div className="product-rate--overlay" style={{width: 100 - productContent.productRating + '%'}}/>
 
                                 <span className="icon icon-star-full" />
                                 <span className="icon icon-star-full" />
@@ -84,12 +86,16 @@ class QuickView extends Component {
                         </div>
 
                         <p className="product-price">
-                            <del><span className="price-symboy">$</span>20.00</del>
-                            <span> <span className="price-symboy">$</span>29.00</span> 
+
+                            {
+                                productContent.productPromo ? 
+                                <del> <span class="price-symboy">$</span>{productContent.productPromo}</del> : 
+                                ""
+                            }
+                            <span> <span className="price-symboy">$</span>{productContent.productPrice}</span> 
                         </p>
 
-                        <p className="product__short-desc">
-                        Vis ei rationibus definiebas, eu qui purto zril laoreet. Ex error omnium interpretaris pro, alia illum ea vim. Alienum phaedrum torquatos nec eu, vis detraxit periculis ex, nihil expetendis in mei. Mei an pericula euripidis, hinc partem ei est. Eos ei nisl graecis, vix aperiri consequat an. Eius lorem tincidunt vix at, vel pertinax sensibus id, error epicurei mea et.</p>
+                        <p className="product__short-desc">{productContent.productShortDesc}</p>
 
                         <FormAddCart 
                             onHandleAddCart = {this.onHandleAddCart}

@@ -2,13 +2,16 @@ import * as ActionTypes from "./constants";
 
 let initialState = {
   isOpenQuickView: false,
-  indexActiveImage: 0
+  indexActiveImage: 0,
+  productContent: {}
 };
 
 const quickViewReducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionTypes.OPEN_QUICKVIEW: {
       state.isOpenQuickView = true;
+      state.indexActiveImage = 0;
+      state.productContent = action.payload;
       return { ...state };
     }
     case ActionTypes.CLOSE_QUICKVIEW: {
