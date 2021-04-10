@@ -4,7 +4,6 @@ import InputEmail from './../../commons/components/InputEmail';
 import InputPassword from './../../commons/components/InputPassword';
 
 import {NavLink} from 'react-router-dom';
-import axios from 'axios'
 
 import {connect} from 'react-redux';
 import {actOpenLoginPopup, actLoginApi} from './../../commons/modules/Login/actions';
@@ -15,8 +14,7 @@ class Login extends Component {
         super(props);
         this.state = {
             userEmail: '',
-            password: '',
-            errorLogin: ''
+            password: ''
         }
     }
 
@@ -44,34 +42,12 @@ class Login extends Component {
         const {userEmail, password} = this.state;
         if(userEmail && password){
 
-            axios.create({
-                baseURL: "http://localhost:5000/api/"
-            })
-            .post('auth/login', {
-                username: userEmail,
-                password
-            })
-            .then(res =>{
-                if(res.data.success){
-                    localStorage.setItem("access-token", res.data.accessToken)
-                }else{
-                    this.setState({
-                        ...this.state,
-                        errorLogin: res.data.message
-                    })
-                }
-                
-            })
-            .catch(err =>{
-                console.log(err)
-            })
-
-            // this.props.onLogin(this.state);
+            this.props.onLogin(this.state);
         }
     }
 
     render() {
-        const {errorLogin} = this.state;
+        const {accountFlag} = this.props;
 
         return (
             <>
@@ -95,7 +71,8 @@ class Login extends Component {
 
                         <div className="form-group">
                             <button>Login</button>
-                            {errorLogin ? <p className="notify warning">{errorLogin}</p> : ""}
+                            {accountFlag === -1 ? <p className="notify warning">This account is not registed!!!</p> : ""}
+                            {accountFlag === 0 ? <p className="notify warning">Password is not correct!!!</p> : ""}
                         </div>
 
                         <div className="form-group login-action">

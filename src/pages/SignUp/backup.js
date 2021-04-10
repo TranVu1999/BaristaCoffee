@@ -6,7 +6,8 @@ import {connect} from 'react-redux';
 import {actUpdateUrl} from './../../commons/modules/Url/actions';
 import {actChangeNotify} from './../../commons/modules/Notify/actions';
 
-import axios from 'axios'
+import axios from './../../api'
+import axios2 from 'axios'
 
 import * as Validate from "./../../commons/js/validate-input";
 
@@ -82,15 +83,9 @@ class SignUpPage extends Component {
                 isError = true
                 error[name] = Notify.IS_NOT_USERNAME
             }else{
-                // Check email in database
-                axios.create({
-                    baseURL: "http://localhost:5000/api/"
-                })
-                .post('auth/check-username', {
-                    "username": value
-                })
+                axios.get(`account/register/${value}/false`)
                 .then(res =>{
-                    if(res.status !== 500 && !res.data.success){
+                    if(res.data){
                         isError = true
                         error[name] = Notify.IS_USERNAME_EXISTS;
 
@@ -106,8 +101,34 @@ class SignUpPage extends Component {
                         })
                     }
                 })
+                .catch(err =>{})
+
+                axios2.create({
+                    baseURL: "http://localhost:5000/api/"
+                })
+                .post('auth/check-email', {
+                    "email": value
+                })
+                .then(res =>{
+                    if(res.status !== 500){
+                        isError = true
+                        error[name] = Notify.IS_USERNAME_EXISTS;
+
+                        this.setState({
+                            ...this.state,
+                            error: {
+                                ...this.state.error,
+                                ...error
+                            }
+                        }, () =>{
+                            isError = true
+                            error[name] = Notify.IS_USERNAME_EXISTS;
+                        })
+                    }
+                    console.log("res", res)
+                })
                 .catch(err =>{
-                    console.log(error)
+                    
                 })
             }
         }
@@ -158,8 +179,22 @@ class SignUpPage extends Component {
                 error
             })
         }else{
-            
-            axios.create({
+            // axios.get(`account/register/${accountInfo.username}/true`)
+            // .then(res =>{
+            //     const d = new Date();
+                
+            //     this.setState({
+            //         ...this.state,
+            //         isOpenSumitCode: true,
+            //         code: {
+            //             ...this.state.code,
+            //             code: res.data,
+            //             time: d.getTime()
+            //         }
+            //     })
+            // })
+
+            axios2.create({
                 baseURL: "http://localhost:5000/api/"
             })
             .post('auth/verify', {
@@ -169,10 +204,6 @@ class SignUpPage extends Component {
 
                 if(res.data.success){
                     const d = new Date();
-                    this.props.onChangeNotify({
-                        typeNotify: 1,
-                        notifyContent: `A new verify code is sended to your email.`
-                    });
                     this.setState({
                         ...this.state,
                         isOpenSumitCode: true,
@@ -183,18 +214,10 @@ class SignUpPage extends Component {
                         }
                     })
                 }else{
-                    this.props.onChangeNotify({
-                        typeNotify: -1,
-                        notifyContent: `Hey ${accountInfo.fullname} ! An error occurred during registration. Please perform the operation again`
-                    });
+                    // Show dialog erro
                 }
             })
-            .catch(err =>{
-                this.props.onChangeNotify({
-                    typeNotify: -1,
-                    notifyContent: `Hey ${accountInfo.fullname} ! An error occurred during registration. Please perform the operation again`
-                });
-            })
+            .catch(err =>{})
         }
     }
 
@@ -232,33 +255,26 @@ class SignUpPage extends Component {
             })
         }else{
             const data = {
-                // phone: accountInfo.username
-                email: accountInfo.username,
+                username: accountInfo.username,
                 fullname: accountInfo.fullname,
                 password: accountInfo.password
             }
 
-            axios.create({
-                baseURL: "http://localhost:5000/api/"
-            })
-            .post('auth/register', data)
+            axios.post(`account/register`, data)
             .then(res =>{
-                if(res.data.success){
-                    this.props.onChangeNotify({
-                        typeNotify: 1,
-                        notifyContent: `Welcome ${accountInfo.fullname} to BaristaCoffee.`
-                    });
-                    this.props.history.push("/")
-                }else{
-                    // Show dialog error
-                }
+                this.props.onChangeNotify({
+                    typeNotify: 1,
+                    notifyContent: `Welcome ${accountInfo.fullname} to BaristaCoffee.`
+                });
+                this.props.history.push("/")
             })
-            .catch(error =>{
+            .catch(err =>{
                 this.props.onChangeNotify({
                     typeNotify: -1,
                     notifyContent: `Hey ${accountInfo.fullname} ! An error occurred during registration. Please perform the operation again`
                 });
-            })            
+            })
+            
         }
     }
 
