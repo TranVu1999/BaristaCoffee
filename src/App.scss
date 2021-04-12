@@ -1,0 +1,36 @@
+@import './assets/Sass/variable.scss';
+
+// FORM
+.input-control{
+    width: 100%;
+    padding: 11px 20px;
+    outline: 0;
+    resize: none;
+
+    font-family: 'Open Sans',sans-serif;
+    line-height: 28px;
+    background-color: #fff;
+    color: #666;
+
+    box-sizing: border-box;
+    border: 1px solid #efefef;
+    font-size: 14px;
+
+    &::placeholder{
+        color: $primary-color;
+    }
+
+    &:focus{
+        border: 1px solid $second-color;
+    }
+
+    &.warning{
+        border-color: #dc3545;
+    }
+
+    .notify.warning{
+        color: #dc3545;
+        margin: 0;
+    }
+}
+

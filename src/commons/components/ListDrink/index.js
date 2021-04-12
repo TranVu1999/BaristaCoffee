@@ -1,33 +1,36 @@
-import React, { Component } from 'react';
-import './style.scss';
+import React from 'react'
+import './style.scss'
 
-import DrinkItem from './DrinkItem';
+import DrinkItem from './DrinkItem'
 
-export default class ListDrink extends Component {
-
-    renderListDrink = (listDrink) =>{
-        return listDrink.map((item, index) =>{
-            return <DrinkItem key = {index} drinkContent = {item}/>
+function ListDrink(props) {
+    const renderListDrink = () =>{
+        return props.listDrink.map((item, index) =>{
+            return <DrinkItem 
+                key = {index} 
+                img = {item.img}
+                title = {item.title}
+                price = {item.price}
+                shortDesc = {item.shortDesc}
+                isNew = {item.isNew}
+            />
         })
     }
 
-    render() {
-        const {listDrink} = this.props;
+    const listLeft = props.listDrink.slice(0, (props.listDrink.length / 2));
+    const listRight = props.listDrink.slice(props.listDrink.length / 2, props.listDrink.length);
 
-        const listLeft = listDrink.slice(0, (listDrink.length / 2));
-        const listRight = listDrink.slice(listDrink.length / 2, listDrink.length);
-
-        return (
-            <div className="cf-container our-menu__content">
+    return (
+        <div className="cf-container our-menu__content">
                 <div className="mb-25 d-flex-between">
                     <div className="our-menu--left">
                         <div className="our-menu--list">
-                            {this.renderListDrink(listLeft)}
+                            {renderListDrink(listLeft)}
                         </div>
                     </div>
                     <div className="our-menu--right">
                         <div className="our-menu--list">
-                            {this.renderListDrink(listRight)}
+                            {renderListDrink(listRight)}
                         </div>
                     </div>
                 </div>
@@ -36,6 +39,7 @@ export default class ListDrink extends Component {
                     <a href="/#" className="barista-btn">View Menu</a>
                 </div>
             </div>
-        )
-    }
+    )
 }
+
+export default ListDrink

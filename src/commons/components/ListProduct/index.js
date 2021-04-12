@@ -1,30 +1,12 @@
-import React, { Component } from 'react';
-import ProductItem from './ProductItem';
-import './style.scss';
-import {connect} from 'react-redux';
-import {actAddCart} from './../../modules/Cart/actions'
+import React from 'react'
+import ProductItem from './ProductItem'
 
-class ListProduct extends Component {
+function ListProduct(props) {
+    const renderListProduct = () =>{
+        const {listProduct, dataCart} = props
 
-    onHandleAddCart = (product) =>{
-        let data = {
-            prodId: product.productId,
-            prodTitle: product.productTitle,
-            prodAlias: product.productAlias,
-            prodPrice: product.productPrice,
-            prodPromo: product.productPromo,
-            prodAvatar: product.productAvatar,
-            amount: 1
-        }
-
-        this.props.addCart(data);
-    }
-
-    renderListProduct = () =>{
-        const {lstProduct, dataCart} = this.props;
-
-        if(lstProduct){
-            return lstProduct.map((item, index) =>{
+        if(listProduct){
+            return listProduct.map((item, index) =>{
                 let isExistCart = false;
 
                 for(let itemCart of dataCart){
@@ -36,9 +18,13 @@ class ListProduct extends Component {
 
                 return <ProductItem 
                             key = {index} 
-                            productContent = {item}
+                            productAvatar = {item.productAvatar}
+                            productAlias = {item.productAlias}
+                            productTitle = {item.productTitle}
+                            rating = {item.rating}
+                            productPromo = {item.productPromo}
+                            productPrice = {item.productPrice}
                             isExistCart = {isExistCart}
-                            onHandleAddCart = {this.onHandleAddCart}
                         />
                 
             })
@@ -47,35 +33,17 @@ class ListProduct extends Component {
         
     }
 
-    render() {
-        const {rowShow} = this.props;
-        
-        return (
-            <div 
-                className= {
-                    rowShow 
-                    ?`d-gr-${rowShow} lst-product__container`
-                    : "d-gr-4 lst-product__container"
-                }
-            > 
-                {this.renderListProduct()}
-            </div>
-        )
-    }
+    return (
+        <div 
+            className= {
+                props.rowShow 
+                ?`d-gr-${props.rowShow} lst-product__container`
+                : "d-gr-4 lst-product__container"
+            }
+        > 
+            {renderListProduct()}
+        </div>
+    )
 }
 
-const mapStateToProps = state =>{
-    return{
-        dataCart: state.cartReducer.data
-    }
-}
-
-const mapDispatchToProps = dispatch =>{
-    return {
-        addCart: product =>{
-            dispatch(actAddCart(product))
-        }
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ListProduct);
+export default ListProduct

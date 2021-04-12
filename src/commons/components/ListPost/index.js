@@ -1,24 +1,28 @@
-import React, { Component } from 'react';
-import './style.scss';
+import React from 'react'
+import './style.scss'
 
-import PostItem from './PostItem';
+import PostItem from './PostItem'
 
-export default class ListPost extends Component {
+function ListPost(props) {
+    const renderListPost = () =>{
+        const {listPost} = props;
 
-    renderListPost = () =>{
-        const {listPost} = this.props;
         return listPost.map((item, index) =>{
-            return <PostItem key = {index} postItem = {item}/>
+            return <PostItem 
+                key = {index} 
+                number = {item.number}
+                img = {item.img}
+                title = {item.title}
+                shortDesc = {item.shortDesc}
+            />
         })
     }
 
-    render() {
-        
-        return (
-            <div className="d-gr-3 services-post">
-                {this.renderListPost()}
-            </div>
-
-        )
-    }
+    return (
+        <div className="d-gr-3 services-post">
+                {renderListPost()}
+        </div>
+    )
 }
+
+export default ListPost

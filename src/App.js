@@ -1,97 +1,37 @@
-import React, { Component } from "react";
-import './assets/Sass/index.scss';
+import React from "react"
+import './assets/Sass/index.scss'
+import './App.scss'
+import {Switch, Route} from 'react-router-dom'
+import routes from './containers/routes';
 
-// LAYOUT
-import Header from './commons/components/Header';
-import Footer from './commons/components/Footer';
+import Header from "./features/Layout/Header"
+import Footer from "./features/Layout/Footer"
 
-import {Switch, Route} from 'react-router-dom';
-import {connect} from 'react-redux';
-import {actInitAccountInfo} from './commons/modules/Login/actions';
-import routes from './pages/routes';
-import Login from "./containers/Login";
-import Cart from "./commons/components/Cart";
-import Notification from "./commons/components/Notification";
-import QuickView from "./commons/components/QuickView";
+import HeaderLogo from './commons/components/HeaderLogo'
+import HeaderNav from "./features/Layout/HeaderNav"
 
+function App() {
+  return (
+    <div className = "main-wrapper page">
+      {/* START HEADER */}
+      <Header>
+        <div className="d-flex-between px-25 header__content">
+          <HeaderLogo/>
+          <HeaderNav/>
+        </div>
+      </Header>
 
-class App extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      oldPos: 0,
-      isFixedHeader: false
-    }
-  }
+      {/* START BODY */}
+      <Switch>
+        {routes.map((item, index) =>{
+          return <Route key = {index} path = {item.path} component = {item.component}/>
+        })}
+      </Switch>
 
-  listenToScroll = () => {
-    const {oldPos} = this.state;
-    const currentPos =
-      document.body.scrollTop || document.documentElement.scrollTop;
+      {/* START FOOTER */}
+      <Footer/>
+    </div>
+  );
 
-    if(currentPos === 0){
-      this.setState({
-        oldPos: 0,
-        isFixedHeader: false
-      })
-    }else if(currentPos < oldPos){
-      this.setState({
-        oldPos: currentPos,
-        isFixedHeader: true
-      })
-    }else{
-      this.setState({
-        oldPos: currentPos,
-        isFixedHeader: false
-      })
-    }
-  }
-
-
-  render(){
-    const{isFixedHeader} = this.state;
-    return (
-      <div 
-        className = "main-wrapper page"
-      >
-        <Header isFixedHeader = {isFixedHeader}/>
-
-        <Switch>
-          {routes.map((item, index) =>{
-            return <Route key = {index} path = {item.path} component = {item.component}/>
-          })}
-        </Switch>
-
-        <Footer/>
-
-        <Login/>
-        <Cart/>
-        <Notification/>
-        <QuickView/>
-      </div>
-    );
-  }
-
-  componentDidMount(){
-    window.addEventListener('scroll', this.listenToScroll)
-    this.props.onInitAccountInfo();
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.listenToScroll)
-  }
-  
-  
 }
-
-const mapDispatchToProps = dispatch =>{
-  return{
-    onInitAccountInfo: () =>{
-      dispatch(actInitAccountInfo())
-    }
-  }
-}
-
-
-
-export default connect(null, mapDispatchToProps)(App);
+export default App;

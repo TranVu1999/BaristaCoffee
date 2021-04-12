@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import './style.scss';
+import React from 'react'
+import './style.scss'
 
-export default class Button extends Component {
-    render() {
-        return (
-            <a href="/#" className="coffee-btn">Read More</a>
-        )
-    }
+function Button() {
+    return (
+        <a href="/#" className="coffee-btn">Read More</a>
+    )
 }
+
+export default Button

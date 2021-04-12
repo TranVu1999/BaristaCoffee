@@ -1,0 +1,16 @@
+@import './../../../assets/Sass/variable.scss';
+
+.header{
+    border-bottom: 1px solid rgba(255, 255, 255, .1);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    z-index: 10;
+    padding: 22px 0;
+    
+    input{
+        display: none;
+    }
+}
