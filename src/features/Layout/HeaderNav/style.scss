@@ -73,6 +73,7 @@
             text-align: right;
             overflow: hidden;
             transition: all .8s ease-in-out;
+            
 
             &::before{
                 content: '';
@@ -83,14 +84,36 @@
 
             li{
                 display: block;
-                margin: 10px 0 10px 0;
-                padding: 0 15px;
+                margin: 0;
+                padding: 5px 15px;
                 font-family: Oswald,sans-serif;
                 color: #666;
 
                 font-weight: 400;
                 font-size: 13px;
                 line-height: 1.5;
+                position: relative;
+
+                &:hover{
+                    color: $primary-color;
+                    background-color: #c7a07a20;
+                }
+
+                span.number{
+                    position: absolute;
+                    top: 50%;
+                    left: 5px;
+                    transform: translateY(-50%);
+
+                    text-align: center;
+                    line-height: 20px;
+                    height: 20px;
+                    min-width: 20px;
+
+                    border-radius: 25px;
+                    background-color: $primary-color;
+                    color: #fff;
+                }
             }
         }
 

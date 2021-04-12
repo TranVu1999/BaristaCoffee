@@ -1,0 +1,1 @@
+export const INIT_ACCOUNT = "ACCOUNT/INIT"

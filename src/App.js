@@ -9,6 +9,7 @@ import Footer from "./features/Layout/Footer"
 
 import HeaderLogo from './commons/components/HeaderLogo'
 import HeaderNav from "./features/Layout/HeaderNav"
+import FormLogin from "./features/Layout/FormLogin";
 
 function App() {
   return (
@@ -30,6 +31,8 @@ function App() {
 
       {/* START FOOTER */}
       <Footer/>
+
+      <FormLogin/>
     </div>
   );
 

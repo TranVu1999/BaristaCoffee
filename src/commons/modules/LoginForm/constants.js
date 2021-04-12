@@ -1,0 +1,2 @@
+export const OPEN_FORM = "LOGINFROM/OPEN"
+export const CLOSE_FORM = "LOGINFROM/CLOSE"

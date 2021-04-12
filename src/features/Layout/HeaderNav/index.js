@@ -1,19 +1,37 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { NavLink } from "react-router-dom";
-
+import {useDispatch, useSelector } from 'react-redux'
 import "./style.scss";
 
+import {actOpenFormLogin} from './../../../commons/modules/LoginForm/acction'
+
 function HeaderNav(props) {
+  const dispatch = useDispatch()
+  const accountInfo = useSelector(state => state.accountReducer)
+
+  const onHandleOpenFormLogin = () =>{
+    dispatch(actOpenFormLogin())
+  }
+
 
   const renderGuestAction = () =>{
-    const accessToken = localStorage.getItem('accessToken')
-    if(accessToken){
-      // Change UseGuest
+    if(accountInfo.username){
+      return (
+        <ul className="sub-menu">
+          <li><NavLink to="">My Account <span className="number">1</span></NavLink></li>
+          <li><NavLink to="">My Invoice </NavLink></li>
+          <li><NavLink to="">My Notifycation </NavLink></li>
+          <li><NavLink to="">My Purchased product</NavLink></li>
+          <li><NavLink to="">Logout</NavLink></li>
+        </ul>
+      )
     }
 
     return (
       <ul className="sub-menu">
-        <li><span>Sign In</span></li>
+        <li
+          onClick = {onHandleOpenFormLogin}
+        ><span>Sign In</span></li>
         <li><NavLink to="signup">Sign Up</NavLink></li>
       </ul>
     );

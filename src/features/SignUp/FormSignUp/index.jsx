@@ -1,11 +1,8 @@
 import React, {useState} from 'react';
-import PropTypes from 'prop-types';
 
 import * as Notify from './../../../commons/constant/Notify'
-
-FormSignUp.propTypes = {
-    
-};
+import * as Validate from './../../../commons/js/validate-input'
+import api from './../../../api'
 
 function FormSignUp(props) {
     const [isOpenSumitCode, setIsOpenSumitCode] = useState(false)
@@ -32,6 +29,8 @@ function FormSignUp(props) {
         if(!username.value){
             flag = false
             setUsername(data)
+        }else if(username.error){
+            flag = false
         }
 
         if(!fullname.value){
@@ -51,6 +50,17 @@ function FormSignUp(props) {
 
         if(flag){
             setIsOpenSumitCode(true)
+            api.post('auth/verify', {
+                email: username.value
+            })
+            .then(res =>{
+                if(res.data.success){
+                    console.log(res.data.verifyCode)
+                }
+            })
+            .catch(err =>{
+                console.log({err})
+            })
         }
     }
 
@@ -108,6 +118,59 @@ function FormSignUp(props) {
     
                 case 'confirmPassword':
                     setConfirmPassword(data)
+                    break
+                default:
+                    break
+            }
+        }else{
+            switch(name){
+                case 'username':
+                    if(!Validate.isEmail(value)){
+                        setUsername({
+                            ...username,
+                            error: Notify.IS_NOT_USERNAME
+                        })
+                    }else{
+                        api.post('auth/check-username', {
+                            username: username.value
+                        })
+                        .then(res =>{
+                            if(!res.data.success){
+                                setUsername({
+                                    ...username,
+                                    error: Notify.IS_USERNAME_EXISTS
+                                })
+                            }
+                        })
+                        .catch(err =>{
+                            console.log(err)
+                        })
+                    }                  
+                    break
+
+                case 'password':
+                    if(!Validate.isPassword(value)){
+                        setPassword({
+                            ...password,
+                            error: Notify.IS_NOT_PASSWORD
+                        })
+                    }   
+                    
+                    if(confirmPassword.value === value){
+                        setConfirmPassword({
+                            ...confirmPassword,
+                            error: ""
+                        })
+                    } 
+                    break
+
+                case 'confirmPassword':
+                    if(value !== password.value){
+                        setConfirmPassword({
+                            ...confirmPassword,
+                            error: Notify.IS_NOT_CONFIRMPASSWORD
+                        })
+                    }                    
                     break
                 default:
                     break
