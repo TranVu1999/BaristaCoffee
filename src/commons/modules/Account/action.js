@@ -1,4 +1,5 @@
 import * as ActionTypes from './constants'
+import api from './../../../api'
 
 export const actInitAccount = (data) =>{
     return {

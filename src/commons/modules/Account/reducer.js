@@ -10,7 +10,9 @@ let initialState = {
     productSaveForLates: [],
     productReads: [],
     productFavorites: [],
-    productComments: []
+    productComments: [],
+    notifies: [],
+    invoices: []
 }
 
 const accountReducer = (state = initialState, action) =>{
@@ -19,7 +21,6 @@ const accountReducer = (state = initialState, action) =>{
             for(let key in action.payload){
                 state[key] = action.payload[key];
             };
-            console.log({state})
             return {...state}
 
         default:

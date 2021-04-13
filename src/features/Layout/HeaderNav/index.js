@@ -13,16 +13,23 @@ function HeaderNav(props) {
     dispatch(actOpenFormLogin())
   }
 
+  const onHandleLogout = () =>{
+    localStorage.removeItem("accessToken")
+    window.location.reload(false);
+  }
+
 
   const renderGuestAction = () =>{
     if(accountInfo.username){
       return (
         <ul className="sub-menu">
-          <li><NavLink to="">My Account <span className="number">1</span></NavLink></li>
-          <li><NavLink to="">My Invoice </NavLink></li>
-          <li><NavLink to="">My Notifycation </NavLink></li>
-          <li><NavLink to="">My Purchased product</NavLink></li>
-          <li><NavLink to="">Logout</NavLink></li>
+          <li><NavLink to="/account/infomation">My Account <span className="number">1</span></NavLink></li>
+          <li><NavLink to="/account/invoice">My Invoice </NavLink></li>
+          <li><NavLink to="/account/notify">My Notifycation </NavLink></li>
+          <li><a href="http://localhost:3800/">My Shop</a></li>
+          <li
+            onClick = {onHandleLogout}
+          ><span>Logout</span></li>
         </ul>
       )
     }

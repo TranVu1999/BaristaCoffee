@@ -7,10 +7,11 @@ import * as Notify from './../../../commons/constant/Notify'
 import * as Validate from './../../../commons/js/validate-input'
 import {actCloseFormLogin} from './../../../commons/modules/LoginForm/acction'
 import {actInitAccount} from './../../../commons/modules/Account/action'
+import {actOpenNotify} from './../../../commons/modules/Notify/action'
 import api from './../../../api'
 
 
-function FormLogin(props) {
+function FormLogin() {
     const [username, setUsername] = useState({value: "", error: ""})
     const [password, setPassword] = useState({value: "", error: ""})
     const [loginNotify, setLoginNotify] = useState("")
@@ -79,6 +80,12 @@ function FormLogin(props) {
                 if(res.data.success){
                     localStorage.setItem("accessToken", res.data.accessToken)
                     dispatch(actInitAccount(res.data.accountInfo))
+                    dispatch(actCloseFormLogin())
+                    dispatch(actOpenNotify({
+                        isSuccess: true,
+                        content: res.data.message
+                    }))
+
                 }else{
                     setLoginNotify(res.data.message)
                 }
