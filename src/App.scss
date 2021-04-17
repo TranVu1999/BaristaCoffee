@@ -34,5 +34,27 @@
     }
 }
 
+// MAIN PAGE
 
+.main-page{
+    padding-top: 70px;
+    padding-bottom: 100px;
 
+    &__breadcrumb{
+        margin-bottom: 50px;
+        margin-top: 50px;
+    }
+    
+    &__content{
+        width: 75%;
+        margin-right: 20px;
+        padding: 0 20px;
+        background-color: #fff;
+    }
+
+    &__sidebar{
+        width: 25%;
+        padding: 0 15px;
+        background-color: #fff;
+    }
+}

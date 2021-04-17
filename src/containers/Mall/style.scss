@@ -1,0 +1,5 @@
+@import './../../assets/Sass/mixin.scss';
+
+.mall-page{
+    @include d-flex(flex-start, space-between)
+}

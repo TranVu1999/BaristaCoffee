@@ -64,7 +64,7 @@ function HeaderNav(props) {
           </ul>
         </li>
 
-        <li><NavLink to="/shop" className="nav-span">Shop</NavLink></li>
+        <li><NavLink to="/mall" className="nav-span">Mall</NavLink></li>
 
         <li><NavLink to="/blog-list" className="nav-span">Blog</NavLink></li>
 
