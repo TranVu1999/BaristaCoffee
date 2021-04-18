@@ -1,0 +1,22 @@
+@import './../../../../assets/Sass/variable.scss';
+
+.tag-item{
+    display: inline-block;
+    padding: 4px 14px;
+    background-color: rgb(192, 192, 192);
+    margin-bottom: 8px;
+
+    font-family: 'Merriweather',serif;
+    margin-right: 3px;
+    border-radius: 4px;
+
+    color: $main-color;
+    font-size: 14px;
+    font-style: italic;
+    line-height: 1.8;
+
+    &:hover, &.active{
+        background-color: $primary-color;
+        color: #fff;
+    }
+}
