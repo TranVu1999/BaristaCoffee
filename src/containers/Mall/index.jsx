@@ -5,6 +5,7 @@ import MallControl from '../../features/Mall/MallControl';
 import './style.scss'
 
 import api from './../../api'
+import Navigation from '../../features/Layout/Navigation';
 
 
 function MallPage(props) {
@@ -36,6 +37,16 @@ function MallPage(props) {
         })
     }
 
+    const onHandleChosePage = (indexPage) =>{
+        if(indexPage !== filter.page){
+            setFilter({
+                ...filter,
+                page: indexPage
+            })
+        }
+        
+    }
+
     return (
         <>
             <BannerFull 
@@ -54,6 +65,13 @@ function MallPage(props) {
 
                             <ListProduct
                                 listProduct = {listProduct}
+                            />
+
+                            <Navigation
+                                activePage = {filter.page}
+                                perPage = {filter.perPage}
+                                sizeList = {sizeList}
+                                onChosePage = {onHandleChosePage}
                             />
                         </div>
                         
