@@ -11,18 +11,32 @@ import SidebarWidget from '../../commons/components/SidebarWidget';
 import Search from '../../features/Layout/Search';
 import ListTag from '../../commons/components/ListTag';
 import axios from 'axios';
+import SidebarListProduct from '../../features/Mall/SidebarListProduct';
 
 
 function MallPage(props) {
     const [sizeList, setSizeList] = useState(0)
     const [listProduct, setListProduct] = useState([])
     const [listProductCategory, setListProductCategory] = useState([])
+    const [listTopRate, setListTopRate] = useState([])
     const [filter, setFilter] = useState({
         page: 1,
         perPage: 9,
         sortBy: "Sort by lastest",
         productCategory: "All"
     })
+
+    useEffect(() => {
+        api.get('product/top-rate')
+        .then(res =>{
+            if(res.data.success){
+                setListTopRate(res.data.listProduct)
+            }
+        })
+        .catch(err =>{
+            console.log(err)
+        })
+    }, [])
 
     useEffect(() =>{
         const requestProductFilter = api.post('product/filter', filter)
@@ -109,15 +123,16 @@ function MallPage(props) {
                         </div>
                         
                         <div className="main-page__sidebar">
-                            <SidebarWidget
-                                title="Search"
-                            >
+                            <SidebarWidget title="Search">
                                 <Search/>
                             </SidebarWidget>
 
-                            <SidebarWidget
-                                title="Tags"
-                            >
+                            <SidebarWidget title="Top Rated Products">
+                                <SidebarListProduct listProduct = {listTopRate}/>
+
+                            </SidebarWidget>
+
+                            <SidebarWidget title="Tags">
                                 <ListTag 
                                     activeTag = {filter.productCategory}
                                     listTag = {listProductCategory}
