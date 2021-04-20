@@ -22,9 +22,11 @@ function MallPage(props) {
     const [filter, setFilter] = useState({
         page: 1,
         perPage: 9,
-        sortBy: "Sort by lastest",
-        productCategory: "All"
+        sortBy: "",
+        productCategory: "All",
+        keySearch: ""
     })
+    const [listKeySearch, setListKeySearch] = useState([])
 
     useEffect(() => {
         api.get('product/top-rate')
@@ -86,11 +88,37 @@ function MallPage(props) {
     }
 
     const onHandleGetProductCategory = (prodCateTitle) =>{
-        console.log({prodCateTitle})
-
         setFilter({
             ...filter,
+            page: 1,
             productCategory: prodCateTitle
+        })
+    }
+
+    const onHanldeGetKey = (keySearch) =>{
+        console.log({keySearch})
+        let data = {key: keySearch}
+        const accessToken = localStorage.getItem('accessToken')
+        if(accessToken){
+            data.accessToken = accessToken
+        }
+
+        api.post('key-map', data)
+        .then(res =>{
+            if(res.data.success){
+                setListKeySearch(res.data.listKey)
+            }
+        })
+        .catch(err =>{
+            console.log(err)
+        })
+    }
+
+    const onHanldeChoseKey = (keySearch) =>{
+        setFilter({
+            ...filter,
+            keySearch,
+            page: 1
         })
     }
 
@@ -124,7 +152,11 @@ function MallPage(props) {
                         
                         <div className="main-page__sidebar">
                             <SidebarWidget title="Search">
-                                <Search/>
+                                <Search
+                                    onGetKey = {onHanldeGetKey}
+                                    listKeySearch = {listKeySearch}
+                                    onChoseKey = {onHanldeChoseKey}
+                                />
                             </SidebarWidget>
 
                             <SidebarWidget title="Top Rated Products">
