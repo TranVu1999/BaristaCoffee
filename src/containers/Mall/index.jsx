@@ -22,7 +22,7 @@ function MallPage(props) {
     const [filter, setFilter] = useState({
         page: 1,
         perPage: 9,
-        sortBy: "",
+        sortBy: "Sort by popularity",
         productCategory: "All",
         keySearch: ""
     })

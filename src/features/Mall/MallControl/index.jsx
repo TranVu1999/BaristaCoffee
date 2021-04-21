@@ -22,7 +22,7 @@ function MallControl(props) {
     ]
 
     const [openSelect, setOpenSelect] = useState(false)
-    const [resultSpan, setResultSpan] = useState(listFilterSpan[2])
+    const [resultSpan, setResultSpan] = useState(listFilterSpan[0])
 
     const onHandleToggleSelectBox = () =>{
         setOpenSelect(!openSelect)
