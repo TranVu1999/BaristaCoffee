@@ -2,12 +2,18 @@ import HomePage from './Home';
 import AccountPage from './Account';
 import SignUpPage from './SignUp';
 import MallPage from './Mall';
+import ProductDetailPage from './ProductDetail';
 
 const routes =  [
     {
         path: "/signup",
         exact: true,
         component: SignUpPage
+    },
+    {
+        path: "/product-detail/:alias",
+        exact: true,
+        component: ProductDetailPage
     },
     {
         path: "/mall",

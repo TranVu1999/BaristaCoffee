@@ -1,0 +1,26 @@
+@import './../../../assets/Sass/variable.scss';
+
+.product-lst-images{
+    margin-top: 10px;
+
+    .product-item--image{
+        width: 95px;
+        height: 95px;
+        cursor: pointer;
+        border: 2px solid transparent;
+        transition: all .3s;
+
+
+        box-sizing: border-box;
+        padding: 5px;
+
+        &:hover, &.active{
+            border-color: $primary-color;
+        }
+
+        img{
+            width: 100%;
+            object-fit: cover;
+        }
+    }
+}
