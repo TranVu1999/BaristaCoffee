@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import BannerFull from '../../commons/components/BannerFull';
 import './style.scss'
 
+import ListProduct from '../../features/Layout/ListProduct'
 import ProductThumb from '../../features/ProductDetail/ProductThumb'
 import ProductSummary from '../../features/ProductDetail/ProductSummary'
 import ProductTab from '../../features/ProductDetail/ProductTab'
@@ -14,7 +15,7 @@ function ProductDetailPage(props) {
 
     useEffect(() => {
         if(props.match){
-            api.get(`product/${props.match.params.alias}`)
+            api.get(`product/detail/${props.match.params.alias}`)
             .then(res =>{
                 if(res.data.success){
                     setProduct(res.data.product)
@@ -64,6 +65,12 @@ function ProductDetailPage(props) {
                                 listComment = {product.comment}
                             />
                         </div>
+
+                        <h3 className = "mb-30">related products</h3>
+                        <ListProduct 
+                            cols = {4}
+                            listProduct = {product.listRelativeProduct}
+                        />
                     </div>
                 </div>
             </section>
