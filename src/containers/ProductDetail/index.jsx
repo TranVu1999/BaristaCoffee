@@ -4,6 +4,7 @@ import './style.scss'
 
 import ProductThumb from '../../features/ProductDetail/ProductThumb'
 import ProductSummary from '../../features/ProductDetail/ProductSummary'
+import ProductTab from '../../features/ProductDetail/ProductTab'
 
 import api from './../../api'
 
@@ -53,6 +54,15 @@ function ProductDetailPage(props) {
                                     numComment = {product.comment && product.comment.length}
                                 />
                             </div>
+
+                            <ProductTab
+                                detail = {product.detail}
+                                width = {product.width}
+                                height = {product.height}
+                                weight = {product.weight}
+                                length = {product["length"]}
+                                listComment = {product.comment}
+                            />
                         </div>
                     </div>
                 </div>
