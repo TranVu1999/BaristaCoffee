@@ -8,6 +8,7 @@ import ProductSummary from '../../features/ProductDetail/ProductSummary'
 import ProductTab from '../../features/ProductDetail/ProductTab'
 
 import api from './../../api'
+import InfomationStore from '../../features/ProductDetail/InfomationStore';
 
 
 function ProductDetailPage(props) {
@@ -55,6 +56,8 @@ function ProductDetailPage(props) {
                                     numComment = {product.comment && product.comment.length}
                                 />
                             </div>
+
+                            <InfomationStore/>
 
                             <ProductTab
                                 detail = {product.detail}

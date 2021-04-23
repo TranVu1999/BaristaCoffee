@@ -12,6 +12,7 @@ import Search from '../../features/Layout/Search';
 import ListTag from '../../commons/components/ListTag';
 import axios from 'axios';
 import SidebarListProduct from '../../features/Mall/SidebarListProduct';
+import ProductBreadcrumb from '../../features/ProductDetail/ProductBreadcrumb';
 
 
 function MallPage(props) {
@@ -115,9 +116,27 @@ function MallPage(props) {
     }
 
     const onHanldeChoseKey = (keySearch) =>{
+        console.log({keySearch})
         setFilter({
             ...filter,
             keySearch,
+            page: 1
+        })
+    }
+
+    const onHanldeResetKeySearch = () =>{
+        setFilter({
+            ...filter,
+            keySearch: "",
+            page: 1
+        })
+    }
+
+    const onHanldeResetProductCategory = () =>{
+        setFilter({
+            ...filter,
+            keySearch: "",
+            productCategory: "All",
             page: 1
         })
     }
@@ -128,6 +147,17 @@ function MallPage(props) {
                 title="Mall"
                 img="https://res.cloudinary.com/doem0ysxl/image/upload/v1611851628/BaristaCoffee/other/shop-title-area_fjcbvl.jpg"
             />
+
+            <div className="cf-container mt-25">
+                <ProductBreadcrumb 
+                    productCategory = {filter.productCategory}
+                    keySearch = {filter.keySearch}   
+                    
+                    onResetKeySearch = {onHanldeResetKeySearch}
+                    onResetProductCategory = {onHanldeResetProductCategory}
+                />
+            </div>
+            
 
             <section className="main-page">
                 <div className="cf-container">

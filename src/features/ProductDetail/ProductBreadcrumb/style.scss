@@ -1,0 +1,34 @@
+@import './../../../assets/Sass/variable.scss';
+
+.breadcrumb__container{
+    li{
+        display: inline-block;
+        cursor: pointer;
+
+        &::after{
+            content: '/';
+            margin: 0 10px;
+        }
+
+
+        &:first-child{
+            color: $primary-color;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        &:last-child::after{
+            content: '';
+        }
+
+        label{
+            color: #989898!important;
+            margin-right: 8px;
+            cursor: pointer;
+        }
+
+        &:hover{
+            color: $primary-color;
+        }
+    }
+}

@@ -84,7 +84,7 @@ function Search(props) {
     const onHanldeSubmit = event =>{
         event.preventDefault()
         if(props.onChoseKey){
-            props.onChoseKey(event.target.value)
+            props.onChoseKey(searchKey)
         }
     }
 

@@ -1,0 +1,99 @@
+@import './../../../assets/Sass/variable.scss';
+@import './../../../assets/Sass/mixin.scss';
+
+.infomation-store__container{
+    margin-top: 75px;
+
+    @include d-flex(center, space-between);
+
+    .info-store--left{
+        @include d-flex(center, center)
+    }
+
+    .info-store--right{
+        @include d-flex(flex-start, space-between);
+
+        .info-store-number{
+            margin-right: 60px;
+            color: $primary-color;
+
+            p{
+                margin-top: 0;
+                margin-bottom: 10px;
+            }
+
+            label{
+                margin-right: 10px;
+                color: #666;
+            }
+        }
+    }
+
+
+    .store-logo{
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        overflow: hidden;
+
+        margin-right: 15px;
+
+        a{
+            display: block;
+        }
+
+        img{
+            width: 100%;
+        }
+    }
+
+    .store-text{
+
+        .store-button{
+            margin-top: 5px;
+            @include d-flex(center, center);
+        }
+        
+        button, a{
+            @include d-flex(center, center);
+            padding: 12px 25px;
+            line-height: 1;
+            border: 1px solid #d5d5d5;
+            transition: all .5s;
+        }
+
+        button{
+            border-color: $primary-color;
+            margin-right: 10px;
+
+            &:hover{
+                background-color: $main-color;
+                border-color: $main-color;
+                color: #fff;
+
+                svg{
+                    fill: #fff;
+                }
+            }
+        }
+
+        a:hover{
+            color: $main-color;
+            border-color: $primary-color;
+            background-color: $primary-color;
+
+            svg{
+                fill: $main-color;
+            }
+        }
+
+        svg{
+            width: 14px;
+            height: 14px;
+            margin-right: 8px;
+            fill: #666;
+
+            transition: all .5s;
+        }
+    }
+}
