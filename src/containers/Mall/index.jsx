@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import {useDispatch} from 'react-redux'
 import BannerFull from '../../commons/components/BannerFull';
 import ListProduct from '../../features/Layout/ListProduct';
 import MallControl from '../../features/Mall/MallControl';
@@ -14,8 +15,12 @@ import axios from 'axios';
 import SidebarListProduct from '../../features/Mall/SidebarListProduct';
 import ProductBreadcrumb from '../../features/ProductDetail/ProductBreadcrumb';
 
+import {actAddKey} from './../../commons/modules/KeySearch/action'
+
 
 function MallPage(props) {
+    const dispatch = useDispatch()
+
     const [sizeList, setSizeList] = useState(0)
     const [listProduct, setListProduct] = useState([])
     const [listProductCategory, setListProductCategory] = useState([])
@@ -27,6 +32,7 @@ function MallPage(props) {
         productCategory: "All",
         keySearch: ""
     })
+    
     const [listKeySearch, setListKeySearch] = useState([])
 
     useEffect(() => {
@@ -97,7 +103,6 @@ function MallPage(props) {
     }
 
     const onHanldeGetKey = (keySearch) =>{
-        console.log({keySearch})
         let data = {key: keySearch}
         const accessToken = localStorage.getItem('accessToken')
         if(accessToken){
@@ -116,7 +121,14 @@ function MallPage(props) {
     }
 
     const onHanldeChoseKey = (keySearch) =>{
-        console.log({keySearch})
+        const accessToken = localStorage.getItem('accessToken')
+        const data = {
+            keySearch,
+            accessToken
+        }
+        
+        dispatch(actAddKey(data))
+
         setFilter({
             ...filter,
             keySearch,

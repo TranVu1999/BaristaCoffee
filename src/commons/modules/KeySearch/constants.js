@@ -1,0 +1,1 @@
+export const ADD_KEY = 'keysearch/ADD_KEY';

@@ -5,7 +5,7 @@ import './style.scss'
 Search.propTypes = {
     onGetKey: PropTypes.func,
     listKeySearch: PropTypes.array,
-    onChoseKey: PropTypes.array,
+    onChoseKey: PropTypes.func,
 };
 
 Search.defaultProps = {
@@ -83,7 +83,7 @@ function Search(props) {
 
     const onHanldeSubmit = event =>{
         event.preventDefault()
-        if(props.onChoseKey){
+        if(props.onChoseKey && searchKey){
             props.onChoseKey(searchKey)
         }
     }

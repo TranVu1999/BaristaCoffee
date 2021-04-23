@@ -12,7 +12,8 @@ let initialState = {
     productFavorites: [],
     productComments: [],
     notifies: [],
-    invoices: []
+    invoices: [],
+    keySearch: []
 }
 
 const accountReducer = (state = initialState, action) =>{

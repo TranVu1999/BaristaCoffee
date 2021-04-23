@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import {useSelector} from 'react-redux'
 import BannerFull from '../../commons/components/BannerFull';
 import './style.scss'
 
@@ -7,26 +8,34 @@ import ProductThumb from '../../features/ProductDetail/ProductThumb'
 import ProductSummary from '../../features/ProductDetail/ProductSummary'
 import ProductTab from '../../features/ProductDetail/ProductTab'
 
+import axios from 'axios'
 import api from './../../api'
 import InfomationStore from '../../features/ProductDetail/InfomationStore';
 
 
 function ProductDetailPage(props) {
+    const listKeySearch = useSelector(state => state.keySearchReducer)
+
     const [product, setProduct] = useState({})
 
     useEffect(() => {
         if(props.match){
-            api.get(`product/detail/${props.match.params.alias}`)
-            .then(res =>{
-                if(res.data.success){
-                    setProduct(res.data.product)
-                }
-            })
+
+            const requestProduct = api.get(`product/detail/${props.match.params.alias}`)
+
+            axios.all([requestProduct])
+            .then(
+                axios.spread((...responses) =>{
+                    const resProductFilter = responses[0].data
+                    if(resProductFilter.success){
+                        setProduct(resProductFilter.product)
+                    }
+                })
+            )
             .catch(err =>{
                 console.log(err)
             })
         }
-        console.log(props)
     }, [])
 
     return (
