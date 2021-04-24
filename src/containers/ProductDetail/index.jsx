@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {useSelector} from 'react-redux'
+import {useDispatch, useSelector } from 'react-redux'
 import BannerFull from '../../commons/components/BannerFull';
 import './style.scss'
 
@@ -16,19 +16,19 @@ import InfomationStore from '../../features/ProductDetail/InfomationStore';
 function ProductDetailPage(props) {
     const listKeySearch = useSelector(state => state.keySearchReducer)
 
+    const [productId, setProductId] = useState("")
     const [product, setProduct] = useState({})
 
     useEffect(() => {
         if(props.match){
-
             const requestProduct = api.get(`product/detail/${props.match.params.alias}`)
-
             axios.all([requestProduct])
             .then(
                 axios.spread((...responses) =>{
                     const resProductFilter = responses[0].data
                     if(resProductFilter.success){
                         setProduct(resProductFilter.product)
+                        setProductId(resProductFilter.product._id)
                     }
                 })
             )
@@ -37,6 +37,22 @@ function ProductDetailPage(props) {
             })
         }
     }, [])
+
+    useEffect(() =>{
+        
+        if(listKeySearch.key.length > 0 && productId){
+            const data = {
+                key: listKeySearch.key,
+                accessToken: listKeySearch.accessToken,
+                productId: productId
+            }
+
+            api.post('key-map/add', data)
+            .then(res =>{})
+            .catch(err =>{console.log(err)})
+        }
+        
+    }, [productId])
 
     return (
         <>

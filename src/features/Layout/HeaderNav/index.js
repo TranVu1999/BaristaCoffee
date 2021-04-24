@@ -14,7 +14,6 @@ function HeaderNav(props) {
   }
 
   const onHandleLogout = () =>{
-    localStorage.removeItem("accessToken")
     window.location.reload(false);
   }
 
