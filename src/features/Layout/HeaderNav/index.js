@@ -4,6 +4,7 @@ import {useDispatch, useSelector } from 'react-redux'
 import "./style.scss";
 
 import {actOpenFormLogin} from './../../../commons/modules/LoginForm/acction'
+import HeaderCart from "../HeaderCart";
 
 function HeaderNav(props) {
   const dispatch = useDispatch()
@@ -85,6 +86,8 @@ function HeaderNav(props) {
               <span className="nav-span icon icon-cart"></span>
               <span className="number">0</span>
             </div>
+
+            <HeaderCart/>
           </div>
         </li>
 
