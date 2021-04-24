@@ -15,6 +15,7 @@ import Notifycation from "./features/Layout/Notifycation"
 
 import api from './api'
 import {actInitAccount} from './commons/modules/Account/action'
+import Cart from "./features/Layout/Cart"
 
 function App() {
   const dispatch = useDispatch()
@@ -55,6 +56,7 @@ function App() {
 
       <FormLogin/>
       <Notifycation/>
+      <Cart/>
     </div>
   );
 

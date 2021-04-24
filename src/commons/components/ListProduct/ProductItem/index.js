@@ -1,21 +1,37 @@
 import React from 'react'
 import './style.scss'
+import PropTypes from 'prop-types';
 
 import {NavLink} from 'react-router-dom'
 
+ProductItem.propTypes = {
+    isExistCart: PropTypes.bool, 
+    avatar: PropTypes.string,
+    alias: PropTypes.string,
+    title: PropTypes.string,
+    rating: PropTypes.number,
+    promo: PropTypes.number,
+    price: PropTypes.number,
+    id: PropTypes.string,
+};
+
+ProductItem.defaultProps = {
+    
+}
+
 function ProductItem(props) {
+
     const onHandleAddCart = () =>{
-        
     }
 
     const {
         isExistCart, 
-        productAvatar,
-        productAlias,
-        productTitle,
+        avatar,
+        alias,
+        title,
         rating,
-        productPromo,
-        productPrice
+        promo,
+        price
     } = props
     
     return (
@@ -26,7 +42,7 @@ function ProductItem(props) {
                     // onClick = {() => this.onOpenQuickView(productContent)}
                 ><span class="icon icon-eye"></span></button>
                 <div>
-                    <img src= {productAvatar} alt="product" />
+                    <img src= {avatar} alt="product" />
                 </div>
                 {
                     !isExistCart ?
@@ -47,7 +63,7 @@ function ProductItem(props) {
             
 
             <div className="product-item__text">
-                <h4 className="product-title"><NavLink to={`/product-detail/${productAlias}`} >{productTitle}</NavLink></h4>
+                <h4 className="product-title"><NavLink to={`/product-detail/${alias}`} >{title}</NavLink></h4>
                 <div className="product-rate">
                     <div className="product-rate--overlay" style={{width: 100 - rating + "%"}} />
                     <span className="icon icon-star-full" />
@@ -58,12 +74,12 @@ function ProductItem(props) {
                 </div>
                 <p className="product-price">
                     {
-                        productPromo ? 
-                        <del> <span class="price-symboy">$</span>{productPromo}</del> : 
+                        promo ? 
+                        <del> <span class="price-symboy">$</span>{promo}</del> : 
                         ""
                     }
                     
-                    <span> <span className="price-symboy">$</span>{productPrice}</span> 
+                    <span> <span className="price-symboy">$</span>{price}</span> 
                 </p>
             </div>
         </div>

@@ -9,6 +9,7 @@ import HeaderCart from "../HeaderCart";
 function HeaderNav(props) {
   const dispatch = useDispatch()
   const accountInfo = useSelector(state => state.accountReducer)
+  const cartInfo = useSelector(state => state.cartReducer)
 
   const onHandleOpenFormLogin = () =>{
     dispatch(actOpenFormLogin())
@@ -17,7 +18,6 @@ function HeaderNav(props) {
   const onHandleLogout = () =>{
     window.location.reload(false);
   }
-
 
   const renderGuestAction = () =>{
     if(accountInfo.username){
@@ -42,6 +42,16 @@ function HeaderNav(props) {
         <li><NavLink to="signup">Sign Up</NavLink></li>
       </ul>
     );
+  }
+
+  const getAmountProductInCart = () =>{
+    let sum = 0
+    
+    for(let item of cartInfo.data){
+      sum += item.amount
+    }
+
+    return sum
   }
   
   return (
@@ -84,10 +94,12 @@ function HeaderNav(props) {
           <div className="header__cart">
             <div>
               <span className="nav-span icon icon-cart"></span>
-              <span className="number">0</span>
+              <span className="number">{getAmountProductInCart()}</span>
             </div>
 
-            <HeaderCart/>
+            <HeaderCart
+              listProduct = {cartInfo.data}
+            />
           </div>
         </li>
 

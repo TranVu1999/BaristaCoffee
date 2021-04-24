@@ -10,6 +10,33 @@
     background-color: #fff;
     z-index: 10;
 
+    .list-product{
+        max-height:220px;
+        overflow-y: scroll;
+
+        /* width */
+        &::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        /* Track */
+        &::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        
+        /* Handle */
+        &::-webkit-scrollbar-thumb {
+            background: $primary-color; 
+            border-radius: 4px;
+        }
+        
+        /* Handle on hover */
+        &::-webkit-scrollbar-thumb:hover {
+            background: $main-color; 
+        }
+        
+    }
+
     .cart__item{
         margin: 0 15px;
         padding: 15px 0;

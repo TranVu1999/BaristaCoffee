@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import * as Helpers from './../../js/helpers'
 
 HeaderCartItem.propTypes = {
     id: PropTypes.string,
@@ -39,7 +40,7 @@ function HeaderCartItem(props) {
             <div className="item--text">
             <a href="/#">{title}</a>
             <span>Quanity: {amount}</span>
-            <p>${price}</p>
+            <p>${Helpers.standardPrice(price)}</p>
             </div>
             <button className="item--control" onClick={onHandleRemoveItem}>
             <span aria-hidden="true" className="icon_close" />

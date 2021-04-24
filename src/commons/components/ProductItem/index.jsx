@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import {NavLink} from 'react-router-dom'
 import './style.scss'
 
+import {useDispatch} from 'react-redux'
+import {actAddCart} from './../../modules/Cart/action'
+
 ProductItem.propTypes = {
     avatar: PropTypes.string,
     title: PropTypes.string,
@@ -24,6 +27,21 @@ ProductItem.defaultProps = {
 }
 
 function ProductItem(props) {
+    const dispatch = useDispatch()
+
+    const onHandleAddCart = () =>{
+        const data = {
+            avatar: props.avatar,
+            alias: props.alias,
+            promo: props.promo,
+            price: props.price,
+            title: props.title,
+            id: props.id
+        }
+
+        dispatch(actAddCart(data))
+    }
+
     const {
         avatar,
         isExistCart,
@@ -49,7 +67,7 @@ function ProductItem(props) {
                     (
                         <button 
                             className="add-to-cart"
-                            // onClick = {this.onHandleAddCart}
+                            onClick = {onHandleAddCart}
                         ><span className="icon icon-libreoffice" /> Add To Cart</button>
                     ) :
                     (
