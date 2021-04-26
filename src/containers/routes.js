@@ -3,12 +3,18 @@ import AccountPage from './Account';
 import SignUpPage from './SignUp';
 import MallPage from './Mall';
 import ProductDetailPage from './ProductDetail';
+import ViewCartPage from './ViewCart';
 
 const routes =  [
     {
         path: "/signup",
         exact: true,
         component: SignUpPage
+    },
+    {
+        path: "/view-cart",
+        exact: true,
+        component: ViewCartPage
     },
     {
         path: "/product-detail/:alias",

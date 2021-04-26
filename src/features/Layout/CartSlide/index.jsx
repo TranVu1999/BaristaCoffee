@@ -5,11 +5,11 @@ import {
     actCloseCart, 
     actRemoveCart,
     actUpdateCart
-} from './../../../commons/modules/Cart/action'
-import CartItem from '../../../commons/components/CartItem';
-import * as Helpers from './../../../commons/js/helpers'
+} from '../../../commons/modules/Cart/action'
+import CartSlideItem from '../../../commons/components/CartSlideItem';
+import * as Helpers from '../../../commons/js/helpers'
 
-function Cart(props) {
+function CartSlide(props) {
     const cartInfo = useSelector(state => state.cartReducer)
     const dispatch = useDispatch()
 
@@ -30,7 +30,7 @@ function Cart(props) {
     const onRenderCart = () =>{
         if(cartInfo.data.length > 0){
             return cartInfo.data.map((item, index) => {
-                return <CartItem
+                return <CartSlideItem
                     key = {index}
                     id = {item.id}
                     avatar = {item.avatar}
@@ -86,4 +86,4 @@ function Cart(props) {
     );
 }
 
-export default Cart;
+export default CartSlide;

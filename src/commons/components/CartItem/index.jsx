@@ -1,99 +1,81 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import * as Helpers from './../../js/helpers'
+import {NavLink} from 'react-router-dom'
+import UpdateCart from '../UpdateCart/index ';
+import  {standardPrice} from './../../js/helpers'
 
 CartItem.propTypes = {
     id: PropTypes.string,
+    alias: PropTypes.string,
     avatar: PropTypes.string,
     title: PropTypes.string,
-    promo: PropTypes.number,
     price: PropTypes.number,
     amount: PropTypes.number,
-    alias: PropTypes.string,
 
-    onRemoveCart: PropTypes.func,
-    onUpdateCartItem: PropTypes.func,
+    onUpdateCart: PropTypes.func,
 };
 
 CartItem.defaultProps = {
     id: "",
+    alias: "",
     avatar: "",
     title: "",
-    promo: 0,
     price: 0,
     amount: 0,
-    alias: "",
 
-    onRemoveCart: null,
-    onUpdateCartItem: null
+    onUpdateCart: null
 }
 
 function CartItem(props) {
-
     const {
         id,
+        alias,
         avatar,
         title,
-        promo,
         price,
-        amount,
-        alias
+        amount
     } = props
 
-    const onHanldeRemoveCart = () =>{
-        if(props.onRemoveCart){
-            props.onRemoveCart(id)
-        }
+    const onHanldeRemove = () =>{
+
     }
+    
+    const onHanldeUpdate = (number) =>{        
 
-    const onHandleUpdateCartItem = number =>{
-        if(amount === 1 && number === -1){ return }
-
-        if(props.onUpdateCartItem){
-            props.onUpdateCartItem(id, number)
+        if(props.onUpdateCart){
+            props.onUpdateCart(id, number)
         }
     }
 
     return (
-        <div className="cart--item">
-            <div className="product-thumb">
-                <img src={avatar} alt="product" />
+        <div className="cart-item">
+            <div className="product-thumbnail">
+                <button onClick = {onHanldeRemove()} >
+                    <span aria-hidden="true" className="icon_close" />
+                </button>
             </div>
-            <div className="product-text">
-                <button
-                className="btn-close"
-                onClick={onHanldeRemoveCart}
-                >
-                <span aria-hidden="true" className="icon_close"></span>
-                </button>
-                <h4>{title}</h4>
-                <p className="product-price">
-                {promo ? (
-                    <del>
-                    <span class="price-symboy">$</span>
-                    {promo}
-                    </del>
-                ) : (
-                    ""
-                )}
-                ${Helpers.standardPrice(price) }
-                </p>
-                <div className="update-cart">
-                <button
-                    className="btn-increase"
-                    onClick={() => onHandleUpdateCartItem(-1)}
-                >
-                    <span aria-hidden="true" className="icon_minus-06" />
-                </button>
-                <input type="text" value={amount} />
-                <button
-                    className="btn-decrease"
-                    onClick={() => onHandleUpdateCartItem(1)}
-                >
-                    <span aria-hidden="true" className="icon_plus" />
-                </button>
+
+            <div className="product-name">
+                <div className="product-image">
+                    <NavLink to = {`/product-detail/${alias}`}>
+                        <img src={avatar} alt="product" />
+                    </NavLink>
+                    
+                </div>
+                <div className="product-text">
+                    <NavLink to = {`/product-detail/${alias}`}>{title}</NavLink>
                 </div>
             </div>
+            <div className="product-price">${standardPrice(price)}</div>
+
+            <div className="product-quanity">
+                <UpdateCart 
+                    value = {amount}
+                    onUpdate = {onHanldeUpdate}
+                />
+            </div>
+
+            <div className="product-total">${standardPrice(amount * price)}</div>
         </div>
     );
 }

@@ -15,7 +15,8 @@ import Notifycation from "./features/Layout/Notifycation"
 
 import api from './api'
 import {actInitAccount} from './commons/modules/Account/action'
-import Cart from "./features/Layout/Cart"
+import {actInitCart} from './commons/modules/Cart/action'
+import CartSlide from "./features/Layout/CartSlide"
 
 function App() {
   const dispatch = useDispatch()
@@ -31,6 +32,14 @@ function App() {
         console.log(err)
       ))
       
+    }
+  }, [])
+
+  // init cart
+  useEffect(() =>{
+    const cart = localStorage.getItem('cart')
+    if(cart){
+      dispatch(actInitCart())
     }
   }, [])
 
@@ -56,7 +65,7 @@ function App() {
 
       <FormLogin/>
       <Notifycation/>
-      <Cart/>
+      <CartSlide/>
     </div>
   );
 

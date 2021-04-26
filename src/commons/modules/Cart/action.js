@@ -1,5 +1,15 @@
 import * as ActionTypes from './constants';
 
+/**
+ * If the cart already exists, it will be saved
+ */
+export const actInitCart = () =>{
+    return{
+        type: ActionTypes.INIT_CART,
+        payload: true
+    }
+}
+
 export const actAddCart = data =>{
     
     return{

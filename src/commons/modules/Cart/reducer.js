@@ -26,6 +26,13 @@ const cartReducer = (state = initialState, action) =>{
     let productId = "";
 
     switch (action.type){
+        case ActionTypes.INIT_CART:
+            let cart = localStorage.getItem('cart')
+            if(cart){
+                state = {...JSON.parse(cart)}
+            }
+            return {...state}
+
         case ActionTypes.ADD_PRODUCT:
             state.isOpen = true
 
@@ -41,7 +48,7 @@ const cartReducer = (state = initialState, action) =>{
                 }
                 state.data.push(newCart)
             }
-
+            localStorage.setItem("cart", JSON.stringify(state))
             return {...state}
 
         case ActionTypes.REMOVE_PRODUCT:
@@ -54,8 +61,11 @@ const cartReducer = (state = initialState, action) =>{
                 tempProduct = state.data[index]
                 state.data.splice(index, 1)
                 state.removed.push(tempProduct)
+                // set local
+                localStorage.setItem("cart", JSON.stringify(state))
             }
 
+            
             return {...state}
 
         case ActionTypes.CLOSE_CART:
@@ -68,6 +78,7 @@ const cartReducer = (state = initialState, action) =>{
 
             if(index !== -1){
                 state.data[index].amount += action.payload.number
+                localStorage.setItem("cart", JSON.stringify(state))
             }
 
             return {...state}
