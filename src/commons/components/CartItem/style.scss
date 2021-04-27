@@ -1,0 +1,37 @@
+.cart__content{
+
+    .cart-item{
+        display: flex;
+        align-items: center;
+
+        .product-name{
+            flex: 1;
+        }
+
+        .product-quanity{
+            width: 220px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+
+            .product-add-cart{
+                padding-bottom: 0;
+            }
+        }
+
+        .product-price{
+            width: 120px;
+        }
+
+        .product-total{
+            width: 200px;
+            text-align: right;
+            padding-right: 15px;
+
+            del{
+                color: #cfcfcf;
+                margin-right: 15px;
+            }
+        }
+    }
+}

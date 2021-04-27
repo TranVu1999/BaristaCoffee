@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {NavLink} from 'react-router-dom'
 import UpdateCart from '../UpdateCart/index ';
 import  {standardPrice} from './../../js/helpers'
+import './style.scss'
 
 CartItem.propTypes = {
     id: PropTypes.string,
@@ -54,7 +55,24 @@ function CartItem(props) {
     }
 
     const renderPrice = () =>{
-        
+        const originTotal = amount * price
+        let sale = 0;
+        for(let saleItem of listSale){
+            if(saleItem.from > amount){
+                break
+            }
+
+            sale = saleItem.price
+        }
+
+
+        return (
+            <div className="product-total">
+                {sale ? (<del>${standardPrice(originTotal)}</del>) : ""}
+                
+                ${standardPrice(originTotal - (originTotal * sale) / 100)}
+            </div>
+        )
     }
 
     return (
@@ -76,7 +94,9 @@ function CartItem(props) {
                     <NavLink to = {`/product-detail/${alias}`}>{title}</NavLink>
                 </div>
             </div>
-            <div className="product-price">${standardPrice(price)}</div>
+            <div className="product-price">
+                ${standardPrice(price)}
+            </div>
 
             <div className="product-quanity">
                 <UpdateCart 
@@ -85,7 +105,7 @@ function CartItem(props) {
                 />
             </div>
 
-            <div className="product-total">${standardPrice(amount * price)}</div>
+            {renderPrice()}
         </div>
     );
 }

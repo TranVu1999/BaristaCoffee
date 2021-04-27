@@ -5,6 +5,7 @@ import Breadcrumb from '../../commons/components/Breadcrumb';
 import CartBody from '../../features/ViewCart/CartBody/';
 import CartRemoved from '../../features/ViewCart/CartRemoved';
 import CartSale from '../../features/ViewCart/CartSale';
+import CartTotal from '../../features/ViewCart/CartTotal';
 
 
 ViewCartPage.propTypes = {
@@ -29,8 +30,15 @@ function ViewCartPage(props) {
                 <CartSale listProduct = {cartInfo.data}/>
                 
                 <CartBody listProduct = {cartInfo.data}/>
+
+                <CartTotal listProduct = {cartInfo.data}/>
+
+                <div className="cart__calculate">
+                    <div className="calculate--box">
+                        <a href="/#" className="coffee-btn procced-to-checkout">Procced To Checkout</a>
+                    </div>
+                </div>
             </div>
-            
         </section>
     );
 }
