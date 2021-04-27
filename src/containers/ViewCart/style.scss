@@ -1,6 +1,10 @@
 @import './../../assets/Sass/variable.scss';
 
 .cart-page{
+    .removed-title{
+        margin-bottom: 20px;
+    }
+    
     .notify{
         border: 1px solid #efefef;
         padding: 8px 40px;

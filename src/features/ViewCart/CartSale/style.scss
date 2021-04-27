@@ -1,0 +1,57 @@
+@import './../../../assets/Sass/variable.scss';
+@import './../../../assets/Sass/mixin.scss';
+
+.cart-sale{
+    margin-top: 30px;
+
+    .cart-sale__item{
+        border-bottom: 1px solid #d5d5d5;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+
+        a{
+            font-family: Merriweather,serif;
+            font-style: italic;
+            color: #30271c;
+            font-weight: 600;
+
+            font-size: 16px;
+            margin: 0 6px;
+
+            &:hover{
+                color: $primary-color;
+            }
+        }
+
+        a.read-more{
+            display: inline-block;
+            padding: 0 40px;
+            margin-left: 20px;
+            position: relative;
+        }
+
+        a.read-more::before, a.read-more::after{
+            content: '';
+            display: block;
+            width: 30px;
+            height: 1px;
+
+            background-color: #000;
+            position: absolute;
+        }
+
+        a.read-more::before{
+            @include position(0, 50%, false, true);
+        }
+
+        a.read-more::after{
+            @include position(calc(100% - 30px), 50%, false, true);
+        }
+
+        strong{
+            font-size: 22px;
+            color: $primary-color;
+            margin: 0 4px;
+        }
+    }
+}

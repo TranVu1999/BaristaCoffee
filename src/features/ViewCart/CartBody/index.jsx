@@ -3,7 +3,7 @@ import './style.scss'
 import PropTypes from 'prop-types';
 import CartItem from './../../../commons/components/CartItem'
 import {useDispatch} from 'react-redux'
-import {actUpdateCart} from './../../../commons/modules/Cart/action'
+import {actUpdateCart, actRemoveCart} from './../../../commons/modules/Cart/action'
 
 CartBody.propTypes = {
     listProduct: PropTypes.array,
@@ -24,6 +24,10 @@ function CartBody(props) {
         }))
     }
 
+    const onHanldeRemoveCart = (id) =>{
+        dispatch(actRemoveCart(id))
+    }
+
     const renderCart = () =>{
         if(listProduct.length > 0){
             return listProduct.map((item, index) =>{
@@ -34,8 +38,10 @@ function CartBody(props) {
                     title = {item.title}
                     amount = {item.amount}
                     price = {item.price}
+                    listSale = {item.listSale}
 
                     onUpdateCart = {onHanldeUpdateCart}
+                    onRemoveCart = {onHanldeRemoveCart}
                 />
             })
         }

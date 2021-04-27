@@ -28,6 +28,7 @@ const cartReducer = (state = initialState, action) =>{
     switch (action.type){
         case ActionTypes.INIT_CART:
             let cart = localStorage.getItem('cart')
+            
             if(cart){
                 state = {...JSON.parse(cart)}
             }
@@ -48,25 +49,43 @@ const cartReducer = (state = initialState, action) =>{
                 }
                 state.data.push(newCart)
             }
+
             localStorage.setItem("cart", JSON.stringify(state))
             return {...state}
 
-        case ActionTypes.REMOVE_PRODUCT:
+        case ActionTypes.UNDO_CART:
             productId = action.payload
 
             // check exist
-            index = findIndexCart(state.data, productId)
+            index = findIndexCart(state.removed, productId)
 
             if(index !== -1){
-                tempProduct = state.data[index]
-                state.data.splice(index, 1)
-                state.removed.push(tempProduct)
+                tempProduct = state.removed[index]
+                state.removed.splice(index, 1)
+                state.data.push(tempProduct)
                 // set local
                 localStorage.setItem("cart", JSON.stringify(state))
             }
 
             
             return {...state}
+
+            case ActionTypes.REMOVE_PRODUCT:
+                productId = action.payload
+    
+                // check exist
+                index = findIndexCart(state.data, productId)
+    
+                if(index !== -1){
+                    tempProduct = state.data[index]
+                    state.data.splice(index, 1)
+                    state.removed.push(tempProduct)
+                    // set local
+                    localStorage.setItem("cart", JSON.stringify(state))
+                }
+    
+                
+                return {...state}
 
         case ActionTypes.CLOSE_CART:
             state.isOpen = false

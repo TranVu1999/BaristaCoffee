@@ -11,8 +11,10 @@ CartItem.propTypes = {
     title: PropTypes.string,
     price: PropTypes.number,
     amount: PropTypes.number,
+    listSale: PropTypes.array,
 
     onUpdateCart: PropTypes.func,
+    onRemoveCart: PropTypes.func,
 };
 
 CartItem.defaultProps = {
@@ -22,8 +24,10 @@ CartItem.defaultProps = {
     title: "",
     price: 0,
     amount: 0,
+    listSale: [],
 
-    onUpdateCart: null
+    onUpdateCart: null,
+    onRemoveCart: null
 }
 
 function CartItem(props) {
@@ -33,24 +37,30 @@ function CartItem(props) {
         avatar,
         title,
         price,
-        amount
+        amount,
+        listSale
     } = props
 
     const onHanldeRemove = () =>{
-
+        if(props.onRemoveCart){
+            props.onRemoveCart(id)
+        }
     }
     
-    const onHanldeUpdate = (number) =>{        
-
+    const onHanldeUpdate = (number) =>{  
         if(props.onUpdateCart){
             props.onUpdateCart(id, number)
         }
     }
 
+    const renderPrice = () =>{
+        
+    }
+
     return (
         <div className="cart-item">
             <div className="product-thumbnail">
-                <button onClick = {onHanldeRemove()} >
+                <button onClick = {onHanldeRemove} >
                     <span aria-hidden="true" className="icon_close" />
                 </button>
             </div>

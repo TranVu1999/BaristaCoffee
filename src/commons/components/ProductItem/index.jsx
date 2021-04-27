@@ -14,6 +14,7 @@ ProductItem.propTypes = {
     isExistCart: PropTypes.bool,
     promo: PropTypes.number,
     price: PropTypes.number,
+    listSale: PropTypes.array,
 };
 
 ProductItem.defaultProps = {
@@ -23,34 +24,38 @@ ProductItem.defaultProps = {
     rating: 80,
     isExistCart: false,
     promo: 0,
-    price: 0
+    price: 0,
+    listSale: []
 }
 
 function ProductItem(props) {
-    const dispatch = useDispatch()
-
-    const onHandleAddCart = () =>{
-        const data = {
-            avatar: props.avatar,
-            alias: props.alias,
-            promo: props.promo,
-            price: props.price,
-            title: props.title,
-            id: props.id
-        }
-
-        dispatch(actAddCart(data))
-    }
-
     const {
+        id,
         avatar,
         isExistCart,
         alias,
         title,
         rating,
         promo, 
-        price
+        price,
+        listSale
     } = props
+    
+    const dispatch = useDispatch()
+
+    const onHandleAddCart = () =>{
+        const data = {
+            avatar,
+            alias,
+            promo,
+            price,
+            title,
+            id,
+            listSale
+        }
+
+        dispatch(actAddCart(data))
+    }
 
     return (
         <div className="product-item">

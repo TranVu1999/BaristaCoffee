@@ -49,3 +49,15 @@ export const actUpdateCart = data =>{
         payload: data
     }
 }
+
+/**
+ * 
+ * @param {*} data: is product id
+ */
+ export const actUndoCart = data =>{
+    
+    return{
+        type: ActionTypes.UNDO_CART,
+        payload: data
+    }
+}

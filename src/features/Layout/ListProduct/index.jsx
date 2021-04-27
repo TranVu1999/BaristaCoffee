@@ -39,6 +39,7 @@ function ListProduct(props) {
                     isExistCart = {flag}
                     price = {item.price}
                     promo = {item.promo}
+                    listSale = {item.listSale}
                 />
             )
         })
