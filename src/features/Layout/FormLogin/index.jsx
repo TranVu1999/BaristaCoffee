@@ -79,6 +79,7 @@ function FormLogin() {
             .then(res =>{
                 if(res.data.success){
                     localStorage.setItem("accessToken", res.data.accessToken)
+                    localStorage.setItem("account", res.data.accountInfo.id)
                     dispatch(actInitAccount(res.data.accountInfo))
                     dispatch(actCloseFormLogin())
                     dispatch(actOpenNotify({

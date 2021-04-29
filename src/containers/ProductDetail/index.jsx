@@ -18,7 +18,9 @@ function ProductDetailPage(props) {
 
     const [productId, setProductId] = useState("")
     const [product, setProduct] = useState({})
+    const [store, setStore] = useState({})
 
+    // get product information
     useEffect(() => {
         if(props.match){
             const requestProduct = api.get(`product/detail/${props.match.params.alias}`)
@@ -29,6 +31,7 @@ function ProductDetailPage(props) {
                     if(resProductFilter.success){
                         setProduct(resProductFilter.product)
                         setProductId(resProductFilter.product._id)
+                        setStore(resProductFilter.store)
                     }
                 })
             )
@@ -38,6 +41,7 @@ function ProductDetailPage(props) {
         }
     }, [])
 
+    // Add new key word
     useEffect(() =>{
         
         if(listKeySearch.key.length > 0 && productId){
@@ -82,7 +86,13 @@ function ProductDetailPage(props) {
                                 />
                             </div>
 
-                            <InfomationStore/>
+                            <InfomationStore 
+                                id = {store.createdBy}
+                                brand = {store.brand}
+                                alias = {store.alias}
+                                logo = {store.logo}
+                                
+                            />
 
                             <ProductTab
                                 detail = {product.detail}

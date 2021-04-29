@@ -4,6 +4,8 @@ import accountReducer from './../../commons/modules/Account/reducer'
 import notifyReducer from './../../commons/modules/Notify/reducer'
 import keySearchReducer from './../../commons/modules/KeySearch/reducer'
 import cartReducer from './../../commons/modules/Cart/reducer'
+import socketReducer from './../../commons/modules/socket/reducer'
+import chatBoxReducer from './../../commons/modules/ChatBox/reducer'
 
 
 const rootReducer = combineReducers({
@@ -11,7 +13,9 @@ const rootReducer = combineReducers({
     accountReducer,
     notifyReducer, 
     keySearchReducer,
-    cartReducer
+    cartReducer,
+    socketReducer,
+    chatBoxReducer
 });
 
 export default rootReducer;
