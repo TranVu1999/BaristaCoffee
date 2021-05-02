@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux'
 import {actOpenChatBoxMessage} from './../../../commons/modules/ChatBox/action'
-import {actInviteRoom} from './../../../commons/modules/socket/actions'
+import {actSendMessage} from './../../../commons/modules/socket/actions'
 import './style.scss'
 
 InfomationStore.propTypes = {
@@ -31,11 +31,16 @@ function InfomationStore(props) {
     const dispatch = useDispatch()
 
     const onHanldeOpenChatBox = () =>{
-        dispatch(actOpenChatBoxMessage())
-        dispatch(actInviteRoom({
-            invite: id,
-            roomMaster: localStorage.getItem('account')
+        dispatch(actOpenChatBoxMessage({
+            username: brand,
+            id,
+            logo
         }))
+
+        // dispatch(actSendMessage({
+        //     receiver: id,
+        //     sender: localStorage.getItem('account')
+        // }))
     }
 
     return (

@@ -2,7 +2,8 @@ import * as ActionTypes from './constants'
 
 let initialState = {
     isSmallContent: true,
-    isLargeContent: false
+    isLargeContent: false,
+    listUser: []
 }
 
 const chatBoxReducer = (state = initialState, action) =>{
@@ -25,6 +26,8 @@ const chatBoxReducer = (state = initialState, action) =>{
         case ActionTypes.OPEN_CHAT_BOX_MESSAGE:
             state.isSmallContent = false
             state.isLargeContent = true
+            state.listUser.push(action.payload)
+
             return {...state}
 
         default: 

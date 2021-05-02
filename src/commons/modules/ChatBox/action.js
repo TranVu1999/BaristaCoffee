@@ -21,9 +21,9 @@ export const actCloseChatBox = () =>{
     }
 }
 
-export const actOpenChatBoxMessage = () =>{
+export const actOpenChatBoxMessage = data =>{
     return {
         type: ActionTypes.OPEN_CHAT_BOX_MESSAGE,
-        payload: true
+        payload: data
     }
 }

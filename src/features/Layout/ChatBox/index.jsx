@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import {useSelector, useDispatch} from 'react-redux'
 import {
     actOpenChatBox, 
     actToggleChatBoxMessage,
     actCloseChatBox
 } from './../../../commons/modules/ChatBox/action'
+import {actSendMessage} from './../../../commons/modules/socket/actions'
 import './style.scss'
 
 ChatBox.propTypes = {
@@ -15,6 +16,12 @@ function ChatBox(props) {
     
     const isSmallContent =  useSelector(state => state.chatBoxReducer.isSmallContent)
     const isLargeContent =  useSelector(state => state.chatBoxReducer.isLargeContent)
+    const listUser = useSelector(state => state.chatBoxReducer.listUser)
+    const [currentUserActive, setCurrentUserActive] = useState(0)
+    const [message, setMessage] = useState([])
+    const [messageContent, setMessageContent] = useState("")
+    const [isNewMessage, setIsNewMessage] = useState(true)
+    const time = useRef(null)
 
     const dispatch = useDispatch()
 
@@ -41,6 +48,95 @@ function ChatBox(props) {
             resClass += " large"
         }
         return resClass
+    }
+
+    const onHandleCurrentUserActive = index =>{
+        setCurrentUserActive(index)
+    }
+
+    const renderListUser = () =>{
+
+        if(listUser.length > 0){
+            return listUser.map((item, index) =>{
+                return (
+                    <div 
+                        key = {index}
+                        className = {currentUserActive === index ? "conversation--item active" : "conversation--item"}
+                        onClick = {() => onHandleCurrentUserActive(index)}
+                    >
+                        <div className="thumb">
+                            <img src = {item.logo} alt="brand logo"/>
+                        </div>
+                        <div className="text">
+                            <p>{item.username}</p>
+                            <div className="sub-message--box">
+                                <div className="sub-message"> Chào bạn , có vấn đề cần liên hệ vui lòng gọi 085 504 0003 để được giải quyết nhé hoặc nhắn vào zalo sđt như trên nha</div>
+                                
+                                <div className="control">
+                                    <div className="time">10:33</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )
+            })
+        }
+    }
+
+    const renderMessage = () =>{
+        if(message.length > 0){
+            return message.map((item, index) =>{
+                return (
+                    <div 
+                        key = {index}
+                        className = {item.author ? "message__item author" : "message__item other"}
+                    >
+                        {item.isNewMessage ? <div className="message__date">Today, 10:33</div> : null}
+                        
+                        <div className="message__content--box">
+                            <div className="message__content"> {item.content}</div>
+                        </div>
+                    </div>
+                )
+            })
+        }
+
+        return null
+    }
+
+    const onHanldeChangeMessageContent = event => {
+        const {value} = event.target
+        setMessageContent(value)
+    }
+
+    const onHanldeSendMessage = event =>{
+        event.preventDefault()
+
+        const data = {
+            author: true,
+            content: messageContent,
+            isNewMessage
+        }
+        let newMessage = [...message]
+        newMessage.push(data)
+        setMessage(newMessage)
+        setMessageContent("")
+        setIsNewMessage(false)
+        
+        if(time.current){
+            clearTimeout(time.current)
+        }
+
+        time.current = setTimeout(() =>{
+            setIsNewMessage(true)
+        }, 15000)
+
+        // send message
+        dispatch(actSendMessage({
+            receiver: listUser[currentUserActive].id,
+            sender: localStorage.getItem('account'),
+            content: messageContent
+        }))
     }
 
     return (
@@ -70,8 +166,6 @@ function ChatBox(props) {
                         </button>
                     </div>
                 )}
-                
-                
             </div>
 
             <div 
@@ -79,7 +173,7 @@ function ChatBox(props) {
             >
                 <div className="chat-box--left">
                     <div className="to">
-                        <p>khanhuyen_1009</p>
+                        <p>{listUser[currentUserActive] ? listUser[currentUserActive].username : ""}</p>
                     </div>
                     <div className="list-message">
                         <div className="message__item other">
@@ -88,24 +182,20 @@ function ChatBox(props) {
                                 <div className="message__content"> Chào bạn , có vấn đề cần liên hệ vui lòng gọi 085 504 0003 để được giải quyết nhé hoặc nhắn vào zalo sđt như trên nha</div>
                             </div>
                         </div>
+                        {renderMessage()}
 
-                        <div className="message__item author">
-                            <div className="message__date">Today, 10:33</div>
-                            <div className="message__content--box">
-                                <div className="message__content"> Chào bạn!</div>
-                            </div>
-                        </div>
-
-                        <div className="message__item author">
-                            <div className="message__content--box">
-                                <div className="message__content"> Chào bạn!</div>
-                            </div>
-                        </div>
                     </div>
 
                     <div className="send-message--box">
-                        <form className = "send-message__form">
-                            <input type="text" placeholder="Type a message here"/>
+                        <form className = "send-message__form" onSubmit = {onHanldeSendMessage}>
+                            <input 
+                                type="text"
+                                placeholder="Type a message here"
+                                name="message"
+                                value = {messageContent}
+                                onChange = {onHanldeChangeMessageContent}
+
+                            />
 
                             <button><span class="icon icon-compass"></span></button>
                         </form>
@@ -120,56 +210,7 @@ function ChatBox(props) {
                         </div>
                     </div>
 
-                    <div className="list-conversation">
-                        <div className="conversation--item active">
-                            <div className="thumb">
-                                <img src="https://cf.shopee.vn/file/08775e2674dabd8a64d516b37dbf9bca_tn" alt="brand logo"/>
-                            </div>
-                            <div className="text">
-                                <p>khanhuyen_1009</p>
-                                <div className="sub-message--box">
-                                    <div className="sub-message"> Chào bạn , có vấn đề cần liên hệ vui lòng gọi 085 504 0003 để được giải quyết nhé hoặc nhắn vào zalo sđt như trên nha</div>
-                                    
-                                    <div className="control">
-                                        <div className="time">10:33</div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        <div className="conversation--item">
-                            <div className="thumb">
-                                <img src="https://cf.shopee.vn/file/08775e2674dabd8a64d516b37dbf9bca_tn" alt="brand logo"/>
-                            </div>
-                            <div className="text">
-                                <p>khanhuyen_1009</p>
-                                <div className="sub-message--box">
-                                    <div className="sub-message"> Chào bạn , có vấn đề cần liên hệ vui lòng gọi 085 504 0003 để được giải quyết nhé hoặc nhắn vào zalo sđt như trên nha</div>
-                                    
-                                    <div className="control">
-                                        <div className="time">10:33</div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        <div className="conversation--item">
-                            <div className="thumb">
-                                <img src="https://cf.shopee.vn/file/08775e2674dabd8a64d516b37dbf9bca_tn" alt="brand logo"/>
-                            </div>
-                            <div className="text">
-                                <p>khanhuyen_1009</p>
-                                <div className="sub-message--box">
-                                    <div className="sub-message"> Chào bạn , có vấn đề cần liên hệ vui lòng gọi 085 504 0003 để được giải quyết nhé hoặc nhắn vào zalo sđt như trên nha</div>
-                                    
-                                    <div className="control">
-                                        <div className="time">10:33</div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                        </div>
-                    </div>
+                    <div className="list-conversation">{renderListUser()}</div>
                 </div>
             </div>
         </div>

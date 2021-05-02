@@ -15,9 +15,9 @@ export const actCreateRoom = (data) =>{
     }
 }
 
-export const actInviteRoom = (data) =>{
+export const actSendMessage = (data) =>{
     return {
-        type: ActionTypes.INVITE_ROOM,
+        type: ActionTypes.SEND_MESSAGE,
         payload: data
     }
 }
