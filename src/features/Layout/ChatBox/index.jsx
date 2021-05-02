@@ -1,27 +1,49 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux'
 import {
     actOpenChatBox, 
     actToggleChatBoxMessage,
     actCloseChatBox
 } from './../../../commons/modules/ChatBox/action'
-import {actSendMessage} from './../../../commons/modules/socket/actions'
 import './style.scss'
 
-ChatBox.propTypes = {
-    
-};
+import io from 'socket.io-client'
+let socket = io('http://localhost:5000')
 
-function ChatBox(props) {
+
+function ChatBox() {
     
     const isSmallContent =  useSelector(state => state.chatBoxReducer.isSmallContent)
     const isLargeContent =  useSelector(state => state.chatBoxReducer.isLargeContent)
+    const currentUserActive =  useSelector(state => state.chatBoxReducer.currentUserActive)
+
     const listUser = useSelector(state => state.chatBoxReducer.listUser)
-    const [currentUserActive, setCurrentUserActive] = useState(0)
     const [message, setMessage] = useState([])
     const [messageContent, setMessageContent] = useState("")
     const [isNewMessage, setIsNewMessage] = useState(true)
+    const [listChat, setListChat] = useState([])
     const time = useRef(null)
+
+    useEffect(() => {
+        const account = localStorage.getItem('account')
+        if(account){
+            
+            socket.emit('new user', account)
+
+            socket.on('whisper', data =>{
+                const mess = {
+                    author: false,
+                    content: data.mess,
+                    isNewMessage: false
+                }
+
+                let newMessage = [...message, mess]
+                setMessage(newMessage)
+                setListChat(data.listChat)
+            })
+        }    
+    }, [])
+
 
     const dispatch = useDispatch()
 
@@ -51,7 +73,7 @@ function ChatBox(props) {
     }
 
     const onHandleCurrentUserActive = index =>{
-        setCurrentUserActive(index)
+
     }
 
     const renderListUser = () =>{
@@ -84,12 +106,23 @@ function ChatBox(props) {
     }
 
     const renderMessage = () =>{
-        if(message.length > 0){
-            return message.map((item, index) =>{
+        let index = -1
+        const lengthChat = listChat.length
+        for(let i = 0; i < lengthChat; i ++){
+            if(listChat[i].id === currentUserActive){
+                index = i
+                break
+            }
+        }
+
+        if(index !== -1){
+            const account = localStorage.getItem('account')
+
+            return listChat[index].listMessage.map((item, index) =>{
                 return (
                     <div 
                         key = {index}
-                        className = {item.author ? "message__item author" : "message__item other"}
+                        className = {item.sender === account ? "message__item author" : "message__item other"}
                     >
                         {item.isNewMessage ? <div className="message__date">Today, 10:33</div> : null}
                         
@@ -111,7 +144,6 @@ function ChatBox(props) {
 
     const onHanldeSendMessage = event =>{
         event.preventDefault()
-
         const data = {
             author: true,
             content: messageContent,
@@ -122,7 +154,7 @@ function ChatBox(props) {
         setMessage(newMessage)
         setMessageContent("")
         setIsNewMessage(false)
-        
+
         if(time.current){
             clearTimeout(time.current)
         }
@@ -132,11 +164,29 @@ function ChatBox(props) {
         }, 15000)
 
         // send message
-        dispatch(actSendMessage({
-            receiver: listUser[currentUserActive].id,
+        socket.emit('send message',{
+            receiver: currentUserActive,
             sender: localStorage.getItem('account'),
             content: messageContent
-        }))
+        })
+
+        console.log({
+            receiver: currentUserActive,
+            sender: localStorage.getItem('account'),
+            content: messageContent
+        })
+
+    }
+
+    const renderCurrentChat = () =>{
+        let username = ""
+        for(let item of listUser){
+            if(item.id === currentUserActive){
+                username = item.username
+            }
+        }
+
+        return username
     }
 
     return (
@@ -173,7 +223,7 @@ function ChatBox(props) {
             >
                 <div className="chat-box--left">
                     <div className="to">
-                        <p>{listUser[currentUserActive] ? listUser[currentUserActive].username : ""}</p>
+                        <p>{renderCurrentChat()}</p>
                     </div>
                     <div className="list-message">
                         <div className="message__item other">

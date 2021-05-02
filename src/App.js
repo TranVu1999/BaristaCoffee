@@ -16,7 +16,6 @@ import Notifycation from "./features/Layout/Notifycation"
 import api from './api'
 import {actInitAccount} from './commons/modules/Account/action'
 import {actInitCart} from './commons/modules/Cart/action'
-import {actConnect, actCreateRoom} from './commons/modules/socket/actions'
 import CartSlide from "./features/Layout/CartSlide"
 import ChatBox from "./features/Layout/ChatBox"
 
@@ -42,16 +41,6 @@ function App() {
     const cart = localStorage.getItem('cart')
     if(cart){
       dispatch(actInitCart())
-    }
-  }, [])
-
-  // connect socket
-  useEffect(() =>{
-    const account = localStorage.getItem('account')
-
-    if(account){
-      dispatch(actConnect())
-      dispatch(actCreateRoom(account))
     }
   }, [])
 

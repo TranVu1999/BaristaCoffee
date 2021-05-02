@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {useDispatch, useSelector} from 'react-redux'
+import {useDispatch} from 'react-redux'
 import {actOpenChatBoxMessage} from './../../../commons/modules/ChatBox/action'
-import {actSendMessage} from './../../../commons/modules/socket/actions'
 import './style.scss'
 
 InfomationStore.propTypes = {
@@ -36,11 +35,6 @@ function InfomationStore(props) {
             id,
             logo
         }))
-
-        // dispatch(actSendMessage({
-        //     receiver: id,
-        //     sender: localStorage.getItem('account')
-        // }))
     }
 
     return (
