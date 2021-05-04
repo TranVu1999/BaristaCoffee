@@ -1,39 +1,39 @@
 import React, {useState, useEffect} from 'react';
+import {useSelector, useDispatch} from 'react-redux'
 import InputField from './../../../commons/components/InputField'
 import RadioField from './../../../commons/components/RadioField'
 import SelectField from './../../../commons/components/SelectField'
 import CheckboxField from './../../../commons/components/CheckboxField'
 import './style.scss'
-import PropTypes from 'prop-types';
 
 import * as Notify from './../../../commons/constant/Notify'
 import * as Validate from "./../../../commons/js/validate-input"
+import {
+    standardDateTime, 
+    standardNumber
+} from './../../../commons/js/helpers'
 
+import * as notify from './../../../commons/constant/Notify'
+import {actOpenNotify} from './../../../commons/modules/Notify/action'
+import api from './../../../api'
 
-AccountInfomation.propTypes = {
-    fullname: PropTypes.string,
-    phoneNumber: PropTypes.string,
-    email: PropTypes.string,
-    gender: PropTypes.string,
-    birthday: PropTypes.object,
-};
-
-AccountInfomation.defaultProps = {
-    fullname: "",
-    phoneNumber: "",
-    email: "",
-    gender: "",
-    birthday: {date: 10, month: 1, year: 1999}
-}
 
 
 function AccountInfomation(props) {
+
+    const dispatch = useDispatch()
+
+    const fullnameStore = useSelector(state => state.accountReducer.fullname)
+    const phoneNumberStore = useSelector(state => state.accountReducer.phoneNumber)
+    const emailStore = useSelector(state => state.accountReducer.email)
+    const genderStore = useSelector(state => state.accountReducer.gender)
+    const birthdayStore = useSelector(state => state.accountReducer.birthday)
     
     const [fullname, setFullname] = useState({value: "", error: ""})
-    const [phoneNumber, setPhoneNumber] = useState({value: props.phoneNumber, error: ""})
-    const [email, setEmail] = useState({value: props.email, error: ""})
-    const [gender, setGender] = useState(props.gender)
-    const [birthday, setBirthday] = useState(props.birthday)
+    const [phoneNumber, setPhoneNumber] = useState({value: "", error: ""})
+    const [email, setEmail] = useState({value: "", error: ""})
+    const [gender, setGender] = useState("male")
+    const [birthday, setBirthday] = useState({date: 10, month: 1, year: 1999})
     const [isUpdatePassword, setIsUpdatePassword] = useState(false)
     const [oldPassword, setOldPassword] = useState({value: "", error: ""})
     const [newPassword, setNewPassword] = useState({value: "", error: ""})
@@ -42,14 +42,39 @@ function AccountInfomation(props) {
 
     // set fullname
     useEffect(() =>{
-        if(props.fullname){
-            setFullname({
-                value: props.fullname,
-                error: ""
+        setFullname({ value: fullnameStore, error: "" })
+    }, [fullnameStore])
+
+    // set phone number
+    useEffect(() =>{
+        setPhoneNumber({ value: phoneNumberStore, error: ""})
+        
+    }, [phoneNumberStore])
+
+    // set email
+    useEffect(() =>{
+        setEmail({ value: emailStore, error: "" })
+    }, [emailStore])
+
+    // set gender
+    useEffect(() =>{
+        setGender(genderStore)
+    }, [genderStore])
+
+    // set birthday
+    useEffect(() =>{
+        const standardBirthday = standardDateTime(birthdayStore)
+
+        
+        if(birthdayStore){
+            setBirthday({
+                date: parseInt(standardNumber(standardBirthday.date)),
+                month: parseInt(standardNumber(standardBirthday.month)),
+                year: standardNumber(standardBirthday.year),
+
             })
         }
-    }, [props.fullname])
-
+    }, [birthdayStore])
 
     const onHandleChange = event =>{
         const {value, name, id} = event.target
@@ -146,6 +171,25 @@ function AccountInfomation(props) {
                         ...oldPassword, 
                         error: Notify.IS_NOT_PASSWORD
                     })
+                }else {
+                    api.post('auth/check-password', {password: oldPassword.value})
+                    .then(res =>{
+                        
+                        if(res.data.success){
+                            setOldPassword({
+                                ...oldPassword, 
+                                error: ""
+                            }) 
+                        }else{
+                            setOldPassword({
+                                ...oldPassword, 
+                                error: "This password is not correct."
+                            })
+                        }
+                    })
+                    .catch(err =>{
+                        console.log(err)
+                    })
                 }
                 break
             case 'newPassword':
@@ -181,6 +225,101 @@ function AccountInfomation(props) {
 
     const onHandleUpdateAccountInfo = event =>{
         event.preventDefault()
+
+        let flag = true
+
+        // check fullname
+        if(!fullname.value){
+            setFullname({...fullname, error: notify.IS_EMPTY})
+            flag = false
+        }else if(fullname.error){
+            flag = false
+        }
+
+        // check phone number
+        if(!phoneNumber.value){
+            setPhoneNumber({...phoneNumber, error: notify.IS_EMPTY})
+            flag = false
+        }else if(phoneNumber.error){
+            flag = false
+        }
+
+        // check email
+        if(!email.value){
+            setEmail({...email, error: notify.IS_EMPTY})
+            flag = false
+        }else if(email.error){
+            flag = false
+        }
+
+        if(isUpdatePassword){
+            // check old password
+            if(!oldPassword.value){
+                setOldPassword({...oldPassword, error: notify.IS_EMPTY})
+                flag = false
+            }else if(oldPassword.error){
+                flag = false
+            }
+
+            // check new password
+            if(!newPassword.value){
+                setNewPassword({...newPassword, error: notify.IS_EMPTY})
+                flag = false
+            }else if(newPassword.error){
+                flag = false
+            }
+
+            // check confirm new password
+            if(!confirmNewPassword.value){
+                setConfirmNewPassword({...confirmNewPassword, error: notify.IS_EMPTY})
+                flag = false
+            }else if(confirmNewPassword.error){
+                flag = false
+            }
+        }       
+
+
+        // check accept
+        if(flag){
+            const data = {
+                fullname: fullname.value, 
+                phoneNumber: phoneNumber.value,
+                email: email.value,
+                gender,
+                birthday: {
+                    date: birthday.date + 1,
+                    month: birthday.month - 1,
+                    year: birthday.year
+                },
+                newPassword: newPassword.value
+            }
+    
+            api.post('auth/update', data)
+            .then(res =>{
+                if(res.data.success){
+                    dispatch(actOpenNotify({
+                        isSuccess: true,
+                        content: notify.SUCCESS_NOTIFY
+                    }))
+                }
+            })
+            .catch(err =>{
+                console.log(err)
+                dispatch(actOpenNotify({
+                    isSuccess: false,
+                    content: notify.FAIL_NOTIFY
+                }))
+            })
+        }else{
+            dispatch(actOpenNotify({
+                isSuccess: false,
+                content: notify.FAIL_NOTIFY
+            }))
+        }
+
+        
+
+        
     }
 
     const handleOpenUpdatePasswordForm = event =>{
@@ -264,9 +403,9 @@ function AccountInfomation(props) {
                             <div className="select-group">
                                 <SelectField 
                                     name = "date"
-                                    year = {birthday.date}
+                                    year = {birthday.year}
                                     month = {birthday.month}
-                                    value = {birthday.year}
+                                    value = {birthday.date}
                                     onSelectChange={onHandleChange}
                                 />
                                 <SelectField 
@@ -372,6 +511,8 @@ function AccountInfomation(props) {
                     </form>
                 </div>
             </div>
+
+
         </>
     );
 }

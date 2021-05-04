@@ -19,12 +19,15 @@ import {actInitCart} from './commons/modules/Cart/action'
 import CartSlide from "./features/Layout/CartSlide"
 import ChatBox from "./features/Layout/ChatBox"
 
+import setHeader from './untils/setHeader'
+
 function App() {
   const dispatch = useDispatch()
   
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken')
     if(accessToken){
+      setHeader(accessToken)
       api.post('auth/check-logged', {accessToken})
       .then(res =>{
         dispatch(actInitAccount(res.data.accountInfo))

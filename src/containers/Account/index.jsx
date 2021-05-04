@@ -7,6 +7,7 @@ import './style.scss'
 import Sidebar from '../../features/Account/Sidebar';
 import AccountInfomation from '../../features/Account/AccountInfomation';
 import {standardDateTime} from './../../commons/js/helpers'
+import AccountNotify from '../../features/Account/AccountNotify';
 
 AccountPage.propTypes = {
     
@@ -14,11 +15,6 @@ AccountPage.propTypes = {
 
 function AccountPage(props) {
     const username = useSelector(state => state.accountReducer.username)
-    const fullname = useSelector(state => state.accountReducer.fullname)
-    const phoneNumber = useSelector(state => state.accountReducer.phoneNumber)
-    const email = useSelector(state => state.accountReducer.email)
-    const gender = useSelector(state => state.accountReducer.gender)
-    const birthday = useSelector(state => state.accountReducer.birthday)
     const notifies = useSelector(state => state.accountReducer.notifies)
     const invoices = useSelector(state => state.accountReducer.invoices)
     const productFavorites = useSelector(state => state.accountReducer.productFavorites)
@@ -39,20 +35,15 @@ function AccountPage(props) {
         return total;
     }
 
-    console.log(props.match.params)
-
     const renderAccountContent = () =>{
         const {accountContent} = props.match.params
 
         switch (accountContent){
             case 'infomation':
-                return <AccountInfomation 
-                        fullname = {fullname}
-                        phoneNumber = {phoneNumber}
-                        email = {email}
-                        gender = {gender}
-                        birthday = {standardDateTime(birthday)}
-                    />
+                return <AccountInfomation />
+
+            case 'notify':
+                return <AccountNotify/>
             default: 
                 break
         }

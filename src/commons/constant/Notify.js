@@ -6,6 +6,6 @@ export const IS_NOT_USERNAME = 'Your username is not correct!';
 export const IS_NOT_FULLNAME = 'Your fullname is not correct!';
 export const IS_NOT_CONFIRMPASSWORD = 'Your confirm password is not matched!';
 export const IS_NOT_PHONE_NUMBER = 'Your phone number is not correct!';
-export const SUCCESS_NOTIFY = 'You successfullyread this important.';
+export const SUCCESS_NOTIFY = 'Your operation has been performed successfully.';
 export const FAIL_NOTIFY = 'Change a few things up and try submitting again.';
 

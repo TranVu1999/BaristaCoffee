@@ -40,21 +40,20 @@ function Notifycation(props) {
     }
 
     const renderNotifyContent = () =>{
-        if(isSuccess){
-            return isSuccess? (
-                <div className = "notify-content">
-                    <span aria-hidden="true" className="icon_check_alt2"></span>
-                    <strong>Well done! </strong>
-                    {content}
-                </div>
-            ) : (
-                <div className = "notify-content">
-                    <span aria-hidden="true" class="icon_close_alt2"></span>
-                    <strong>Oh snap!</strong>
-                    {content}
-                </div>
-            )
-        }
+        return isSuccess? (
+            <div className = "notify-content">
+                <span aria-hidden="true" className="icon_check_alt2"></span>
+                <strong>Well done! </strong>
+                {content}
+            </div>
+        ) : (
+            <div className = "notify-content">
+                <span aria-hidden="true" class="icon_close_alt2"></span>
+                <strong>Oh snap! </strong>
+                {content}
+            </div>
+        )
+        
     }
 
     return (

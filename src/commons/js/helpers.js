@@ -40,3 +40,20 @@ export const standardPrice = (str) =>{
         date, month, year
     }
 }
+
+
+
+/**
+ * 
+ * @param {*} str is number string
+ * @returns number is standardzied
+ */
+ export const standardNumber = (str) =>{
+
+    let indexZero = str.indexOf('0')
+    if(indexZero === 0){
+        str = str.slice(1)
+    }
+
+    return str
+}
