@@ -23,3 +23,20 @@ export const standardPrice = (str) =>{
 
     return resString
 }
+
+/**
+ * 
+ * @param {*} str is date time string
+ * @returns object is standardzied
+ */
+ export const standardDateTime = (str) =>{
+
+    let splitStr = str.split('-')
+
+    const year = splitStr[0] || 1999
+    const month = splitStr[1] || 10
+    const date = splitStr[2] ? splitStr[2].slice(0, 2) : 1
+    return {
+        date, month, year
+    }
+}

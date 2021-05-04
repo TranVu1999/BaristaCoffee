@@ -1,31 +1,58 @@
-import React, {useState} from 'react';
-import PropTypes from 'prop-types';
+import React, {useState, useEffect} from 'react';
 import InputField from './../../../commons/components/InputField'
 import RadioField from './../../../commons/components/RadioField'
 import SelectField from './../../../commons/components/SelectField'
 import CheckboxField from './../../../commons/components/CheckboxField'
 import './style.scss'
+import PropTypes from 'prop-types';
 
 import * as Notify from './../../../commons/constant/Notify'
 import * as Validate from "./../../../commons/js/validate-input"
 
+
 AccountInfomation.propTypes = {
-    
+    fullname: PropTypes.string,
+    phoneNumber: PropTypes.string,
+    email: PropTypes.string,
+    gender: PropTypes.string,
+    birthday: PropTypes.object,
 };
 
+AccountInfomation.defaultProps = {
+    fullname: "",
+    phoneNumber: "",
+    email: "",
+    gender: "",
+    birthday: {date: 10, month: 1, year: 1999}
+}
+
+
 function AccountInfomation(props) {
-    const [fullname, setFullname] = useState({value: "", error: ""})
-    const [phoneNumber, setPhoneNumber] = useState({value: "", error: ""})
-    const [email, setEmail] = useState({value: "", error: ""})
-    const [gender, setGender] = useState("male")
-    const [birthday, setBirthday] = useState({date: 10, month: 1, year: 1999})
-    const [isUpdatePassword, setIsUpdatePassword] = useState(false)
     
+    const [fullname, setFullname] = useState({value: "", error: ""})
+    const [phoneNumber, setPhoneNumber] = useState({value: props.phoneNumber, error: ""})
+    const [email, setEmail] = useState({value: props.email, error: ""})
+    const [gender, setGender] = useState(props.gender)
+    const [birthday, setBirthday] = useState(props.birthday)
+    const [isUpdatePassword, setIsUpdatePassword] = useState(false)
+    const [oldPassword, setOldPassword] = useState({value: "", error: ""})
+    const [newPassword, setNewPassword] = useState({value: "", error: ""})
+    const [confirmNewPassword, setConfirmNewPassword] = useState({value: "", error: ""})
+    const [typeVerify] = useState("email")
+
+    // set fullname
+    useEffect(() =>{
+        if(props.fullname){
+            setFullname({
+                value: props.fullname,
+                error: ""
+            })
+        }
+    }, [props.fullname])
 
 
     const onHandleChange = event =>{
         const {value, name, id} = event.target
-        console.log({name})
 
         switch(name){
             case 'fullname':
@@ -47,7 +74,15 @@ function AccountInfomation(props) {
                     ...birthday,
                     [name]: value
                 })
-                console.log(value)
+                break
+            case 'oldPassword':
+                setOldPassword({value, error: ""})
+                break
+            case 'newPassword':
+                setNewPassword({value, error: ""})
+                break
+            case 'confirmNewPassword':
+                setConfirmNewPassword({value, error: ""})
                 break
             
             default:
@@ -97,6 +132,45 @@ function AccountInfomation(props) {
                     setEmail({
                         ...email, 
                         error: Notify.IS_NOT_EMAIL
+                    })
+                }
+                break
+            case 'oldPassword':
+                if(!value){
+                    setOldPassword({
+                        ...oldPassword, 
+                        error: Notify.IS_EMPTY
+                    })
+                }else if(!Validate.isPassword(value)){
+                    setOldPassword({
+                        ...oldPassword, 
+                        error: Notify.IS_NOT_PASSWORD
+                    })
+                }
+                break
+            case 'newPassword':
+                if(!value){
+                    setNewPassword({
+                        ...newPassword, 
+                        error: Notify.IS_EMPTY
+                    })
+                }else if(!Validate.isPassword(value)){
+                    setNewPassword({
+                        ...newPassword, 
+                        error: Notify.IS_NOT_PASSWORD
+                    })
+                }
+                break
+            case 'confirmNewPassword':
+                if(!value){
+                    setConfirmNewPassword({
+                        ...confirmNewPassword, 
+                        error: Notify.IS_EMPTY
+                    })
+                }else if(newPassword !== confirmNewPassword){
+                    setConfirmNewPassword({
+                        ...confirmNewPassword, 
+                        error: "Your confirmation password does not match"
                     })
                 }
                 break
@@ -209,6 +283,7 @@ function AccountInfomation(props) {
                             </div>
                         </div>
 
+                        {/* Open update form password */}
                         <div className="form-group">
                             <div className="input-label"></div>
                             <div className="input-group">
@@ -223,42 +298,46 @@ function AccountInfomation(props) {
                         {
                             isUpdatePassword ? (
                                 <div className="update-password-group">
+                                    {/* Old password */}
                                     <div className="form-group">
                                         <div className="input-label"><label>Mật khẩu cũ</label> </div>
                                         <InputField
                                             placeholder="Nhập mật khẩu cũ"
-                                            value = {''} 
-                                            // onHandleChange = {this.onHandleChange}
+                                            value = {oldPassword.value} 
+                                            onHandleChange = {onHandleChange}
                                             name = 'oldPassword'
-                                            // onHandleBlur = {this.onHandleBlur}
-                                            // error = {accountInfo.error.oldPassword}
+                                            onHandleBlur = {onHandleBlur}
+                                            error = {oldPassword.error}
                                         />
                                     </div>
                                     
+                                    {/* New password */}
                                     <div className="form-group">
                                         <div className="input-label"><label>Mật khẩu mới</label></div>
                                         <InputField
                                             placeholder="Nhập mật khẩu mới"
-                                            // value = {accountInfo.newPassword} 
-                                            // onHandleChange = {this.onHandleChange}
+                                            value = {newPassword.value} 
+                                            onHandleChange = {onHandleChange}
                                             name = 'newPassword'
-                                            // onHandleBlur = {this.onHandleBlur}
-                                            // error = {accountInfo.error.newPassword}
+                                            onHandleBlur = {onHandleBlur}
+                                            error = {newPassword.error}
                                         />
                                     </div>
 
+                                    {/* Confirm new password */}
                                     <div className="form-group">
                                         <div className="input-label"><label>Nhập lại</label></div>
                                         <InputField
                                             placeholder="Nhập mật lại khẩu mới"
-                                            // value = {accountInfo.confirmPassword} 
-                                            // onHandleChange = {this.onHandleChange}
-                                            name = 'confirmPassword'
-                                            // onHandleBlur = {this.onHandleBlur}
-                                            // error = {accountInfo.error.confirmPassword}
+                                            value = {confirmNewPassword.value} 
+                                            onHandleChange = {onHandleChange}
+                                            name = 'confirmNewPassword'
+                                            onHandleBlur = {onHandleBlur}
+                                            error = {confirmNewPassword.error}
                                         />
                                     </div>
-
+                                    
+                                    {/* Type verify */}
                                     <div className="form-group">
                                         <div className="input-label gender-label">Nhận mã xác nhận</div>
                                         <div className="input-group">
@@ -266,15 +345,15 @@ function AccountInfomation(props) {
                                                 id = "email"
                                                 name ="place-confirm"
                                                 label = "Email"
-                                                // isChecked = {accountInfo.placeConfirm === 'email'}
-                                                // onHandleChange = {this.onHandleChange}
+                                                isChecked = {typeVerify === 'email'}
+                                                onHandleChange = {onHandleChange}
                                             />
                                             <RadioField
                                                 id = "phone"
                                                 name ="place-confirm"
                                                 label = "Số điện thoại"
-                                                // isChecked = {accountInfo.placeConfirm !== 'email'}
-                                                // onHandleChange = {this.onHandleChange}
+                                                isChecked = {typeVerify !== 'email'}
+                                                onHandleChange = {onHandleChange}
                                             />
                                         </div>
                                     </div>

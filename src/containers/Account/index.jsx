@@ -6,13 +6,25 @@ import {useSelector} from 'react-redux'
 import './style.scss'
 import Sidebar from '../../features/Account/Sidebar';
 import AccountInfomation from '../../features/Account/AccountInfomation';
+import {standardDateTime} from './../../commons/js/helpers'
 
 AccountPage.propTypes = {
     
 };
 
 function AccountPage(props) {
-    const accountInfo = useSelector(state => state.accountReducer)
+    const username = useSelector(state => state.accountReducer.username)
+    const fullname = useSelector(state => state.accountReducer.fullname)
+    const phoneNumber = useSelector(state => state.accountReducer.phoneNumber)
+    const email = useSelector(state => state.accountReducer.email)
+    const gender = useSelector(state => state.accountReducer.gender)
+    const birthday = useSelector(state => state.accountReducer.birthday)
+    const notifies = useSelector(state => state.accountReducer.notifies)
+    const invoices = useSelector(state => state.accountReducer.invoices)
+    const productFavorites = useSelector(state => state.accountReducer.productFavorites)
+    const productReads = useSelector(state => state.accountReducer.productReads)
+    const productSaveForLates = useSelector(state => state.accountReducer.productSaveForLates)
+    const productComments = useSelector(state => state.accountReducer.productComments)
 
     const getNumNew = (arr) =>{
         let total = 0
@@ -27,25 +39,42 @@ function AccountPage(props) {
         return total;
     }
 
+    console.log(props.match.params)
+
+    const renderAccountContent = () =>{
+        const {accountContent} = props.match.params
+
+        switch (accountContent){
+            case 'infomation':
+                return <AccountInfomation 
+                        fullname = {fullname}
+                        phoneNumber = {phoneNumber}
+                        email = {email}
+                        gender = {gender}
+                        birthday = {standardDateTime(birthday)}
+                    />
+            default: 
+                break
+        }
+    }
+
     return (
         <section className="main-page">
             <Breadcrumb title="My Account"/>
             
             <div class="cf-container d-flex-between align-start account-page">
                 <Sidebar
-                    username = {accountInfo.username.slice(0, accountInfo.username.indexOf('@'))}
-                    numNotify = {getNumNew(accountInfo.notifies)}
-                    numInvoice = {getNumNew(accountInfo.invoices)}
-                    numFavorite = {getNumNew(accountInfo.productFavorites)}
-                    numReaded = {getNumNew(accountInfo.productReads)}
-                    numSaveForLate = {getNumNew(accountInfo.productSaveForLates)}
-                    numCommented = {getNumNew(accountInfo.productComments)}
+                    username = {username.slice(0, username.indexOf('@'))}
+                    numNotify = {getNumNew(notifies)}
+                    numInvoice = {getNumNew(invoices)}
+                    numFavorite = {getNumNew(productFavorites)}
+                    numReaded = {getNumNew(productReads)}
+                    numSaveForLate = {getNumNew(productSaveForLates)}
+                    numCommented = {getNumNew(productComments)}
                 />
 
                 <div className="main-page__content account__container">
-                    <div className="account__container--widget">
-                        <AccountInfomation />
-                    </div>
+                    <div className="account__container--widget">{renderAccountContent()}</div>
                 </div>
             </div>
         </section>
