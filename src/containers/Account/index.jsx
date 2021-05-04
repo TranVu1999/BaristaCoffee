@@ -5,6 +5,7 @@ import {useSelector} from 'react-redux'
 
 import './style.scss'
 import Sidebar from '../../features/Account/Sidebar';
+import AccountInfomation from '../../features/Account/AccountInfomation';
 
 AccountPage.propTypes = {
     
@@ -43,7 +44,7 @@ function AccountPage(props) {
 
                 <div className="main-page__content account__container">
                     <div className="account__container--widget">
-                        
+                        <AccountInfomation />
                     </div>
                 </div>
             </div>
