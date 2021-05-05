@@ -9,6 +9,10 @@ export const actCloseNotify = () =>{
 }
 
 // Open the notify popup
+/**
+ * 
+ * @param {*} data have two properties are isSuccess and content 
+ */
 export const actOpenNotify = (data) =>{
     return {
         type: ActionTypes.OPEN_NOTIFY,

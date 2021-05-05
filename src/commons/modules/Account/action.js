@@ -7,3 +7,14 @@ export const actInitAccount = (data) =>{
         payload: data
     }
 }
+
+/**
+ * 
+ * @param {*} data is new notify
+ */
+export const actAddNewNotify = (data) =>{
+    return {
+        type: ActionTypes.ADD_NEW_NOTIFY,
+        payload: data
+    }
+}

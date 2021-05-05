@@ -1,15 +1,28 @@
 import React, {useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux'
 import PropTypes from 'prop-types';
 import './style.scss'
 
+import * as notifies from './../../../commons/constant/Notify'
+import {actOpenNotify} from './../../../commons/modules/Notify/action'
+
 FormComment.propTypes = {
-    
+    product: PropTypes.string,
 };
 
+FormComment.defaultProps = {
+    product: ""
+}
+
 function FormComment(props) {
+
+    const productPurchased = useSelector(state => state.accountReducer.productPurchased)
+
     const [content, setContent] = useState("")
     const [rate, setRate] = useState(0)
     const [indexHoverStar, setIndexHoverStart] = useState(0)
+
+    const dispatch = useDispatch()
 
     const onHandleRating = indexStart =>{
         setRate(indexStart + 1)
@@ -43,6 +56,37 @@ function FormComment(props) {
         })
     }
 
+    const onHandleChange = event =>{
+        const {value} = event.target
+        setContent(value)
+    }
+
+    const handleSubmit = event =>{
+        event.preventDefault()
+
+        // check login
+        const accessToken = localStorage.getItem('accessToken')
+        if(!accessToken){
+            dispatch(actOpenNotify({
+                isSuccess: false,
+                content: notifies.REQUIRED_LOGIN
+            }))
+            return
+        }
+
+        // check accept rating
+        const product = productPurchased.find(item => item._id === props.id)
+        if(rate !== 0 && !product){
+            dispatch(actOpenNotify({
+                isSuccess: false,
+                content: notifies.REQUIRED_PURCHASED
+            }))
+            return
+        }
+
+        // commit comment
+    }
+
     return (
         <div className = "review-box">
             <div className = "review__content">
@@ -61,17 +105,17 @@ function FormComment(props) {
 
                 <form 
                     className = "form-comment"
-                    // onSubmit = {this.handleSubmit}
+                    onSubmit = {handleSubmit}
                 >
                     <div className = "form-group">
                         <textarea 
                             name="comment"
                             cols= "45" 
                             rows = "8" 
-                            defaultValue={content} 
+                            value={content} 
 
                             placeholder = "Your Review"
-                            // onChange={this.onHandleChange}
+                            onChange={onHandleChange}
 
                         ></textarea>
                     </div>

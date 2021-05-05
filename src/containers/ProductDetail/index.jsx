@@ -101,6 +101,7 @@ function ProductDetailPage(props) {
                                 weight = {product.weight}
                                 length = {product["length"]}
                                 listComment = {product.comment}
+                                product = {productId}
                             />
                         </div>
 

@@ -1,7 +1,12 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useSelector} from 'react-redux'
+import {NavLink} from 'react-router-dom'
 import PropTypes from 'prop-types';
 import './style.scss'
+
+import AccordingToggle from './../../../commons/components/AccordingToggle'
+
+import {standardDateTime} from './../../../commons/js/helpers'
 
 AccountNotify.propTypes = {
     
@@ -10,23 +15,127 @@ AccountNotify.propTypes = {
 function AccountNotify(props) {
 
     const notifies = useSelector(state => state.accountReducer.notifies)
-    
-    
 
-    const [attention, setAttention] = useState({
-        promotion: false,
-        invoice: false,
-        system: false
-    })
+    const [listNotify, setListNotify] = useState([]) 
+    const [attention, setAttention] = useState({ promotion: false, invoice: false, system: false})
+
     const [currentTab, setCurrentTab] = useState(0)
 
-    const renderNotify = () =>{
+    useEffect(() => {
+        setListNotify(notifies)
+        renderAttention()
+    }, [notifies])
 
+    const renderDateTime = str =>{
+        let resStr = ""
+        const d = standardDateTime(str)
+        
+        resStr = d.date + "." + d.month + "." + d.year
+        return resStr
+    }
+
+    const onHandleReadNotify = notifyId =>{
+
+    }
+
+    const onHandleRemoveNotify = notifyId =>{
+
+    }
+    
+
+    const renderNotify = () =>{
+        if(listNotify.length > 0){
+            return listNotify.map((item, index) =>{
+                return (
+                    <div className="notify-item" key = {index}>
+                        <div className="time">{renderDateTime(item.createdDate)}</div>
+                        <div 
+                            className= {`icon ${item.typeNotify}`}
+                        >
+                            {
+                                item.type === 'system' ? (
+                                    <span aria-hidden="true" className="icon_clock_alt" />
+                                ): item.type === 'promotion' ? (
+                                    <span aria-hidden="true" className="icon_gift_alt" /> 
+                                ) : (
+                                    <span aria-hidden="true" className="icon_cart_alt" />
+                                )
+                            }
+                            
+                        </div>
+                        <div className="content">
+                            {item.content}
+                        </div>
+                        <div className="control">
+                            {
+                                item.new ? 
+                                    <button 
+                                        className="tick"
+                                        onClick = {() => onHandleReadNotify(item._id)}
+                                    >Đánh dấu đã đọc</button> 
+                                : null
+                            }
+                            <button 
+                                className="remove"
+                                onClick = {() => onHandleRemoveNotify(item._id)}
+                            >Xóa</button>
+                        </div>
+                    </div>
+                )
+            })
+        }
+
+        return (
+            <AccordingToggle>
+                <div className="accordition-toggle--box empty-icon">
+                    <div className = "accordition-span">
+                        <img src="https://salt.tikicdn.com/desktop/img/account/tiki-not-found-pgae.png" alt="icon"/>
+                        <p>Bạn chưa có thông báo</p>
+                        <NavLink to="/shop" className="barista-btn">Tiếp tục mua sắm</NavLink>
+                    </div>
+                </div>
+            </AccordingToggle>
+        )
     }
 
     const onHandleChooseTab = indexTab =>{
         setCurrentTab(indexTab)
     }
+
+    const renderAttention = () =>{
+        let flagSystem = false, flagPromotion = false, flagInvoice = false
+
+        // check system notifies
+        for(let item of notifies){
+            if(item.typeNotify === 'system' && item.new){
+                flagSystem = true
+                break
+            }
+        }
+
+        // check promotion notifies
+        for(let item of notifies){
+            if(item.typeNotify === 'promotion' && item.new){
+                flagPromotion = true
+                break
+            }
+        }
+
+        // check invoice notifies
+        for(let item of notifies){
+            if(item.typeNotify === 'invoice' && item.new){
+                flagInvoice = true
+                break
+            }
+        }
+
+        setAttention({
+            promotion: flagPromotion,
+            invoice: flagInvoice,
+            system: flagSystem
+        })
+    }
+
 
     return (
         <div className="account-content--box">
@@ -64,7 +173,8 @@ function AccountNotify(props) {
                             onClick = {() => onHandleChooseTab(3)}
                         >
                             <span aria-hidden="true" className="icon_clock_alt" />
-                            {attention.system ? <strong /> : null}
+                            {attention.system ? (<strong></strong>) : ""}
+                            
                         </div>
                     </div>
                     <div className="list-notify">

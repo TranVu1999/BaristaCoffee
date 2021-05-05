@@ -13,7 +13,8 @@ let initialState = {
     productComments: [],
     notifies: [],
     invoices: [],
-    keySearch: []
+    keySearch: [],
+    productPurchased: [],
 }
 
 const accountReducer = (state = initialState, action) =>{
@@ -22,6 +23,10 @@ const accountReducer = (state = initialState, action) =>{
             for(let key in action.payload){
                 state[key] = action.payload[key];
             };
+            return {...state}
+
+        case ActionTypes.ADD_NEW_NOTIFY:
+            state.notifies.push(action.payload)
             return {...state}
 
         default:

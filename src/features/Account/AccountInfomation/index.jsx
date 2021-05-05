@@ -15,6 +15,7 @@ import {
 
 import * as notify from './../../../commons/constant/Notify'
 import {actOpenNotify} from './../../../commons/modules/Notify/action'
+import {actAddNewNotify} from './../../../commons/modules/Account/action'
 import api from './../../../api'
 
 
@@ -211,7 +212,7 @@ function AccountInfomation(props) {
                         ...confirmNewPassword, 
                         error: Notify.IS_EMPTY
                     })
-                }else if(newPassword !== confirmNewPassword){
+                }else if(newPassword.value !== confirmNewPassword.value){
                     setConfirmNewPassword({
                         ...confirmNewPassword, 
                         error: "Your confirmation password does not match"
@@ -301,6 +302,10 @@ function AccountInfomation(props) {
                         isSuccess: true,
                         content: notify.SUCCESS_NOTIFY
                     }))
+
+                    if(res.data.notify){
+                        dispatch(actAddNewNotify(res.data.notify))
+                    }
                 }
             })
             .catch(err =>{

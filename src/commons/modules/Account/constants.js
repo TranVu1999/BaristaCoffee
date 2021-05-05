@@ -1,1 +1,2 @@
 export const INIT_ACCOUNT = "ACCOUNT/INIT"
+export const ADD_NEW_NOTIFY = "ACCOUNT/ADD_NEW_NOTIFY"
