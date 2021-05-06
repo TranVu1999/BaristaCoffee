@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import './style.scss'
 
 import FormComment from './../../Layout/FormComment'
+import ListComment from '../../Layout/ListComment';
+import CommentItem from '../../Layout/CommentItem'
 
 ProductTab.propTypes = {
     detail: PropTypes.string,
@@ -25,6 +27,12 @@ ProductTab.defaultProps ={
 }
 
 function ProductTab(props) {
+
+    const {
+        id,
+        listComment
+    } = props
+
     const [currentTab, setCurrentTab] = useState(0)
 
     const onHandleChoseTab = (indexTab) =>{
@@ -59,8 +67,23 @@ function ProductTab(props) {
     const renderTagComment = () =>{
         return (
             <div className="product-tab__item">
-                <h2>{props.listComment.length} Reviews For <span>Paper Bag</span> </h2>
-                <FormComment product = {props.id}/>
+                <h2>{listComment.length} Reviews For <span>Paper Bag</span> </h2>
+                <ListComment>
+                    {listComment.map((item, index) =>{
+                        return (
+                            <CommentItem 
+                                key = {index}
+                                author = {item.author}
+                                time = "12.12.2021"
+                                rating = {item.rating}
+                                content = {item.comment}
+                            />
+                        )
+                    })}
+
+                </ListComment>
+
+                <FormComment product = {id}/>
             </div>
         )
     }
