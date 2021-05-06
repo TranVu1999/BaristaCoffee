@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import './style.scss'
 
@@ -34,6 +34,11 @@ function ProductTab(props) {
     } = props
 
     const [currentTab, setCurrentTab] = useState(0)
+    const [listCommentShow, setListCommentShow] = useState([])
+
+    useEffect(() => {
+        setListCommentShow(listComment)
+    }, [listComment])
 
     const onHandleChoseTab = (indexTab) =>{
         setCurrentTab(indexTab)
@@ -64,12 +69,17 @@ function ProductTab(props) {
         )
     }
 
+    const onHandleGetNewComment = newComment =>{
+        const newListComment = [...listCommentShow, newComment]
+        setListCommentShow(newListComment)
+    }
+
     const renderTagComment = () =>{
         return (
             <div className="product-tab__item">
-                <h2>{listComment.length} Reviews For <span>Paper Bag</span> </h2>
+                <h2>{listCommentShow.length} Reviews For <span>Paper Bag</span> </h2>
                 <ListComment>
-                    {listComment.map((item, index) =>{
+                    {listCommentShow.map((item, index) =>{
                         return (
                             <CommentItem 
                                 key = {index}
@@ -83,7 +93,10 @@ function ProductTab(props) {
 
                 </ListComment>
 
-                <FormComment product = {id}/>
+                <FormComment 
+                    product = {id}
+                    onGetNewComment = {onHandleGetNewComment}
+                />
             </div>
         )
     }

@@ -5,18 +5,24 @@ import './style.scss'
 
 import * as notifies from './../../../commons/constant/Notify'
 import {actOpenNotify} from './../../../commons/modules/Notify/action'
+import api from './../../../api'
 
 FormComment.propTypes = {
     product: PropTypes.string,
+
+    onGetNewComment: PropTypes.func,
 };
 
 FormComment.defaultProps = {
-    product: ""
+    product: "",
+
+    onGetNewComment: null
 }
 
 function FormComment(props) {
 
     const productPurchased = useSelector(state => state.accountReducer.productPurchased)
+    const fullname = useSelector(state => state.accountReducer.fullname)
 
     const [content, setContent] = useState("")
     const [rate, setRate] = useState(0)
@@ -71,6 +77,7 @@ function FormComment(props) {
                 isSuccess: false,
                 content: notifies.REQUIRED_LOGIN
             }))
+            
             return
         }
 
@@ -85,7 +92,33 @@ function FormComment(props) {
         }
 
         // commit comment
-        
+        const data = {
+            rating: rate,
+            comment: content,
+            productId: props.product,
+            author: fullname
+
+        }
+
+        console.log({data})
+
+        api.post('product/comment', data)
+        .then(res =>{
+            if(res.data.success){
+                if(props.onGetNewComment){
+                    props.onGetNewComment(res.data.newRate)
+                }
+                dispatch(actOpenNotify({
+                    isSuccess: true,
+                    content: notifies.SUCCESS_NOTIFY
+                }))
+                setContent("")
+            }
+        })
+        .catch(err =>{
+            console.log(err)
+        })
+
     }
 
     return (

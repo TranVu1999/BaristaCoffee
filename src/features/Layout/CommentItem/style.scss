@@ -1,4 +1,5 @@
 @import './../../../assets//Sass/variable.scss';
+@import './../../../assets//Sass/mixin.scss';
 
 .cmt-list{
     .cmt-item{
@@ -37,6 +38,7 @@
         .author{
             font-size: 18px;
             line-height: 1;
+            margin-bottom: 6px;
         }
 
         .time{
@@ -44,10 +46,70 @@
             color: $primary-color;
             font-family: 'Merriweather',serif;
             font-style: italic;
+            margin-right: 10px;
         }
 
         p{
             margin: 0;
+        }
+    }
+
+    .lst-sub-cmt{
+        margin-top: 10px;
+        padding-left: 50px;
+
+        img{
+            width: 50px;
+            height: 50px;
+        }
+
+        .sub-cmt-item{
+            margin-bottom: 20px;
+        }
+    }
+
+    .form-replay{
+        margin-left: 124px;
+
+        textarea{
+            resize: none;
+            overflow: hidden;
+
+            width: 100%;
+            border: 2px solid transparent;
+            background-color: #f6f4ef;
+            font-family: Merriweather,serif;
+
+            font-style: italic;
+            font-size: 13px;
+            color: $primary-color;
+            padding: 17px 19px;
+
+
+            &::placeholder{
+                color: $primary-color;
+            }
+
+            &:focus{
+                border-color: #eae7de;
+            }
+        }
+
+        .form-group{
+            position: relative;
+            @include d-flex(center, flex-start);
+
+            img{
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                margin-right: 14px;
+            }
+
+
+            button{
+                margin-left: 14px;
+            }
         }
     }
     
