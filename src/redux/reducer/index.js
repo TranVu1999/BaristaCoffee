@@ -5,6 +5,8 @@ import notifyReducer from './../../commons/modules/Notify/reducer'
 import keySearchReducer from './../../commons/modules/KeySearch/reducer'
 import cartReducer from './../../commons/modules/Cart/reducer'
 import chatBoxReducer from './../../commons/modules/ChatBox/reducer'
+import quickViewReducer from './../../commons/modules/QuickView/reducer'
+import compareReducer from './../../commons/modules/Compare/reducer'
 
 
 const rootReducer = combineReducers({
@@ -13,7 +15,9 @@ const rootReducer = combineReducers({
     notifyReducer, 
     keySearchReducer,
     cartReducer,
-    chatBoxReducer
+    chatBoxReducer,
+    quickViewReducer,
+    compareReducer
 });
 
 export default rootReducer;

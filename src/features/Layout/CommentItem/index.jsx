@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import './style.scss'
 
+import {standardDateTime} from './../../../commons/js/helpers'
+
 CommentItem.propTypes = {
     author: PropTypes.string,
     time: PropTypes.string,
@@ -44,6 +46,7 @@ function CommentItem(props) {
     const renderListSubComment = () =>{
         if(listSubComment.length > 0){
             return listSubComment.map((item, index) =>{
+                const date = standardDateTime(item.createdDate)
                 return (
                     <li 
                         key = {index}
@@ -76,7 +79,7 @@ function CommentItem(props) {
                                     <p>{content}</p>
 
                                     <div className="cmt-replay">
-                                        <span className="time">{time}</span>
+                                        <span className="time">{`${date.date}.${date.month}.${date.year}`}</span>
                                         <button onClick = {() => onHanldeOpenReplay("Tran Le Anh Vu")}>Replay</button>
                                     </div>
                                 </div>

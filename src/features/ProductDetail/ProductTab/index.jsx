@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import './style.scss'
 
+import {standardDateTime} from './../../../commons/js/helpers'
+
 import FormComment from './../../Layout/FormComment'
 import ListComment from '../../Layout/ListComment';
 import CommentItem from '../../Layout/CommentItem'
@@ -80,11 +82,12 @@ function ProductTab(props) {
                 <h2>{listCommentShow.length} Reviews For <span>Paper Bag</span> </h2>
                 <ListComment>
                     {listCommentShow.map((item, index) =>{
+                        const date = standardDateTime(item.createdDate)
                         return (
                             <CommentItem 
                                 key = {index}
                                 author = {item.author}
-                                time = "12.12.2021"
+                                time = {`${date.date}.${date.month}.${date.year}`}
                                 rating = {item.rating}
                                 content = {item.comment}
                             />

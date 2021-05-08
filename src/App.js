@@ -18,6 +18,7 @@ import {actInitAccount} from './commons/modules/Account/action'
 import {actInitCart} from './commons/modules/Cart/action'
 import CartSlide from "./features/Layout/CartSlide"
 import ChatBox from "./features/Layout/ChatBox"
+import QuickView from "./features/Layout/QuickView"
 
 import setHeader from './untils/setHeader'
 
@@ -71,6 +72,7 @@ function App() {
       <Notifycation/>
       <CartSlide/>
       <ChatBox/>
+      <QuickView/>
     </div>
   );
 

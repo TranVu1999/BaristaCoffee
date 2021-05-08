@@ -73,7 +73,6 @@
             text-align: right;
             overflow: hidden;
             transition: all .8s ease-in-out;
-            
 
             &::before{
                 content: '';
@@ -93,6 +92,13 @@
                 font-size: 13px;
                 line-height: 1.5;
                 position: relative;
+
+                &:first-child{
+                    margin-top: 10px;
+                }
+                &:last-child{
+                    margin-bottom: 10px;
+                }
 
                 &:hover{
                     color: $primary-color;

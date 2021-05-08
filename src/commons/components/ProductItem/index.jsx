@@ -5,6 +5,8 @@ import './style.scss'
 
 import {useDispatch} from 'react-redux'
 import {actAddCart} from './../../modules/Cart/action'
+import {actOpenQuickView} from './../../modules/QuickView/action'
+import {actOpenCompare} from './../../modules/Compare/action'
 
 ProductItem.propTypes = {
     avatar: PropTypes.string,
@@ -15,6 +17,13 @@ ProductItem.propTypes = {
     promo: PropTypes.number,
     price: PropTypes.number,
     listSale: PropTypes.array,
+    shortDescription: PropTypes.string,
+    moreImage: PropTypes.array,
+    isCompare: PropTypes.bool,
+    width: PropTypes.number,
+    length: PropTypes.number,
+    weight: PropTypes.number,
+    height: PropTypes.number,
 };
 
 ProductItem.defaultProps = {
@@ -25,7 +34,15 @@ ProductItem.defaultProps = {
     isExistCart: false,
     promo: 0,
     price: 0,
-    listSale: []
+    listSale: [],
+    shortDescription: "",
+    moreImage: [],
+    isCompare: false,
+    weight: 0,
+    width: 0,
+    length: 0,
+    height: 0
+
 }
 
 function ProductItem(props) {
@@ -38,7 +55,14 @@ function ProductItem(props) {
         rating,
         promo, 
         price,
-        listSale
+        listSale,
+        shortDescription,
+        moreImage,
+        isCompare,
+        weight,
+        width,
+        length,
+        height
     } = props
     
     const dispatch = useDispatch()
@@ -57,13 +81,59 @@ function ProductItem(props) {
         dispatch(actAddCart(data))
     }
 
+    const onOpenQuickView = () =>{
+        const data = {
+            title,
+            rating,
+            alias,
+            price,
+            promo,
+            avatar,
+            shortDescription,
+            moreImage
+        }
+        dispatch(actOpenQuickView(data))
+    }
+
+    const onOpenCompare = () =>{
+        const data = {
+            title,
+            rating,
+            alias,
+            price,
+            promo,
+            avatar,
+            weight,
+            width,
+            length,
+            height
+        }
+
+        dispatch(actOpenCompare(data))
+    }
+
     return (
         <div className="product-item">
             <div className="product-item__thumb">
-                <button 
-                    className = "quickview-btn"
-                    // onClick = {() => this.onOpenQuickView(productContent)}
-                ><span className="icon icon-eye"></span></button>
+                <div className="control">
+                    <button className = "quickview-btn" 
+                        onClick = {() => onOpenQuickView()}
+                    ><span className="icon icon-eye"></span></button>
+
+                    {
+                        isCompare ? 
+                        (
+                            <button className = "quickview-btn"
+                                onClick = {() => onOpenCompare()}
+                            >
+                                <span class="icon icon-loop"></span>
+                            </button>
+                        ) 
+                        : ""
+                    }
+                    
+                </div>
+                
                 <div>
                     <img src= {avatar} alt="product" />
                 </div>

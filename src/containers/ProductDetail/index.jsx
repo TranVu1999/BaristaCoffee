@@ -11,10 +11,14 @@ import ProductTab from '../../features/ProductDetail/ProductTab'
 import axios from 'axios'
 import api from './../../api'
 import InfomationStore from '../../features/ProductDetail/InfomationStore';
+import ProductCompare from '../../features/ProductDetail/ProductCompare';
+
+import {actInitCompare} from './../../commons/modules/Compare/action'
 
 
 function ProductDetailPage(props) {
     const listKeySearch = useSelector(state => state.keySearchReducer)
+    const dispatch = useDispatch()
 
     const [productId, setProductId] = useState("")
     const [product, setProduct] = useState({})
@@ -29,9 +33,22 @@ function ProductDetailPage(props) {
                 axios.spread((...responses) =>{
                     const resProductFilter = responses[0].data
                     if(resProductFilter.success){
-                        setProduct(resProductFilter.product)
-                        setProductId(resProductFilter.product._id)
+                        const {product} = resProductFilter
+                        setProduct(product)
+                        setProductId(product._id)
                         setStore(resProductFilter.store)
+
+                        dispatch(actInitCompare({
+                            title: product.title,
+                            rating: product.rating,
+                            alias: product.alias,
+                            price: product.price,
+                            promo: product.promo,
+                            avatar: product.avatar,
+                            weight: product.weight,
+                            width: product.width,
+                            length: product["length"],
+                        }))
                     }
                 })
             )
@@ -109,10 +126,13 @@ function ProductDetailPage(props) {
                         <ListProduct 
                             cols = {4}
                             listProduct = {product.listRelativeProduct}
+                            isCompare = {true}
                         />
                     </div>
                 </div>
             </section>
+
+            <ProductCompare/>
         </>
     );
 }
