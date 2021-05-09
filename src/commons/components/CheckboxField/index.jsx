@@ -4,25 +4,27 @@ import './style.scss'
 
 CheckboxField.propTypes = {
     id: PropTypes.string,
-    isUpdatePassword: PropTypes.bool,
+    isChecked: PropTypes.bool,
+    label: PropTypes.string,
 
-    onOpenUpdatePassword: PropTypes.func,
+    onGetChecked: PropTypes.func,
 };
 
 CheckboxField.defaultProps = {
     id: "",
-    isUpdatePassword: "",
+    isChecked: "",
+    label: "",
 
-    onOpenUpdatePassword: null
+    onGetChecked: null
 }
 
 function CheckboxField(props) {
 
-    const {id, isUpdatePassword} = props
+    const {id, isChecked, label} = props
 
     const onHandleChange = event =>{
-        if(props.onOpenUpdatePassword){
-            props.onOpenUpdatePassword(event)
+        if(props.onGetChecked){
+            props.onGetChecked(event)
         }
     }
 
@@ -32,11 +34,11 @@ function CheckboxField(props) {
                 type="checkbox" 
                 id = {id} 
                 onChange = {onHandleChange}
-                checked = {isUpdatePassword}
+                checked = {isChecked}
             />
             <label htmlFor =  {id}>
                 <div className="label-checkbox"></div>
-                Thay đổi mật khẩu
+                {label}
             </label>
         </div>
     );

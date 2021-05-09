@@ -15,6 +15,7 @@ let initialState = {
     invoices: [],
     keySearch: [],
     productPurchased: [],
+    addresses: []
 }
 
 const accountReducer = (state = initialState, action) =>{
@@ -27,6 +28,20 @@ const accountReducer = (state = initialState, action) =>{
 
         case ActionTypes.ADD_NEW_NOTIFY:
             state.notifies.push(action.payload)
+            return {...state}
+
+        case ActionTypes.ADD_NEW_ADDRESS:
+            const newAddress = {...action.payload}
+
+            if(newAddress.isDefault){
+                let lengthAddress = state.addresses.length
+                for(let i = 0; i < lengthAddress; i++){
+                    state.addresses[i].isDefault = false
+                }
+            }
+
+            state.addresses.push(newAddress);
+
             return {...state}
 
         default:

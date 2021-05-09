@@ -18,3 +18,14 @@ export const actAddNewNotify = (data) =>{
         payload: data
     }
 }
+
+/**
+ * 
+ * @param {*} data is new address
+ */
+ export const actAddAddress = (data) =>{
+    return {
+        type: ActionTypes.ADD_NEW_ADDRESS,
+        payload: data
+    }
+}

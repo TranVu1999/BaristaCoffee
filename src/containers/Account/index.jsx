@@ -8,6 +8,8 @@ import Sidebar from '../../features/Account/Sidebar';
 import AccountInfomation from '../../features/Account/AccountInfomation';
 import {standardDateTime} from './../../commons/js/helpers'
 import AccountNotify from '../../features/Account/AccountNotify';
+import AccountListAddress from '../../features/Account/AccountListAddress';
+import AccountAddAddress from '../../features/Account/AccountAddAddress';
 
 AccountPage.propTypes = {
     
@@ -44,6 +46,12 @@ function AccountPage(props) {
 
             case 'notify':
                 return <AccountNotify/>
+
+            case 'address':
+                return <AccountListAddress/>
+
+            case 'add-address':
+                return <AccountAddAddress/>
             default: 
                 break
         }

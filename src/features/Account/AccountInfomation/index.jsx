@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux'
 import InputField from './../../../commons/components/InputField'
 import RadioField from './../../../commons/components/RadioField'
-import SelectField from './../../../commons/components/SelectField'
+import SelectDate from '../../../commons/components/SelectDate'
 import CheckboxField from './../../../commons/components/CheckboxField'
 import './style.scss'
 
@@ -406,20 +406,20 @@ function AccountInfomation(props) {
                         <div className="form-group form-group--date">
                             <div className="input-label">Ngày sinh<p>(không bắt buộc)</p></div>
                             <div className="select-group">
-                                <SelectField 
+                                <SelectDate 
                                     name = "date"
                                     year = {birthday.year}
                                     month = {birthday.month}
                                     value = {birthday.date}
                                     onSelectChange={onHandleChange}
                                 />
-                                <SelectField 
+                                <SelectDate 
                                     name = "month"
                                     value = {birthday.month}
                                     onSelectChange={onHandleChange}
                                     
                                 />
-                                <SelectField 
+                                <SelectDate 
                                     name = "year"
                                     value = {birthday.year}
                                     onSelectChange={onHandleChange}
@@ -432,9 +432,10 @@ function AccountInfomation(props) {
                             <div className="input-label"></div>
                             <div className="input-group">
                                 <CheckboxField
-                                    onOpenUpdatePassword = {handleOpenUpdatePasswordForm}
-                                    isUpdatePassword = {isUpdatePassword}
+                                    onGetChecked = {handleOpenUpdatePasswordForm}
+                                    isChecked = {isUpdatePassword}
                                     id = "update-password"
+                                    label = "Thay đổi mật khẩu"
                                 />
                             </div>
                         </div>

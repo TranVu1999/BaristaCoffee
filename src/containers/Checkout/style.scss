@@ -1,0 +1,5 @@
+@import './../../assets//Sass/mixin.scss';
+
+.confirm-action{
+    @include d-flex(center, space-between);
+}
