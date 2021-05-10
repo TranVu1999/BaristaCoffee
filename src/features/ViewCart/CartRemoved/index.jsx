@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './style.scss'
-import AccordingToggle from './../../../commons/components/AccordingToggle'
+import According from './../../../commons/components/According'
 import {NavLink} from 'react-router-dom'
 import {useDispatch} from 'react-redux'
 import {actUndoCart} from './../../../commons/modules/Cart/action'
@@ -26,7 +26,7 @@ function CartRemoved(props) {
         if(listProduct.length > 0){
             return listProduct.map((item, index) =>{
                 return (
-                    <AccordingToggle key = {index}>
+                    <According key = {index}>
                         <div className="accordition-toggle--box cl">
                             <div className ="d-flex-between">
                                 <div className = "accordition-span accordition--left">
@@ -41,7 +41,7 @@ function CartRemoved(props) {
                                 >Undo?</button>
                             </div>
                         </div>
-                    </AccordingToggle>
+                    </According>
                 )
             })
         }

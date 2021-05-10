@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './style.scss'
-import AccordingToggle from './../../../commons/components/AccordingToggle'
+import According from './../../../commons/components/According'
 
 CartSale.propTypes = {
     listProduct: PropTypes.array,
@@ -25,7 +25,7 @@ function CartSale(props) {
             }
 
             if(flag){
-                return <AccordingToggle>
+                return <According>
                     <div className="accordition-toggle--box cl">
                         <div className ="cart-sale">
                             <h3 className="removed-title">Khuyến mãi</h3>
@@ -56,7 +56,7 @@ function CartSale(props) {
                             
                         </div>
                     </div>
-                </AccordingToggle>
+                </According>
             }
 
             return null

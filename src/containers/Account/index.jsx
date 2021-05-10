@@ -10,6 +10,7 @@ import {standardDateTime} from './../../commons/js/helpers'
 import AccountNotify from '../../features/Account/AccountNotify';
 import AccountListAddress from '../../features/Account/AccountListAddress';
 import AccountAddAddress from '../../features/Account/AccountAddAddress';
+import AccountListInvoice from '../../features/Account/AccountListInvoice';
 
 AccountPage.propTypes = {
     
@@ -52,6 +53,10 @@ function AccountPage(props) {
 
             case 'add-address':
                 return <AccountAddAddress/>
+
+            case 'invoice':
+                return <AccountListInvoice/>
+
             default: 
                 break
         }

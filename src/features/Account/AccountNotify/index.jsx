@@ -4,7 +4,7 @@ import {NavLink} from 'react-router-dom'
 import PropTypes from 'prop-types';
 import './style.scss'
 
-import AccordingToggle from './../../../commons/components/AccordingToggle'
+import According from './../../../commons/components/According'
 
 import {standardDateTime} from './../../../commons/js/helpers'
 
@@ -86,7 +86,7 @@ function AccountNotify(props) {
         }
 
         return (
-            <AccordingToggle>
+            <According>
                 <div className="accordition-toggle--box empty-icon">
                     <div className = "accordition-span">
                         <img src="https://salt.tikicdn.com/desktop/img/account/tiki-not-found-pgae.png" alt="icon"/>
@@ -94,7 +94,7 @@ function AccountNotify(props) {
                         <NavLink to="/shop" className="barista-btn">Tiếp tục mua sắm</NavLink>
                     </div>
                 </div>
-            </AccordingToggle>
+            </According>
         )
     }
 

@@ -11,7 +11,7 @@ AccountAddress.propTypes = {
 function AccountAddress(props) {
 
     const listAddress = useSelector(state => state.accountReducer.addresses)
-    console.log({listAddress})
+
 
     const renderListAddress = () =>{
         return listAddress.map((item, index) =>{

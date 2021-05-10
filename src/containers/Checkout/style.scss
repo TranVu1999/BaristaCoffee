@@ -1,4 +1,41 @@
 @import './../../assets//Sass/mixin.scss';
+@import './../../assets//Sass/variable.scss';
+
+.checkout-page{
+    .lst-address{
+        max-height: 224px;
+        overflow-y: scroll;
+    
+        /* width */
+        &::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        /* Track */
+        &::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        
+        /* Handle */
+        &::-webkit-scrollbar-thumb {
+            background: $primary-color; 
+            border-radius: 4px;
+        }
+        
+        /* Handle on hover */
+        &::-webkit-scrollbar-thumb:hover {
+            background: $main-color; 
+        }
+
+        .item{
+            cursor: pointer;
+
+            &:hover{
+                background-color: #c7a07a20;
+            }
+        }
+    }
+}
 
 .confirm-action{
     @include d-flex(center, space-between);

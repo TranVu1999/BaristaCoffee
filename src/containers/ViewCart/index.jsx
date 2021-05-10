@@ -1,4 +1,5 @@
 import React from 'react';
+import {NavLink} from 'react-router-dom'
 import './style.scss'
 import {useSelector} from 'react-redux'
 import Breadcrumb from '../../commons/components/Breadcrumb';
@@ -35,7 +36,7 @@ function ViewCartPage(props) {
 
                 <div className="cart__calculate">
                     <div className="calculate--box">
-                        <a href="/#" className="coffee-btn procced-to-checkout">Procced To Checkout</a>
+                        <NavLink to="/checkout" className="coffee-btn procced-to-checkout">Procced To Checkout</NavLink>
                     </div>
                 </div>
             </div>
