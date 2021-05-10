@@ -4,19 +4,32 @@ import {useSelector} from 'react-redux'
 import According from './../../../commons/components/According'
 
 import './style.scss'
+import InvoiceItem from '../../../commons/components/InvoiceItem';
 
 function AccountListInvoice(props) {
 
-    const listInvoice = useSelector(state => state.accountReducer.invoices)
+    const invoices = useSelector(state => state.accountReducer.invoices)
 
     const renderListInvoice = () =>{
+        console.log({invoices})
+        return invoices.map((item, index) =>{
+            return <InvoiceItem
+                key = {index}
+                stt ={index}
+                id = {item._id}
+                orderSituation = {item.orderSituation}
+                listProduct = {item.listProduct}
+                total = {item.total}
+                createdDate = {item.createdDate}
+            />
+        })
     }
 
     return (
         <div className="account-content--box">
             <span className="account__title">Đơn hàng của tôi</span>
             <div className="account__content">
-                {listInvoice.length > 0 ? (
+                {invoices.length > 0 ? (
                     <div className="d-table lst-invoice">
                         <div className = "d-table-row lst-invoice--header">
                             <div className = "invoice-id">Mã đơn hàng</div>
