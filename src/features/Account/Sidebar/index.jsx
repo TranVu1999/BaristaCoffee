@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {NavLink} from 'react-router-dom'
+import {useSelector} from 'react-redux'
 
 import './style.scss'
 
 Sidebar.propTypes = {
     username: PropTypes.string,
-    numNotify: PropTypes.number,
-    numInvoice: PropTypes.number,
     numFavorite: PropTypes.number,
     numReaded: PropTypes.number,
     numSaveForLate: PropTypes.number,
@@ -18,8 +17,6 @@ Sidebar.defaultProps = {
     username: "Admin",
     numCommented: 0,
     numFavorite: 0,
-    numInvoice: 0,
-    numNotify: 0,
     numReaded: 0,
     numSaveForLate: 0
     
@@ -31,11 +28,25 @@ function Sidebar(props) {
         username,
         numCommented,
         numFavorite,
-        numInvoice,
         numReaded,
-        numNotify,
         numSaveForLate
     } = props
+
+    const accountInfo = useSelector(state => state.accountReducer)
+
+    const getAmountNew = (listData) =>{
+        let amount = 0
+        for(let item of listData){
+        if(item.new){
+            amount++
+        }
+        }
+        return amount
+    }
+
+    const numNotify = getAmountNew(accountInfo.notifies)
+    const numInvoice = getAmountNew(accountInfo.invoices)
+
 
 
     return (

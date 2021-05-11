@@ -3,7 +3,8 @@ import * as ActionTypes from './constants';
 let initialState = {
     path: '',
     accountTab: '',
-    url: ''
+    url: '',
+    params: {}
 };
 
 const urlReducer = (state = initialState, action) =>{

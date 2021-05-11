@@ -99,6 +99,20 @@ function AccountNotify(props) {
     }
 
     const onHandleChooseTab = indexTab =>{
+        
+        let listNotifyShow = []
+        if(indexTab === 0){
+            listNotifyShow = [...notifies]
+        }else if(indexTab === 1){
+            listNotifyShow = notifies.filter(item => item.typeNotify === "promotion")
+        }else if(indexTab === 2){
+            listNotifyShow = notifies.filter(item => item.typeNotify === "invoice")
+        }else if(indexTab === 3){
+            listNotifyShow = notifies.filter(item => item.typeNotify === "system")
+        }
+
+        console.log({listNotifyShow})
+        setListNotify(listNotifyShow)
         setCurrentTab(indexTab)
     }
 
@@ -135,7 +149,6 @@ function AccountNotify(props) {
             system: flagSystem
         })
     }
-
 
     return (
         <div className="account-content--box">

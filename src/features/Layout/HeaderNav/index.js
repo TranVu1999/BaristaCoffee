@@ -20,19 +20,20 @@ function HeaderNav(props) {
     window.location.reload(false);
   }
 
-  const getAmountNew = (listData) =>{
-    let amount = 0
-    for(let item of listData){
-      if(item.new){
-        amount++
-      }
+    const getAmountNew = (listData) =>{
+        let amount = 0
+        for(let item of listData){
+        if(item.new){
+            amount++
+        }
+        }
+        return amount
     }
-    return amount
-  }
 
     const renderGuestAction = () =>{
         if(accountInfo.username){
             const amountNotifyInvoice = getAmountNew(accountInfo.invoices)
+            const amountNotify = getAmountNew(accountInfo.notifies)
             
             return (
                 <ul className="sub-menu">
@@ -45,7 +46,13 @@ function HeaderNav(props) {
                         </NavLink>
                     </li>
 
-                    <li><NavLink to="/account/notify">My Notifycation </NavLink></li>
+                    <li>
+                        <NavLink to="/account/notify">
+                            My Notifycation 
+                            {amountNotify > 0 ? (<span className="number">{amountNotify}</span>) : ""}
+                        </NavLink>
+                    </li>
+
                     <li><a href="http://localhost:3800/">My Shop</a></li>
                     <li
                         onClick = {onHandleLogout}
@@ -62,7 +69,7 @@ function HeaderNav(props) {
             <li><NavLink to="signup">Sign Up</NavLink></li>
         </ul>
         );
-  }
+    }
 
   const getAmountProductInCart = () =>{
     let sum = 0

@@ -5,6 +5,7 @@ import MallPage from './Mall';
 import ProductDetailPage from './ProductDetail';
 import ViewCartPage from './ViewCart';
 import CheckoutPage from './Checkout';
+import CommingSoonPage from './CommingSoon';
 
 const routes =  [
     {
@@ -33,9 +34,14 @@ const routes =  [
         component: MallPage
     },
     {
-        path: "/account/:accountContent",
+        path: "/account/:accountContent/:invoiceId?",
         exact: true,
         component: AccountPage
+    },
+    {
+        path: "/comming-soon",
+        exact: true,
+        component: CommingSoonPage
     },
     {
         path: "/",

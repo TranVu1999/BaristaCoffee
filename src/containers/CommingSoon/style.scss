@@ -1,0 +1,84 @@
+@import './../../assets/Sass/variable.scss';
+
+.coming-soon-page{
+    background-image: url(https://barista.qodeinteractive.com/wp-content/uploads/2016/11/coming-soon-b-img-1.jpg);
+    background-size: cover;
+    background-position: center;
+    height: 625px;
+    
+
+    .header{
+        overflow: hidden;
+        padding: 16px 0;
+        border-bottom: none;
+
+        &__content{
+            padding: 0 25px;
+        }
+        &--logo{
+            width: 96px;
+        }
+        
+        .toggle span{
+            background-color: #fff;
+            box-shadow: 0 2px 2px rgba(0,0,0,.2);
+        }
+    }
+
+    .coming-soon__content{
+        padding-top: 40px;
+
+        .coming-soon--title{
+            font-family: 'Oswald';
+            font-size: 98px;
+            line-height: 1;
+            font-weight: 600;
+
+            letter-spacing: 2px;
+            text-transform: Uppercase;
+            color: #fff;
+            margin: 20px 0 40px;
+
+            position: relative;
+
+            &::after{
+                content: '';
+                position: absolute;
+                left: 50%;
+                bottom: -30px;
+                transform: translateX(-50%);
+
+                display: block;
+                width: 120px;
+                height: 2px;
+                background-color: $primary-color;
+
+            }
+            
+        }
+
+        .count-down{
+            color: #fff;
+            width: 40%;
+            margin: 0 auto;
+
+            .count-down--number, .count-down--label{
+                display: block;
+            }
+
+            .count-down--number{
+                font-size: 80px;
+                line-height: 1.2;
+                font-weight: 800;
+                font-family: 'Oswald';
+            }
+
+            .count-down--label{
+                font-size: 18px;
+                font-weight: 100;
+                font-style: italic;
+                font-family: 'Merriweather',serif;
+            }
+        }
+    }
+}

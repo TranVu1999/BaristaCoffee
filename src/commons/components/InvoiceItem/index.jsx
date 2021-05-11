@@ -59,7 +59,7 @@ function InvoiceItem(props) {
     return (
         <div className = "d-table-row invoice--item">
             <div className = "invoice-id">
-                <NavLink to = {`/my-account/invoice-detail/${id}`}>{stt + 1}</NavLink>
+                <NavLink to = {`/account/invoice-detail/${id}`}>{id.slice(0, 9) + "..."}</NavLink>
             </div>
             <div className = "invoice-date">{renderDate()}</div>
             <div className = "invoice-prod">{renderProductTitle()}</div>

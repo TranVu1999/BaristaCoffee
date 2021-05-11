@@ -13,6 +13,7 @@ import AccountAddAddress from '../../features/Account/AccountAddAddress';
 import AccountListInvoice from '../../features/Account/AccountListInvoice';
 
 import {actUpdateUrl} from './../../commons/modules/Url/actions'
+import AccountInvoiceDetail from '../../features/Account/AccountInvoicedetail';
 
 AccountPage.propTypes = {
     
@@ -31,11 +32,11 @@ function AccountPage(props) {
 
     // Update url
     useEffect(() =>{
-        const {url} = props.match
+        const {url, params} = props.match
         dispatch(actUpdateUrl({
-            url
+            url, params
         }))
-    }, [])
+    }, [props.match])
 
     const getNumNew = (arr) =>{
         let total = 0
@@ -68,6 +69,11 @@ function AccountPage(props) {
 
             case 'invoice':
                 return <AccountListInvoice/>
+
+            case 'invoice-detail':
+                return <AccountInvoiceDetail/>
+
+
 
             default: 
                 break

@@ -11,7 +11,7 @@ import * as Notify from './../../commons/constant/Notify'
 import * as Validate from './../../commons/js/validate-input'
 
 import {actOpenNotify} from './../../commons/modules/Notify/action'
-import {actAddInvoice} from './../../commons/modules/Account/action'
+import {actAddInvoice, actAddNewNotify} from './../../commons/modules/Account/action'
 import {actUpdateUrl} from './../../commons/modules/Url/actions'
 
 function ChecoutPage(props) {
@@ -275,6 +275,10 @@ function ChecoutPage(props) {
                         isSuccess: true,
                         content: Notify.SUCCESS_NOTIFY
                     }))
+                    if(res.data.notify){
+                        dispatch(actAddNewNotify(res.data.notify))
+                    }
+                    window.location.href = "http://localhost:3600/comming-soon"
                 }
             })
             .catch(err =>{

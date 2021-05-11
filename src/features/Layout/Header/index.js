@@ -12,7 +12,8 @@ function Header(props) {
         const {url} = urlInfo
         if(
             url.indexOf('mall') !== -1 || 
-            url.indexOf('product-detail') !== -1
+            url.indexOf('product-detail') !== -1 ||
+            url.indexOf('comming-soon') !== -1
         ){
             resClass += " dark"
         }
