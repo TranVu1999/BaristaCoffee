@@ -30,6 +30,11 @@ const accountReducer = (state = initialState, action) =>{
             state.notifies.push(action.payload)
             return {...state}
 
+        case ActionTypes.ADD_NEW_INVOICE:
+            state.invoices.push(action.payload)
+            console.log("invoice", state.invoices)
+            return {...state}
+
         case ActionTypes.ADD_NEW_ADDRESS:
             const newAddress = {...action.payload}
 

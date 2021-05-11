@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import Breadcrumb from '../../commons/components/Breadcrumb'
-import {useSelector} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
 
 import './style.scss'
 import Sidebar from '../../features/Account/Sidebar';
@@ -11,6 +11,8 @@ import AccountNotify from '../../features/Account/AccountNotify';
 import AccountListAddress from '../../features/Account/AccountListAddress';
 import AccountAddAddress from '../../features/Account/AccountAddAddress';
 import AccountListInvoice from '../../features/Account/AccountListInvoice';
+
+import {actUpdateUrl} from './../../commons/modules/Url/actions'
 
 AccountPage.propTypes = {
     
@@ -24,6 +26,16 @@ function AccountPage(props) {
     const productReads = useSelector(state => state.accountReducer.productReads)
     const productSaveForLates = useSelector(state => state.accountReducer.productSaveForLates)
     const productComments = useSelector(state => state.accountReducer.productComments)
+
+    const dispatch = useDispatch()
+
+    // Update url
+    useEffect(() =>{
+        const {url} = props.match
+        dispatch(actUpdateUrl({
+            url
+        }))
+    }, [])
 
     const getNumNew = (arr) =>{
         let total = 0

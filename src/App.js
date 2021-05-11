@@ -8,7 +8,7 @@ import routes from './containers/routes'
 import Header from "./features/Layout/Header"
 import Footer from "./features/Layout/Footer"
 
-import HeaderLogo from './commons/components/HeaderLogo'
+import HeaderLogo from './features/Layout/HeaderLogo'
 import HeaderNav from "./features/Layout/HeaderNav"
 import FormLogin from "./features/Layout/FormLogin"
 import Notifycation from "./features/Layout/Notifycation"
@@ -47,6 +47,8 @@ function App() {
       dispatch(actInitCart())
     }
   }, [])
+
+  
 
   return (
     <div className = "main-wrapper page">

@@ -16,6 +16,7 @@ import SidebarListProduct from '../../features/Mall/SidebarListProduct';
 import ProductBreadcrumb from '../../features/ProductDetail/ProductBreadcrumb';
 
 import {actAddKey} from './../../commons/modules/KeySearch/action'
+import {actUpdateUrl} from './../../commons/modules/Url/actions'
 
 
 function MallPage(props) {
@@ -45,6 +46,14 @@ function MallPage(props) {
         .catch(err =>{
             console.log(err)
         })
+    }, [])
+
+    // Update url
+    useEffect(() =>{
+        const {url} = props.match
+        dispatch(actUpdateUrl({
+            url
+        }))
     }, [])
 
     useEffect(() =>{

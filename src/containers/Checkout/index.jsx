@@ -11,8 +11,10 @@ import * as Notify from './../../commons/constant/Notify'
 import * as Validate from './../../commons/js/validate-input'
 
 import {actOpenNotify} from './../../commons/modules/Notify/action'
+import {actAddInvoice} from './../../commons/modules/Account/action'
+import {actUpdateUrl} from './../../commons/modules/Url/actions'
 
-function ChecoutPage() {
+function ChecoutPage(props) {
 
     const listAddress = useSelector(state => state.accountReducer.addresses)
     const accountEmail = useSelector(state => state.accountReducer.email)
@@ -42,6 +44,14 @@ function ChecoutPage() {
         }
        
     }, [listAddress])
+
+     // Update url
+     useEffect(() =>{
+        const {url} = props.match
+        dispatch(actUpdateUrl({
+            url
+        }))
+    }, [])
 
     const onHandleChange = event =>{
         const {name, value} = event.target
@@ -260,6 +270,7 @@ function ChecoutPage() {
             api.post('invoice', data)
             .then(res =>{
                 if(res.data.success){
+                    dispatch(actAddInvoice(res.data.newInvoice))
                     dispatch(actOpenNotify({
                         isSuccess: true,
                         content: Notify.SUCCESS_NOTIFY

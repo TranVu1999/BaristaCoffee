@@ -7,6 +7,7 @@ import cartReducer from './../../commons/modules/Cart/reducer'
 import chatBoxReducer from './../../commons/modules/ChatBox/reducer'
 import quickViewReducer from './../../commons/modules/QuickView/reducer'
 import compareReducer from './../../commons/modules/Compare/reducer'
+import urlReducer from './../../commons/modules/Url/reducer'
 
 
 const rootReducer = combineReducers({
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
     cartReducer,
     chatBoxReducer,
     quickViewReducer,
-    compareReducer
+    compareReducer,
+    urlReducer
 });
 
 export default rootReducer;

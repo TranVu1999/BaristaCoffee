@@ -9,6 +9,7 @@ import HeaderCart from "../HeaderCart";
 function HeaderNav(props) {
   const dispatch = useDispatch()
   const accountInfo = useSelector(state => state.accountReducer)
+  
   const cartInfo = useSelector(state => state.cartReducer)
 
   const onHandleOpenFormLogin = () =>{
@@ -19,29 +20,48 @@ function HeaderNav(props) {
     window.location.reload(false);
   }
 
-  const renderGuestAction = () =>{
-    if(accountInfo.username){
-      return (
-        <ul className="sub-menu">
-          <li><NavLink to="/account/infomation">My Account <span className="number">1</span></NavLink></li>
-          <li><NavLink to="/account/invoice">My Invoice </NavLink></li>
-          <li><NavLink to="/account/notify">My Notifycation </NavLink></li>
-          <li><a href="http://localhost:3800/">My Shop</a></li>
-          <li
-            onClick = {onHandleLogout}
-          ><span>Logout</span></li>
-        </ul>
-      )
+  const getAmountNew = (listData) =>{
+    let amount = 0
+    for(let item of listData){
+      if(item.new){
+        amount++
+      }
     }
+    return amount
+  }
 
-    return (
-      <ul className="sub-menu">
-        <li
-          onClick = {onHandleOpenFormLogin}
-        ><span>Sign In</span></li>
-        <li><NavLink to="signup">Sign Up</NavLink></li>
-      </ul>
-    );
+    const renderGuestAction = () =>{
+        if(accountInfo.username){
+            const amountNotifyInvoice = getAmountNew(accountInfo.invoices)
+            
+            return (
+                <ul className="sub-menu">
+                    <li><NavLink to="/account/infomation">My Account </NavLink></li>
+
+                    <li>
+                        <NavLink to="/account/invoice">
+                            My Invoice 
+                            {amountNotifyInvoice > 0 ? (<span className="number">{amountNotifyInvoice}</span>) : ""}
+                        </NavLink>
+                    </li>
+
+                    <li><NavLink to="/account/notify">My Notifycation </NavLink></li>
+                    <li><a href="http://localhost:3800/">My Shop</a></li>
+                    <li
+                        onClick = {onHandleLogout}
+                    ><span>Logout</span></li>
+                </ul>
+            )
+        }
+
+        return (
+        <ul className="sub-menu">
+            <li
+            onClick = {onHandleOpenFormLogin}
+            ><span>Sign In</span></li>
+            <li><NavLink to="signup">Sign Up</NavLink></li>
+        </ul>
+        );
   }
 
   const getAmountProductInCart = () =>{

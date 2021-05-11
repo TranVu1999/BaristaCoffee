@@ -29,3 +29,14 @@ export const actAddNewNotify = (data) =>{
         payload: data
     }
 }
+
+/**
+ * 
+ * @param {*} data is new invoice
+ */
+ export const actAddInvoice = (data) =>{
+    return {
+        type: ActionTypes.ADD_NEW_INVOICE,
+        payload: data
+    }
+}

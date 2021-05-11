@@ -1,4 +1,5 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
+import {useDispatch} from 'react-redux'
 import ListDrink from '../../commons/components/ListDrink'
 import ListPost from '../../commons/components/ListPost'
 import ListProduct from '../../commons/components/ListProduct'
@@ -12,8 +13,10 @@ import OurServer from '../../features/Home/OurService'
 import Parallax from '../../features/Home/Parallax'
 import SmallSlider from '../../features/Home/SmallSlider'
 
+import {actUpdateUrl} from './../../commons/modules/Url/actions'
 
-function HomePage() {
+
+function HomePage(props) {
     const [listBanner] = useState([
         {
             img: "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851620/BaristaCoffee/banners/banner1_fki7lj.jpg",
@@ -177,6 +180,16 @@ function HomePage() {
             new: true
         }
     ])
+
+    const dispatch = useDispatch()
+
+    // Update url
+    useEffect(() =>{
+        const {url} = props.match
+        dispatch(actUpdateUrl({
+            url
+        }))
+    }, [])
 
     return (
         <>

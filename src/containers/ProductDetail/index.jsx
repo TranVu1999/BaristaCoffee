@@ -14,6 +14,7 @@ import InfomationStore from '../../features/ProductDetail/InfomationStore';
 import ProductCompare from '../../features/ProductDetail/ProductCompare';
 
 import {actInitCompare} from './../../commons/modules/Compare/action'
+import {actUpdateUrl} from './../../commons/modules/Url/actions'
 
 
 function ProductDetailPage(props) {
@@ -56,6 +57,14 @@ function ProductDetailPage(props) {
                 console.log(err)
             })
         }
+    }, [])
+
+    // Update url
+    useEffect(() =>{
+        const {url} = props.match
+        dispatch(actUpdateUrl({
+            url
+        }))
     }, [])
 
     // Add new key word
