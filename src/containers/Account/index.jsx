@@ -75,7 +75,28 @@ function AccountPage(props) {
                 return <AccountInvoiceDetail/>
 
             case 'readed':
-                return <AccountListProduct title = "Sản phẩm đã nhận xét" listProduct = {productReads}/>
+                return <AccountListProduct 
+                    title = "Sản phẩm đã xem" 
+                    listProduct = {productReads}
+                />
+
+            case 'commented':
+                return <AccountListProduct 
+                    title = "Sản phẩm đã nhận xét" 
+                    listProduct = {[]}
+                />
+
+            case 'favorite':
+                return <AccountListProduct 
+                    title = "Sản phẩm yêu thích" 
+                    listProduct = {[]}
+                />
+
+            case 'save-for-later':
+                return <AccountListProduct 
+                    title = "Sản phẩm mua sau" 
+                    listProduct = {[]}
+                />
 
 
 

@@ -11,7 +11,6 @@ function AccountListInvoice(props) {
     const invoices = useSelector(state => state.accountReducer.invoices)
 
     const renderListInvoice = () =>{
-        console.log({invoices})
         return invoices.map((item, index) =>{
             return <InvoiceItem
                 key = {index}

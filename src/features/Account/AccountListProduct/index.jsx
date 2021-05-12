@@ -1,6 +1,10 @@
 import React from 'react';
+import {NavLink} from 'react-router-dom'
+import According from './../../../commons/components/According'
 import PropTypes from 'prop-types';
-import ListProduct from '../../Layout/ListProduct';
+import './style.scss'
+
+import {standardPrice} from './../../../commons/js/helpers'
 
 AccountListProduct.propTypes = {
     title: PropTypes.string,
@@ -17,11 +21,50 @@ function AccountListProduct(props) {
     const amount = listProduct.length
 
     const renderListProduct = () =>{
-        console.log({listProduct})
         if(amount > 0){
-            return <ListProduct listProduct = {listProduct}/>
+            console.log({listProduct})
+            return listProduct.map((item, index) =>{
+                return (
+                    <li key = {index} className="product-item" >
+                        <a href="/#" className="product-item__thumb">
+                            <img src={item.avatar} alt="product" />
+                            <button className="add-to-cart"><span className="icon icon-libreoffice" /> Add To Cart</button>
+                        </a>
+                        <div className="product-item__text">
+                            <div className="d-flex-start">
+                            <h4 className="product-title"><a href="/#">{item.title}</a></h4>
+                            <div className="product-rate">
+                                <div className="product-rate--overlay" style={{width: 100 - item.rating + '%'}} />
+                                <span className="icon icon-star-full" />
+                                <span className="icon icon-star-full" />
+                                <span className="icon icon-star-full" />
+                                <span className="icon icon-star-full" />
+                                <span className="icon icon-star-full" />
+                            </div>
+                            </div>
+                            <p className="product-price">
+                            <span> <span className="price-symboy">$</span>{standardPrice(item.price)}</span> 
+                            </p>
+                            <p className="product__short-desc">{item.shortDescription}</p>
+                        </div>
+                        <button className="product-item__del">
+                            <span aria-hidden="true" className="icon_close_alt2" />
+                        </button>
+                    </li>
+                )
+            })
         }
-        return null
+        return (
+            <According> 
+                <div className="accordition-toggle--box empty-icon">
+                    <div className = "accordition-span">
+                        <img src="https://salt.tikicdn.com/desktop/img/account/tiki-not-found-pgae.png" alt="icon"/>
+                        <p>Bạn chưa có sản phẩm nào</p>
+                        <NavLink to="/shop" className="barista-btn">Tiếp tục mua sắm</NavLink>
+                    </div>
+                </div>
+            </According>
+        )
     }
 
     return (

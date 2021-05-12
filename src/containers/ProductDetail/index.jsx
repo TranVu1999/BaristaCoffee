@@ -104,7 +104,7 @@ function ProductDetailPage(props) {
             })
         }
         
-    }, [])
+    }, [productId])
 
     
 

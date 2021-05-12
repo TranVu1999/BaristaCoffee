@@ -1,0 +1,50 @@
+@import './../../../assets/Sass/variable.scss';
+
+.row-product .product-item{
+    display: flex;
+    background-color: #fff;
+    padding-right: 20px;
+    margin-bottom: 3px;
+    position: relative;
+
+
+    .product-item__thumb{
+        width: 160px;
+        margin-right: 25px;
+    }
+
+    .product-item__text{
+        flex: 1;
+        padding-top: 15px;
+    }
+
+    .product-title{
+        margin: 0;
+        line-height: 1;
+    }
+
+    .product-price{
+        margin-bottom: 0;
+    }
+
+    .product-rate{
+        margin: 0;
+        margin-left: 15px;
+    }
+
+    .product__short-desc{
+        margin: 0;
+    }
+
+    .product-item__del{
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        font-size: 20px;
+        color: #666;
+
+        &:hover{
+            color: $primary-color;
+        }
+    }
+}
