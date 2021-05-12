@@ -15,6 +15,7 @@ import ProductCompare from '../../features/ProductDetail/ProductCompare';
 
 import {actInitCompare} from './../../commons/modules/Compare/action'
 import {actUpdateUrl} from './../../commons/modules/Url/actions'
+import {actAddProduct} from './../../commons/modules/Account/action'
 
 
 function ProductDetailPage(props) {
@@ -83,6 +84,29 @@ function ProductDetailPage(props) {
         }
         
     }, [productId])
+
+    // Add to list product of account
+    useEffect(() =>{
+        if(productId){
+            const data = {productId: productId}
+            
+            api.post('auth/drop-by', data)
+            .then(res =>{
+                if(res.data.success){
+                    dispatch(actAddProduct({
+                        typeProduct: "readed",
+                        product: res.data.product
+                    }))
+                }
+            })
+            .catch(err =>{
+
+            })
+        }
+        
+    }, [])
+
+    
 
     return (
         <>

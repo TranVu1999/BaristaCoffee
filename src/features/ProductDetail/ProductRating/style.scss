@@ -1,0 +1,62 @@
+@import './../../../assets//Sass/variable.scss';
+@import './../../../assets/Sass/mixin.scss';
+
+.rating-container{
+    margin-bottom: 30px;
+}
+
+.rating-content{
+    @include d-flex(flex-start, flex-start);
+
+    .rating--left{
+        @include d-flex(center, flex-start);
+        padding: 20px 30px 20px 15px;
+        border-right: 1px solid #d5d5d5;
+
+        .number{
+            font-size: 40px;
+            font-weight: 700;
+            color: $main-color;
+            margin-right: 12px;
+        }
+
+        .star-thumb{
+            span{
+                font-size: 60px;
+                color: #FFC000;
+                display: block;
+            }
+
+            
+        }
+    }
+
+    .rating--right{
+        margin-left: 30px;
+        .rating--row{
+            @include d-flex(center, flex-start);
+
+            span.icon.active{
+                color: #FFC000;       
+            }
+
+            .rating--bar{
+                width: 180px;
+                height: 7px;
+                border-radius: 4px;
+                background-color: #d5d5d5;
+
+                margin: 0 15px;
+                border: 1px solid #d5d5d5;
+                position: relative;
+
+                .bar{
+                    display: block;
+                    height: 100%;
+                    border-radius: 4px;
+                    background-color: $main-color;
+                }
+            }
+        }
+    }
+}

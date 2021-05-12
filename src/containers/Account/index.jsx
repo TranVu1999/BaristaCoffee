@@ -14,6 +14,7 @@ import AccountListInvoice from '../../features/Account/AccountListInvoice';
 
 import {actUpdateUrl} from './../../commons/modules/Url/actions'
 import AccountInvoiceDetail from '../../features/Account/AccountInvoicedetail';
+import AccountListProduct from '../../features/Account/AccountListProduct';
 
 AccountPage.propTypes = {
     
@@ -72,6 +73,9 @@ function AccountPage(props) {
 
             case 'invoice-detail':
                 return <AccountInvoiceDetail/>
+
+            case 'readed':
+                return <AccountListProduct title = "Sản phẩm đã nhận xét" listProduct = {productReads}/>
 
 
 

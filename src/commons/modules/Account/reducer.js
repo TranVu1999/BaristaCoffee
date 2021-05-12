@@ -32,7 +32,28 @@ const accountReducer = (state = initialState, action) =>{
 
         case ActionTypes.ADD_NEW_INVOICE:
             state.invoices.push(action.payload)
-            console.log("invoice", state.invoices)
+            return {...state}
+
+        case ActionTypes.ADD_NEW_PRODUCT:
+            if(action.payload.typeProduct === "readed"){
+                const newProduct = action.payload.product
+                let indexProduct = -1
+                let lengthProduct = state.productReads.length
+                for(let i = 0; i < lengthProduct; i++){
+                    if(state.productReads[i]._id === newProduct._id){
+                        indexProduct = i
+                        break
+                    }
+                }
+
+                if(indexProduct !== -1){
+                    state.productReads[indexProduct].newAccount = true
+                }else{
+                    state.productReads.push(action.payload.product)
+                }
+
+                
+            }
             return {...state}
 
         case ActionTypes.ADD_NEW_ADDRESS:

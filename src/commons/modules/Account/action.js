@@ -40,3 +40,13 @@ export const actAddNewNotify = (data) =>{
         payload: data
     }
 }
+
+/**
+ * @param {*} data have two properties are typeProduct and product
+ */
+ export const actAddProduct = (data) =>{
+    return {
+        type: ActionTypes.ADD_NEW_PRODUCT,
+        payload: data
+    }
+}

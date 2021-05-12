@@ -7,6 +7,7 @@ import {standardDateTime} from './../../../commons/js/helpers'
 import FormComment from './../../Layout/FormComment'
 import ListComment from '../../Layout/ListComment';
 import CommentItem from '../../Layout/CommentItem'
+import ProductRating from '../ProductRating';
 
 ProductTab.propTypes = {
     detail: PropTypes.string,
@@ -34,6 +35,8 @@ function ProductTab(props) {
         id,
         listComment
     } = props
+
+    
 
     const [currentTab, setCurrentTab] = useState(0)
     const [listCommentShow, setListCommentShow] = useState([])
@@ -76,22 +79,32 @@ function ProductTab(props) {
         setListCommentShow(newListComment)
     }
 
+    const getRatingPercent = (rating) =>{        
+        return rating / 5 * 100
+    }
+
     const renderTagComment = () =>{
         return (
             <div className="product-tab__item">
                 <h2>{listCommentShow.length} Reviews For <span>Paper Bag</span> </h2>
+                <ProductRating listComment = {listComment}/>
+                
                 <ListComment>
                     {listCommentShow.map((item, index) =>{
-                        const date = standardDateTime(item.createdDate)
-                        return (
-                            <CommentItem 
-                                key = {index}
-                                author = {item.author}
-                                time = {`${date.date}.${date.month}.${date.year}`}
-                                rating = {item.rating}
-                                content = {item.comment}
-                            />
-                        )
+                        if(item.comment){
+                            const date = standardDateTime(item.createdDate)
+                            return (
+                                <CommentItem 
+                                    key = {index}
+                                    author = {item.author}
+                                    time = {`${date.date}.${date.month}.${date.year}`}
+                                    rating = {getRatingPercent(item.rating)}
+                                    content = {item.comment}
+                                />
+                            )
+                        }
+                        return null
+                        
                     })}
 
                 </ListComment>

@@ -78,11 +78,12 @@ function FormComment(props) {
                 content: notifies.REQUIRED_LOGIN
             }))
             
-            return
+            return null
         }
 
         // check accept rating
-        const product = productPurchased.find(item => item._id === props.id)
+        const product = productPurchased.find(item => item._id === props.product)
+
         if(rate !== 0 && !product){
             dispatch(actOpenNotify({
                 isSuccess: false,
