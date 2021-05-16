@@ -19,6 +19,9 @@ let initialState = {
 }
 
 const accountReducer = (state = initialState, action) =>{
+    let typeProduct = ""
+    let tempListProduct = []
+
     switch(action.type){
         case ActionTypes.INIT_ACCOUNT:
             for(let key in action.payload){
@@ -50,10 +53,36 @@ const accountReducer = (state = initialState, action) =>{
                     state.productReads[indexProduct].newAccount = true
                 }else{
                     state.productReads.push(action.payload.product)
-                }
-
-                
+                }                
             }
+
+            return {...state}
+
+        case ActionTypes.REMOVE_NEW_PRODUCT:
+            typeProduct =  action.payload.typeProduct
+            switch(typeProduct){
+                case "readed":
+                    tempListProduct = state.productReads.filter(item => item._id !== action.payload.productId)
+                    state.productReads = [...tempListProduct]
+                    break
+                default:
+                    break;
+            }
+
+            tempListProduct = []
+
+            return {...state}
+
+        case ActionTypes.DROP_bY_LIST_INVOICE:
+            tempListProduct = state.invoices.map(item => {
+                return {
+                    ...item,
+                    new: false
+                }
+            })
+            state.invoices = [...tempListProduct]
+            tempListProduct = []
+
             return {...state}
 
         case ActionTypes.ADD_NEW_ADDRESS:

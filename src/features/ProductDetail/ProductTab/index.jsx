@@ -17,6 +17,7 @@ ProductTab.propTypes = {
     weight: PropTypes.number,
     listComment: PropTypes.array,
     id: PropTypes.string,
+    rating: PropTypes.number,
 };
 
 ProductTab.defaultProps ={
@@ -26,14 +27,15 @@ ProductTab.defaultProps ={
     length: 0.3,
     width: 0.3,
     listComment: [],
-    id: ""
+    id: "",
+    rating: 0
 }
 
 function ProductTab(props) {
 
     const {
         id,
-        listComment
+        listComment, rating
     } = props
 
     
@@ -87,7 +89,7 @@ function ProductTab(props) {
         return (
             <div className="product-tab__item">
                 <h2>{listCommentShow.length} Reviews For <span>Paper Bag</span> </h2>
-                <ProductRating listComment = {listComment}/>
+                <ProductRating rating = {rating} listComment = {listComment}/>
                 
                 <ListComment>
                     {listCommentShow.map((item, index) =>{

@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react'
 import {useDispatch} from 'react-redux'
 import ListDrink from '../../commons/components/ListDrink'
 import ListPost from '../../commons/components/ListPost'
-import ListProduct from '../../commons/components/ListProduct'
 import BookTable from '../../features/Home/BookTable'
 import HotSale from '../../features/Home/HotSale'
 import LatestPost from '../../features/Home/LatestPost'
@@ -13,7 +12,10 @@ import OurServer from '../../features/Home/OurService'
 import Parallax from '../../features/Home/Parallax'
 import SmallSlider from '../../features/Home/SmallSlider'
 
+import ListProduct from '../../features/Layout/ListProduct'
+
 import {actUpdateUrl} from './../../commons/modules/Url/actions'
+
 
 
 function HomePage(props) {
@@ -27,37 +29,38 @@ function HomePage(props) {
             title: "This Friday 25% Off",
         }
     ])
+
     const [listHostSale] = useState([
         {
-            productId: "prd01",
-            productTitle: "paper pouch",
-            productAvatar: "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851630/BaristaCoffee/shop/prod2_xocw36.jpg",
-            productPrice: "46.00",
+            _id: "prd01",
+            title: "paper pouch",
+            avatar: "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851630/BaristaCoffee/shop/prod2_xocw36.jpg",
+            price: "46.00",
             rating: 90,
             isSale: false
         },
         {
-            productId: "prd02",
-            productTitle: "paper bag",
-            productAvatar: "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851630/BaristaCoffee/shop/prod12_mc7rpz.jpg",
-            productPrice: "79.00",
+            _id: "prd02",
+            title: "paper bag",
+            avatar: "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851630/BaristaCoffee/shop/prod12_mc7rpz.jpg",
+            price: "79.00",
             productPromo: "98.00",
             rating: 85,
             isSale: true
         },
         {
             productId: "prd03",
-            productTitle: "plastic pouch",
-            productAvatar: "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851631/BaristaCoffee/shop/prod3_nwf7du.jpg",
-            productPrice: "27.00",
+            title: "plastic pouch",
+            avatar: "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851631/BaristaCoffee/shop/prod3_nwf7du.jpg",
+            price: "27.00",
             rating: 80,
             isSale: false
         },
         {
             productId: "prd04",
-            productTitle: "paper pouch",
-            productAvatar: "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851631/BaristaCoffee/shop/prod7_a8r7zg.jpg",
-            productPrice: "71.00",
+            title: "paper pouch",
+            avatar: "https://res.cloudinary.com/doem0ysxl/image/upload/v1611851631/BaristaCoffee/shop/prod7_a8r7zg.jpg",
+            price: "71.00",
             rating: 95,
             isSale: false
         }
@@ -199,6 +202,7 @@ function HomePage(props) {
             <HotSale
                 listHotSale = {
                     <ListProduct
+                        cols = {4}
                         listProduct = {listHostSale}
                         dataCart = {[]}
                     />

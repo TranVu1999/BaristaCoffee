@@ -50,3 +50,23 @@ export const actAddNewNotify = (data) =>{
         payload: data
     }
 }
+
+/**
+ * @param {*} data have two properties are typeProduct and productId
+ */
+ export const actRemoveProduct = (data) =>{
+    return {
+        type: ActionTypes.REMOVE_NEW_PRODUCT,
+        payload: data
+    }
+}
+
+/**
+ * Verify the list of invoices
+ */
+ export const actDropByListInvoice = () =>{
+    return {
+        type: ActionTypes.DROP_bY_LIST_INVOICE,
+        payload: true
+    }
+}

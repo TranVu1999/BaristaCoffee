@@ -1,14 +1,27 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {NavLink} from 'react-router-dom'
-import {useSelector} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
 import According from './../../../commons/components/According'
 
 import './style.scss'
 import InvoiceItem from '../../../commons/components/InvoiceItem';
+import {actDropByListInvoice} from './../../../commons/modules/Account/action'
 
 function AccountListInvoice(props) {
 
     const invoices = useSelector(state => state.accountReducer.invoices)
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        return () => {
+            if(invoices.length > 0){
+                let listInvoice = invoices.filter(item => item.new).map(item => item._id)
+                if(listInvoice.length > 0){
+                    dispatch(actDropByListInvoice())
+                }
+            }
+        }
+    }, [])
 
     const renderListInvoice = () =>{
         return invoices.map((item, index) =>{

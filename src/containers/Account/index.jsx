@@ -28,6 +28,7 @@ function AccountPage(props) {
     const productReads = useSelector(state => state.accountReducer.productReads)
     const productSaveForLates = useSelector(state => state.accountReducer.productSaveForLates)
     const productComments = useSelector(state => state.accountReducer.productComments)
+    const productPurchased = useSelector(state => state.accountReducer.productPurchased)
 
     const dispatch = useDispatch()
 

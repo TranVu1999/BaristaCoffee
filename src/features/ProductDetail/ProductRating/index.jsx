@@ -43,7 +43,9 @@ function ProductRating(props) {
     const amount_1 = getAmountNumberStart(1)
 
     const amountTotal =amount_1 + amount_2 + amount_3 + amount_4 + amount_5
-    const amountAverage = (amount_5 * 5 + amount_4 * 4 + amount_3 * 3 + amount_2 * 2 + amount_1) * 1 / amountTotal
+    const amountAverage = (amount_5 * 5 + amount_4 * 4 + amount_3 * 3 + amount_2 * 2 + amount_1) * 1 / amountTotal || amountTotal
+
+    console.log({amountAverage})
 
     return (
         <div className="rating-container">

@@ -1,10 +1,14 @@
 import React from 'react';
+import {useDispatch} from 'react-redux'
 import {NavLink} from 'react-router-dom'
 import According from './../../../commons/components/According'
 import PropTypes from 'prop-types';
 import './style.scss'
 
 import {standardPrice} from './../../../commons/js/helpers'
+import {actOpenNotify} from './../../../commons/modules/Notify/action'
+import {actRemoveProduct} from './../../../commons/modules/Account/action'
+import api from './../../../api'
 
 AccountListProduct.propTypes = {
     title: PropTypes.string,
@@ -20,9 +24,41 @@ function AccountListProduct(props) {
     const {title, listProduct} = props
     const amount = listProduct.length
 
+    const dispatch = useDispatch();
+
+    const onHanldeDelete = productId =>{
+        let strConvertTitle = ""
+        switch(title){
+            case "Sản phẩm đã xem":
+                strConvertTitle = "readed" 
+                break
+
+                        
+            default:
+                strConvertTitle = "readed"
+                break
+        }
+
+        api.delete(`/auth/remove-product/${strConvertTitle}/${productId}`)
+        .then(res =>{
+            if(res.data.success){
+                dispatch(actRemoveProduct({
+                    typeProduct: "readed",
+                    productId
+                }))
+                dispatch(actOpenNotify({
+                    isSuccess: true,
+                    content: res.data.message
+                }))
+            }
+        })
+        .catch(err =>{
+            console.log(err)
+        })
+    }
+
     const renderListProduct = () =>{
         if(amount > 0){
-            console.log({listProduct})
             return listProduct.map((item, index) =>{
                 return (
                     <li key = {index} className="product-item" >
@@ -47,7 +83,10 @@ function AccountListProduct(props) {
                             </p>
                             <p className="product__short-desc">{item.shortDescription}</p>
                         </div>
-                        <button className="product-item__del">
+                        <button 
+                            className="product-item__del"
+                            onClick = {() => onHanldeDelete(item._id)}
+                        >
                             <span aria-hidden="true" className="icon_close_alt2" />
                         </button>
                     </li>

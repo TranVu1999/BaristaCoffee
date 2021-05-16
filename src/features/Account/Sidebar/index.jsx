@@ -290,7 +290,6 @@ function Sidebar(props) {
               />
             </NavLink>
           </li>
-
           <li >
             <NavLink
               to="/account/coin"

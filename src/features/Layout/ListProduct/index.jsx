@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ProductItem from '../../../commons/components/ProductItem';
 import {useSelector} from 'react-redux'
+import './style.scss'
 
 ListProduct.propTypes = {
     cols: PropTypes.number,

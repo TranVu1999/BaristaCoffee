@@ -5,33 +5,33 @@ import ProductItem from './ProductItem'
 
 function ListProduct(props) {
     const renderListProduct = () =>{
-        const {listProduct, dataCart} = props
+        // const {listProduct, dataCart} = props
 
-        if(listProduct){
-            return listProduct.map((item, index) =>{
-                let isExistCart = false;
+        // if(listProduct){
+        //     return listProduct.map((item, index) =>{
+        //         let isExistCart = false;
 
-                for(let itemCart of dataCart){
-                    if(itemCart.prodId === item.productId){
-                        isExistCart = true;
-                        break;
-                    }
-                }
+        //         for(let itemCart of dataCart){
+        //             if(itemCart.prodId === item.productId){
+        //                 isExistCart = true;
+        //                 break;
+        //             }
+        //         }
 
-                return <ProductItem 
-                            key = {index} 
-                            productAvatar = {item.productAvatar}
-                            productAlias = {item.productAlias}
-                            productTitle = {item.productTitle}
-                            rating = {item.rating}
-                            productPromo = {item.productPromo}
-                            productPrice = {item.productPrice}
-                            isExistCart = {isExistCart}
-                        />
+        //         return <ProductItem 
+        //                     key = {index} 
+        //                     productAvatar = {item.productAvatar}
+        //                     productAlias = {item.productAlias}
+        //                     productTitle = {item.productTitle}
+        //                     rating = {item.rating}
+        //                     productPromo = {item.productPromo}
+        //                     productPrice = {item.productPrice}
+        //                     isExistCart = {isExistCart}
+        //                 />
                 
-            })
-        }
-        return null;
+        //     })
+        // }
+        // return null;
         
     }
 

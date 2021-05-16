@@ -88,11 +88,15 @@ function ProductDetailPage(props) {
     // Add to list product of account
     useEffect(() =>{
         if(productId){
-            const data = {productId: productId}
+            const accessToken = localStorage.getItem('accessToken') || ""
+            const data = {
+                productId: productId, 
+                accessToken
+            }
             
-            api.post('auth/drop-by', data)
+            api.post('product/drop-by', data)
             .then(res =>{
-                if(res.data.success){
+                if(res.data.success && accessToken){
                     dispatch(actAddProduct({
                         typeProduct: "readed",
                         product: res.data.product
@@ -107,7 +111,6 @@ function ProductDetailPage(props) {
     }, [productId])
 
     
-
     return (
         <>
             <BannerFull
@@ -152,6 +155,7 @@ function ProductDetailPage(props) {
                                 length = {product["length"]}
                                 listComment = {product.comment}
                                 id = {productId}
+                                rating = {product.rating}
                             />
                         </div>
 
